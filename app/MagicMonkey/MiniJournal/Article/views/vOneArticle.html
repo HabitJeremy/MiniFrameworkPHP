@@ -1,0 +1,37 @@
+<?= $this->showMsg(); ?>
+<article>
+    <div class="row-col-reverse-s flex-vertical-center align-center-s">
+        <div class="cell-8">
+            <h1 class="marg-0-bottom">
+                <a href="index.php?a=describe&id=<?= $article->getId(); ?>"
+                   title="<?= $article->getTitle(); ?>"><?= $article->getTitle(); ?></a>
+            </h1>
+        </div>
+        <div class="cell-4 align-right">
+            <a class="color-warning marg-15-right" href="index.php?a=update&id=<?= $article->getId(); ?>"
+               title="Modifier cet article">Modifier</a>
+            <a class="color-error marg-15-right" href="index.php?a=delete&id=<?= $article->getId(); ?>"
+               title="Supprimer cet article">Supprimer</a>
+            <a href="index.php" title="Retour vers l'accueil">Retour</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell-12">
+            <p class="msg-info">
+                <span class="dis-block"># Par <?= $article->getAuthor(); ?></span>
+                <span class="dis-block"># Créé le <?= $article->getCreationDate(); ?></span>
+                <span># Pubié le <?= $article->getPublicationDate(); ?></span>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell-12">
+            <p class="align-center"><?= $article->getChapo(); ?></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell-12">
+            <p><?= $article->getContent(); ?></p>
+        </div>
+    </div>
+</article>

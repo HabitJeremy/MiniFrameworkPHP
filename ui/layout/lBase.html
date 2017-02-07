@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="JH">
+    <meta name="author" content="Habit Jérémy">
+    <!--<link rel="icon" type="image/x-icon" href="{{ asset('media/icon_logo/favicon.png') }}"/>-->
+
+    <title><?= $title;?></title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="ui/css/libraries/normalize.min.css" type="text/css">
+    <link rel="stylesheet" href="ui/css/libraries/MagicMonkeyCSS.min.css" type="text/css">
+</head>
+<body>
+
+<!--HEADER START-->
+<?php include "ui/layout/lHeader.html"; ?>
+
+<!--BODY START-->
+<main class="mw marg-auto padd-50-top-bottom padd-15-top-bottom-xs anim-zoom">
+    <?= $content;?>
+</main>
+
+<!--FOOTER START-->
+<?php include "ui/layout/lFooter.html"; ?>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="cell-12">
+        <h1><?= $h1; ?></h1>
+    </div>
+</div>
+<form class="row required" action="index.php?a=<?= $action; ?>" method="post">
+    <div class="cell-12">
+        <!-- author -->
+        <div class="groupform-large">
+            <label class="required" for="author">Auteur</label>
+            <?= $this->showMsg("errorAuthor"); ?>
+            <input class="padd-15" type="text" name="author" id="author" required placeholder="un auteur"
+                   maxlength="255"
+                   value="<?= $this->getArticle()->getAuthor(); ?>"/>
+        </div>
+        <!-- title -->
+        <div class="groupform-large">
+            <label class="required" for="title">Titre</label>
+            <?= $this->showMsg("errorTitle"); ?>
+            <input class="padd-15" type="text" name="title" id="title" required placeholder="un titre" maxlength="255"
+                   value="<?= $this->getArticle()->getTitle(); ?>"/>
+        </div>
+        <!--  publication_status -->
+        <div class="groupform-large">
+            <label class="required" for="publication_status">Statut de publication</label>
+            <?= $this->showMsg("errorStatus"); ?>
+            <select class="padd-15" name="publication_status" id="publication_status">
+                <option value="brouillon"
+                <?= $this->getArticle()->getPublicationStatus() == "brouillon" ? "selected" : ""; ?>>Brouillon</option>
+                <option value="publie"
+                <?= $this->getArticle()->getPublicationStatus() == "publie" ? "selected" : ""; ?>>Publié</option>
+            </select>
+        </div>
+        <!-- chapo -->
+        <div class="groupform-large">
+            <label class="required" for="chapo">Chapo</label>
+            <?= $this->showMsg("errorChapo"); ?>
+            <textarea class="padd-15" id="chapo" name="chapo" rows="5" placeholder="un chapo ..."
+                      required><?= $this->getArticle()->getChapo(); ?></textarea>
+        </div>
+        <!-- content -->
+        <div class="groupform-large">
+            <label class="required" for="content">Contenu</label>
+            <?= $this->showMsg("errorContent"); ?>
+            <textarea class="padd-15" id="content" name="content" rows="10" placeholder="un contenu ..."
+                      required><?= $this->getArticle()->getContent(); ?></textarea>
+        </div>
+        <!-- submit -->
+        <div class="marg-15-top align-center">
+            <input class="padd-15" type="submit" value="valider" id="submit"/>
+            <input class="padd-15" type="reset" value="annuler" id="reset"/>
+        </div>
+    </div>
+</form>

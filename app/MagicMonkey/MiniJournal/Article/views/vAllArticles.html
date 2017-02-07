@@ -1,0 +1,17 @@
+<?= $this->showMsg(); ?>
+<div class="row">
+    <div class="cell-12">
+        <h1 class="txt-skinny">Liste des articles</h1>
+    </div>
+</div>
+<div class="row-col-s">
+    <?php if (empty($lst)){
+        echo "<div class='cell-12'><p class='msg-warning'>Aucun article trouvé !</p></div>";
+} else {
+foreach ($lst as $article) {
+echo "<a class='cell-4 padd-15 box-shad-2px align-center'
+         href='index.php?a=describe&id=".$article->getId()."'>".$article->
+    getTitle()."</a>";
+}
+} ?>
+</div>
