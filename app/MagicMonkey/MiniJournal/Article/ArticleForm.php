@@ -38,7 +38,7 @@ class ArticleForm
     }
 
     /* show form new article */
-    public function formNewUpdate($obj = null, $h1 = "Ajout d'un article", $action = "new")
+    public function formNewUpdate($obj = null, $h1 = "Ajout d'un article", $action = "insert")
     {
         if (!empty($obj)) {
             $this->article = $obj;
@@ -60,7 +60,7 @@ class ArticleForm
     }
 
     /* Permet la vérifiction des données du formulaire " Nouveau " */
-    public function validateNew($postedData)
+    public function validate($postedData)
     {
         $error = false;
         /* title */

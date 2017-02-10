@@ -128,9 +128,19 @@ class ArticleBd
     public function map($res, $nl2br = false)
     {
         if ($nl2br) {
-            $this->cleaner->cleanerArray($res);
+            $this->cleaner->cleaningToInsert($res);
+        } else {
+            $this->cleaner->cleaningToDisplay($res);
         }
-        return new Article($res['id'], $res['title'], $res['author'], $res['chapo'], $res['content'],
-            $res['publication_status'], $res['creation_date'], $res['publication_date']);
+        return new Article(
+            empty($res['id']) ? null : $res['id'],
+            $res['title'],
+            $res['author'],
+            $res['chapo'],
+            $res['content'],
+            $res['publication_status'],
+            empty($res['creation_date']) ? null : $res['creation_date'],
+            empty($res['publication_date']) ? null : $res['publication_date']
+        );
     }
 }

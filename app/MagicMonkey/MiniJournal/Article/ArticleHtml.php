@@ -62,6 +62,16 @@ class ArticleHtml
         return $content;
     }
 
+    /* action not found */
+    public function notFound()
+    {
+        ob_start();
+        include 'ui/commonViews/not-found.html';
+        $content = ob_get_contents();
+        ob_end_clean();
+        return $content;
+    }
+
     /**
      * @return mixed
      */

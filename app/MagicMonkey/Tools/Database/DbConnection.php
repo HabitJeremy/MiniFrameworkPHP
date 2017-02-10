@@ -13,6 +13,8 @@ class DbConnection
      * $instance est privée pour implémenter le pattern Singleton
      * et être sûr qu'il n'y a qu'une et une seule instance
      */
+
+
     private static $instance;
 
     /**
