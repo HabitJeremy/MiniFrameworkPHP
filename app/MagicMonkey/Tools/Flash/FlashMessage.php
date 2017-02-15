@@ -25,7 +25,7 @@ class FlashMessage
     }
 
     /* Permet d'afficher tout les messages flash (notifications) en une seule ligne dans la vue */
-    public function All($array)
+    public function all($array)
     {
         foreach ($array as $name) {
             self::One($name);
@@ -38,7 +38,7 @@ class FlashMessage
             *- $name : nom de la variable de session
             *- $input : détermine l'affichage de la variable de session
        */
-    public function One($name, $input = false)
+    public function one($name, $input = false)
     {
         if (!empty($_SESSION[$name])) {
             if ($input) {

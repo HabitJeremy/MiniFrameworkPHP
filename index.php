@@ -3,8 +3,8 @@
 namespace MagicMonkey\MiniJournal;
 
 use MagicMonkey\MiniJournal\Article\ArticleController;
-use MagicMonkey\Tools\Response\Response;
-use MagicMonkey\Tools\Request\Request;
+use MagicMonkey\Tools\HttpFoundation\Response;
+use MagicMonkey\Tools\HttpFoundation\Request;
 use MagicMonkey\Tools\Flash\FlashMessage;
 
 require_once 'app/MagicMonkey/Tools/Loader/Autoloader.php';
@@ -12,28 +12,27 @@ require_once 'config/config.php';
 
 spl_autoload_register(array('\MagicMonkey\Tools\Loader\Autoloader', 'load'));
 
-$title = "";
-$content = "";
-
+$obj = empty($_GET["o"]) ? "article" : $_GET["o"];
 $action = empty($_GET["a"]) ? "home" : $_GET["a"];
-$obj = empty($_GET["obj"]) ? "article" : $_GET["obj"];
+
 
 $response = new Response();
-$request = new Request($_POST, $_GET);
+$request = new Request();
 $flash = FlashMessage::getInstance();
 
 switch ($obj) {
     case "article":
-        $articleCtrl = new ArticleController($response, $request);
-        if (method_exists($articleCtrl, $action)) {
-            $articleCtrl->$action();
-        } else {
-            $articleCtrl->notFound();
-        }
-        foreach ($response->getLstFragments() as $key => $value) {
-            ${$key} = $value;
-        }
+        $ctrl = new ArticleController($response, $request);
         break;
+}
+
+if (method_exists($ctrl, $action)) {
+    $ctrl->$action();
+} else {
+    $ctrl->notFound();
+}
+foreach ($response->getLstFragments() as $key => $value) {
+    ${$key} = $value;
 }
 
 include "ui/layout/lBase.html";

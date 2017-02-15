@@ -1,6 +1,6 @@
 <?php
 
-namespace MagicMonkey\Tools\Response;
+namespace MagicMonkey\Tools\HttpFoundation;
 
 /**
  * Created by PhpStorm.
@@ -11,11 +11,11 @@ namespace MagicMonkey\Tools\Response;
 class Response
 {
 
-    private $lstFragments;
+    protected $lstFragments;
 
-    public function __contstuct()
+    public function __contstuct($lstFragments = array())
     {
-        $this->lstFragments = array();
+        $this->lstFragments = $lstFragments;
     }
 
     public function addOneFragment($key, $value)

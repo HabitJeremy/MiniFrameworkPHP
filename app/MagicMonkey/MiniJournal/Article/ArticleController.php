@@ -8,8 +8,8 @@
 
 namespace MagicMonkey\MiniJournal\Article;
 
-use MagicMonkey\Tools\Request\Request;
-use MagicMonkey\Tools\Response\Response;
+use MagicMonkey\Tools\HttpFoundation\Request;
+use MagicMonkey\Tools\HttpFoundation\Response;
 
 class ArticleController
 {
@@ -75,7 +75,7 @@ class ArticleController
                          "title" => "Détails d'un article"
                      ));*/
                     $_SESSION['success'] = "Modification effectuée";
-                    header('Location: index.php?obj=article&a=describe&id=' . $article->getId());
+                    header('Location: index.php?o=article&a=describe&id=' . $article->getId());
                     exit();
                 } else { // s'il y a au moins une erreur
                     $title = "Modification d'un article";
@@ -118,7 +118,6 @@ class ArticleController
                 $_SESSION['success'] = "Ajout effectué !";
                 header('Location: index.php');
                 exit();
-
             } else { // s'il y a au moins une erreur
                 $article = $articleBd->map($this->request->getPost());
                 $this->response->setLstFragments(array(
@@ -133,7 +132,7 @@ class ArticleController
     {
         $articleBd = new ArticleBd();
         $articleForm = new ArticleForm();
-       /* $articleHtml = new ArticleHtml();*/
+        /* $articleHtml = new ArticleHtml();*/
         $title = "Liste des articles";
         $isEmptyGetId = empty($this->request->getGet()['id']);
         $isNotEmptyPostArticle = !empty($this->request->getPost()['article']);
