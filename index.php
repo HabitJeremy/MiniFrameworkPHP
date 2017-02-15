@@ -5,6 +5,7 @@ namespace MagicMonkey\MiniJournal;
 use MagicMonkey\MiniJournal\Article\ArticleController;
 use MagicMonkey\Tools\Response\Response;
 use MagicMonkey\Tools\Request\Request;
+use MagicMonkey\Tools\Flash\FlashMessage;
 
 require_once 'app/MagicMonkey/Tools/Loader/Autoloader.php';
 require_once 'config/config.php';
@@ -19,6 +20,7 @@ $obj = empty($_GET["obj"]) ? "article" : $_GET["obj"];
 
 $response = new Response();
 $request = new Request($_POST, $_GET);
+$flash = FlashMessage::getInstance();
 
 switch ($obj) {
     case "article":

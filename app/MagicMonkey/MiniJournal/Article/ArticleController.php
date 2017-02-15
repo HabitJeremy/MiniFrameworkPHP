@@ -35,13 +35,16 @@ class ArticleController
     {
         $articleBd = new ArticleBd();
         $articleForm = new ArticleForm();
-        $articleHtml = new ArticleHtml();
+        /* $articleHtml = new ArticleHtml();*/
         if (empty($this->request->getGet()['id'])) {
-            $articleHtml->setError("Aucun article demandé");
-            $this->response->setLstFragments(array(
+            /* $articleHtml->setError("Aucun article demandé");*/
+            /*$this->response->setLstFragments(array(
                 "content" => $articleHtml->listAll($articleBd->selectAll()),
                 "title" => "Liste des articles"
-            ));
+            ));*/
+            $_SESSION['error'] = "Aucun article demandé";
+            header('Location: index.php');
+            exit();
         } else {
             $article = $articleBd->selectOne(array("id =" => (int)$this->request->getGet()['id']), false);
             if (empty($this->request->getPost())) { // s'il y a des données postées
@@ -52,22 +55,28 @@ class ArticleController
                         "title" => $title
                     ));
                 } else { // s'il n'existe pas
-                    $articleHtml->setError("L'article demandé n'existe pas");
-                    $this->response->setLstFragments(array(
-                        "content" => $articleHtml->listAll($articleBd->selectAll()),
-                        "title" => "Article inexistant"
-                    ));
+                    /* $articleHtml->setError("L'article demandé n'existe pas");
+                     $this->response->setLstFragments(array(
+                         "content" => $articleHtml->listAll($articleBd->selectAll()),
+                         "title" => "Article inexistant"
+                     ));*/
+                    $_SESSION['error'] = "L'article demandé n'existe pas";
+                    header('Location: index.php');
+                    exit();
                 }
             } else { // s'il n'y a pas de données postées
                 if (!$articleForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
                     /* modification de l'article dans la bdd */
                     $articleBd->updateOne($this->request->getPost(), $article->getId());
-                    $newArticle = $articleBd->selectOne(array("id =" => (int)$article->getId()));
-                    $articleHtml->setSuccess("Modification effectuée");
-                    $this->response->setLstFragments(array(
-                        "content" => $articleHtml->showOne($newArticle),
-                        "title" => "Détails d'un article"
-                    ));
+                    /* $newArticle = $articleBd->selectOne(array("id =" => (int)$article->getId()));*/
+                    /* $articleHtml->setSuccess("Modification effectuée");
+                     $this->response->setLstFragments(array(
+                         "content" => $articleHtml->showOne($article),
+                         "title" => "Détails d'un article"
+                     ));*/
+                    $_SESSION['success'] = "Modification effectuée";
+                    header('Location: index.php?obj=article&a=describe&id=' . $article->getId());
+                    exit();
                 } else { // s'il y a au moins une erreur
                     $title = "Modification d'un article";
                     $this->request->getPost()['id'] =
@@ -88,7 +97,7 @@ class ArticleController
     {
         $title = "Saisir un article";
         $articleForm = new ArticleForm();
-        $articleHtml = new ArticleHtml();
+        /* $articleHtml = new ArticleHtml();*/
         $articleBd = new ArticleBd();
         if (empty($this->request->getPost())) {
             $this->response->setLstFragments(array(
@@ -98,11 +107,18 @@ class ArticleController
         } else {
             if (!$articleForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
                 $articleBd->addOne($this->request->getPost()); /* enregistrement du nouvel article dans la bdd */
-                $articleHtml->setSuccess("Ajout effectué");
-                $this->response->setLstFragments(array(
-                    "content" => $articleHtml->listAll($articleBd->selectAll()),
-                    "title" => "Liste des articles"
-                ));
+
+                /* $articleHtml->setSuccess("Ajout effectué");*/
+                /*    $this->response->setLstFragments(array(
+                        "content" => $articleHtml->listAll($articleBd->selectAll()),
+                        "title" => "Liste des articles"
+                    ));*/
+
+
+                $_SESSION['success'] = "Ajout effectué !";
+                header('Location: index.php');
+                exit();
+
             } else { // s'il y a au moins une erreur
                 $article = $articleBd->map($this->request->getPost());
                 $this->response->setLstFragments(array(
@@ -117,7 +133,7 @@ class ArticleController
     {
         $articleBd = new ArticleBd();
         $articleForm = new ArticleForm();
-        $articleHtml = new ArticleHtml();
+       /* $articleHtml = new ArticleHtml();*/
         $title = "Liste des articles";
         $isEmptyGetId = empty($this->request->getGet()['id']);
         $isNotEmptyPostArticle = !empty($this->request->getPost()['article']);
@@ -132,15 +148,20 @@ class ArticleController
                 ));
             } else {
                 if (!$res && !$isEmptyGetId) {
-                    $articleHtml->setError("Une erreur est survenue lors de la suppression de
-                       l'article ! Il se peut que l'article n'existe plus.");
+                    /*$articleHtml->setError("Une erreur est survenue lors de la suppression de
+                       l'article ! Il se peut que l'article n'existe plus.");*/
+                    $_SESSION['error'] = "Une erreur est survenue lors de la suppression de
+                       l'article ! Il se peut que l'article n'existe plus";
                 } else {
-                    $articleHtml->setSuccess("Suppression effectuée !");
+                    /* $articleHtml->setSuccess("Suppression effectuée !");*/
+                    $_SESSION['success'] = "Suppression effectuée !";
                 }
-                $this->response->setLstFragments(array(
+                /*$this->response->setLstFragments(array(
                     "content" => $articleHtml->listAll($articleBd->selectAll()),
                     "title" => $title
-                ));
+                ));*/
+                header('Location: index.php');
+                exit();
             }
         } else {
             $this->response->setLstFragments(array(
@@ -153,29 +174,35 @@ class ArticleController
     public function describe()
     {
         $articleHtml = new ArticleHtml();
-        $articleBd = new ArticleBd();
-        if (!empty($this->request->getGet()["id"])) {
+        /* $articleBd = new ArticleBd();*/
+        if (!empty($this->request->getGet()["id"])) { /* id pas vide */
             $article = (new ArticleBd())->selectOne(array("id =" => (int)$this->request->getGet()['id']));
-            if (!$article) {
-                $title = "L'article demandé n'existe pas";
-                $articleHtml->setError($title);
-                $this->response->setLstFragments(array(
-                    "content" => $articleHtml->listAll($articleBd->selectAll()),
-                    "title" => $title
-                ));
-            } else {
+            if (!$article) { /* article inexistant */
+                /* $title = "L'article demandé n'existe pas";
+                 $articleHtml->setError($title);
+                 $this->response->setLstFragments(array(
+                     "content" => $articleHtml->listAll($articleBd->selectAll()),
+                     "title" => $title
+                 ));*/
+                $_SESSION['error'] = "L'article demandé n'existe pas";
+                header('Location: index.php');
+                exit();
+            } else { /* article existe */
                 $this->response->setLstFragments(array(
                     "content" => $articleHtml->showOne($article),
                     "title" => "Détails d'un article"
                 ));
             }
-        } else {
-            $title = "Aucun article demandé";
-            $articleHtml->setError($title);
-            $this->response->setLstFragments(array(
-                "content" => $articleHtml->listAll($articleBd->selectAll()),
-                "title" => $title
-            ));
+        } else { /* id non renseigné */
+            /* $title = "Aucun article demandé";
+             $articleHtml->setError($title);
+             $this->response->setLstFragments(array(
+                 "content" => $articleHtml->listAll($articleBd->selectAll()),
+                 "title" => $title
+             ));*/
+            $_SESSION['error'] = "Aucun article demandé";
+            header('Location: index.php');
+            exit();
         }
     }
 

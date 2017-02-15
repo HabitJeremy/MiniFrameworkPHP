@@ -17,32 +17,62 @@ class FlashMessage
      */
     public static function getInstance()
     {
+        session_start();
         if (!(self::$instance instanceof self)) {
             self::$instance = new self();
         }
         return self::$instance;
     }
 
+    /* Permet d'afficher tout les messages flash (notifications) en une seule ligne dans la vue */
+    public function All($array)
+    {
+        foreach ($array as $name) {
+            self::One($name);
+        }
+    }
+
     /*
         * Permet d'afficher la valeur d'une variable de session puis de la détruire
         * Paramètres :
             *- $name : nom de la variable de session
-            *- $error et $success : détermine l'affichage de la variable de session
+            *- $input : détermine l'affichage de la variable de session
        */
-    public function flash($name, $error = false, $success = false)
+    public function One($name, $input = false)
     {
-        $class = "error";
         if (!empty($_SESSION[$name])) {
-            if (!$error && !$success) {
-                echo $_SESSION[$name]; // variable de session de "valeur"
+            if ($input) {
+                echo $_SESSION[$name]; // variable de session de "valeur" pour les inputs
             } else {
-                if ($success) {
-                    $class = "success";
-                }
-                // variable de session "d'erreur"
-                echo "<span class='msg-" . $class . " marg-10-bottom'>" . $_SESSION[$name] . "</span>";
+                $boldText = self::getBoldText($name);
+                // variable de session de notification
+                $res = "<span class='msg-" . $name . " marg-10-bottom'>";
+                $res .= "<span class='txt-b'>" . $boldText . "</span> : " . $_SESSION[$name] . "</span>";
+                echo $res;
             }
             unset($_SESSION[$name]); // destruction de la variabe de session
         }
+    }
+
+
+    /* Retourne le "titre" en gras pour les messages flash */
+    private function getBoldText($class)
+    {
+        $boldText = "Notification";
+        switch ($class) {
+            case "success":
+                $boldText = "Ok";
+                break;
+            case "error":
+                $boldText = "Échec";
+                break;
+            case "warning":
+                $boldText = "Attention";
+                break;
+            case "info":
+                $boldText = "Info";
+                break;
+        }
+        return $boldText;
     }
 }

@@ -2,12 +2,14 @@
 
 namespace MagicMonkey\MiniJournal\Article;
 
+use MagicMonkey\Tools\Flash\FlashMessage;
+
 class ArticleHtml
 {
     private $startContent;
     private $endContent;
-    private $error;
-    private $success;
+   /* private $error;
+    private $success;*/
 
     public function __construct()
     {
@@ -16,7 +18,7 @@ class ArticleHtml
     }
 
     /* Permet l'affichage des notifications/messages afin d'informer l'utilisateur */
-    public function showMsg()
+   /* public function showMsg()
     {
         $res = "";
         if (!empty($this->error) || !empty($this->success)) {
@@ -30,17 +32,17 @@ class ArticleHtml
             $res .= $this->endContent;
         }
         return $res;
-    }
+    }*/
 
     /* fonction utilisée par la fonction showMsg() */
-    private function makeTagMsg($msg, $error = true)
+   /* private function makeTagMsg($msg, $error = true)
     {
         $class = "error";
         if (!$error) {
             $class = "success";
         }
         return "<p class='msg-" . $class . " marg-10-bottom'>" . $msg . "</p>";
-    }
+    }*/
 
     /* default list all articles */
     public function listAll($lst)
@@ -75,32 +77,32 @@ class ArticleHtml
     /**
      * @return mixed
      */
-    public function getError()
+    /*public function getError()
     {
         return $this->error;
-    }
+    }*/
 
     /**
      * @param mixed $error
      */
-    public function setError($error)
+    /*public function setError($error)
     {
         $this->error = $error;
-    }
+    }*/
 
     /**
      * @return mixed
      */
-    public function getSuccess()
+   /* public function getSuccess()
     {
         return $this->success;
-    }
+    }*/
 
     /**
      * @param mixed $success
      */
-    public function setSuccess($success)
+   /* public function setSuccess($success)
     {
         $this->success = $success;
-    }
+    }*/
 }
