@@ -17,7 +17,7 @@ class ArticleController
     private $request;
     private $response;
 
-    public function __construct(Response $response, Request $request)
+    public function __construct(Request $request, Response $response)
     {
         $this->response = $response;
         $this->request = $request;
@@ -212,4 +212,16 @@ class ArticleController
             "title" => "page inexistante"
         ));
     }
+
+    public function execute($action)
+    {
+        if (method_exists($this, $action)) {
+            return $this->$action();
+        } else {
+            throw new \Exception("Action {$action} non trouvée");
+            // que faire si l'actio n'existe pas ??
+            // lire la suite...
+        }
+    }
+
 }

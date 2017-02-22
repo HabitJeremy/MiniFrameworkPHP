@@ -9,7 +9,7 @@
     <meta name="author" content="Habit Jérémy">
     <!--<link rel="icon" type="image/x-icon" href="{{ asset('media/icon_logo/favicon.png') }}"/>-->
 
-    <title><?= !empty($title) ? $title : ""; ?></title>
+    <title><?= !empty($response->getOneFragment("title")) ? $response->getOneFragment("title") : ""; ?></title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="ui/css/libraries/normalize.min.css" type="text/css">
@@ -23,7 +23,7 @@
 <!--BODY START-->
 <main class="mw marg-auto padd-50-top-bottom padd-15-top-bottom-xs anim-zoom">
     <?php $flash->all(array("success", "error", "warning", "info"));?>
-    <?= !empty($content) ? $content : ""; ?>
+    <?= !empty($response->getOneFragment("content")) ? $response->getOneFragment("content") : ""; ?>
 </main>
 
 <!--FOOTER START-->

@@ -20,6 +20,6 @@ class Autoloader
     {
         $path = str_replace('\\', DIRECTORY_SEPARATOR, $className);
         $fullPath = APP_BASEFILE . DIRECTORY_SEPARATOR . $path . '.php';
-        include ($fullPath);
+        include($fullPath);
     }
 }
