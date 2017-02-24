@@ -1,10 +1,11 @@
 <?php
 
-namespace MagicMonkey\MiniJournal\Router;
+namespace MagicMonkey\MiniJournal\Article;
 
 use MagicMonkey\Tools\HttpFoundation\Request;
+/*use MagicMonkey\Tools\Router\Router;*/
 
-class Router
+class ArticleRouter
 {
     protected $controllerClassName;
     protected $controllerAction;
@@ -12,6 +13,7 @@ class Router
 
     public function __construct(Request $request)
     {
+       /* parent::__construct($request);*/
         $this->request = $request;
         $this->parseRequest();
     }

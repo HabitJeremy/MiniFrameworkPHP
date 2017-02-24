@@ -27,7 +27,10 @@ class ArticleController
     {
         $title = "Tous les articles";
         $lstObjsArticles = (new ArticleBd())->selectAll();
-        $content = (new ArticleHtml())->listAll($lstObjsArticles);
+        $content = (new ArticleHtml())->listAll(
+            $lstObjsArticles,
+            'MagicMonkey/MiniJournal/Article/views/vAllArticles.html'
+        );
         $this->response->setLstFragments(array("content" => $content, "title" => $title));
     }
 
@@ -35,13 +38,7 @@ class ArticleController
     {
         $articleBd = new ArticleBd();
         $articleForm = new ArticleForm();
-        /* $articleHtml = new ArticleHtml();*/
         if (empty($this->request->getGet()['id'])) {
-            /* $articleHtml->setError("Aucun article demandé");*/
-            /*$this->response->setLstFragments(array(
-                "content" => $articleHtml->listAll($articleBd->selectAll()),
-                "title" => "Liste des articles"
-            ));*/
             $_SESSION['error'] = "Aucun article demandé";
             header('Location: index.php');
             exit();
@@ -55,11 +52,6 @@ class ArticleController
                         "title" => $title
                     ));
                 } else { // s'il n'existe pas
-                    /* $articleHtml->setError("L'article demandé n'existe pas");
-                     $this->response->setLstFragments(array(
-                         "content" => $articleHtml->listAll($articleBd->selectAll()),
-                         "title" => "Article inexistant"
-                     ));*/
                     $_SESSION['error'] = "L'article demandé n'existe pas";
                     header('Location: index.php');
                     exit();
@@ -68,12 +60,6 @@ class ArticleController
                 if (!$articleForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
                     /* modification de l'article dans la bdd */
                     $articleBd->updateOne($this->request->getPost(), $article->getId());
-                    /* $newArticle = $articleBd->selectOne(array("id =" => (int)$article->getId()));*/
-                    /* $articleHtml->setSuccess("Modification effectuée");
-                     $this->response->setLstFragments(array(
-                         "content" => $articleHtml->showOne($article),
-                         "title" => "Détails d'un article"
-                     ));*/
                     $_SESSION['success'] = "Modification effectuée";
                     header('Location: index.php?o=article&a=describe&id=' . $article->getId());
                     exit();
@@ -107,14 +93,6 @@ class ArticleController
         } else {
             if (!$articleForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
                 $articleBd->addOne($this->request->getPost()); /* enregistrement du nouvel article dans la bdd */
-
-                /* $articleHtml->setSuccess("Ajout effectué");*/
-                /*    $this->response->setLstFragments(array(
-                        "content" => $articleHtml->listAll($articleBd->selectAll()),
-                        "title" => "Liste des articles"
-                    ));*/
-
-
                 $_SESSION['success'] = "Ajout effectué !";
                 header('Location: index.php');
                 exit();
@@ -147,18 +125,12 @@ class ArticleController
                 ));
             } else {
                 if (!$res && !$isEmptyGetId) {
-                    /*$articleHtml->setError("Une erreur est survenue lors de la suppression de
-                       l'article ! Il se peut que l'article n'existe plus.");*/
                     $_SESSION['error'] = "Une erreur est survenue lors de la suppression de
                        l'article ! Il se peut que l'article n'existe plus";
                 } else {
                     /* $articleHtml->setSuccess("Suppression effectuée !");*/
                     $_SESSION['success'] = "Suppression effectuée !";
                 }
-                /*$this->response->setLstFragments(array(
-                    "content" => $articleHtml->listAll($articleBd->selectAll()),
-                    "title" => $title
-                ));*/
                 header('Location: index.php');
                 exit();
             }
@@ -177,28 +149,19 @@ class ArticleController
         if (!empty($this->request->getGet()["id"])) { /* id pas vide */
             $article = (new ArticleBd())->selectOne(array("id =" => (int)$this->request->getGet()['id']));
             if (!$article) { /* article inexistant */
-                /* $title = "L'article demandé n'existe pas";
-                 $articleHtml->setError($title);
-                 $this->response->setLstFragments(array(
-                     "content" => $articleHtml->listAll($articleBd->selectAll()),
-                     "title" => $title
-                 ));*/
                 $_SESSION['error'] = "L'article demandé n'existe pas";
                 header('Location: index.php');
                 exit();
             } else { /* article existe */
                 $this->response->setLstFragments(array(
-                    "content" => $articleHtml->showOne($article),
+                    "content" => $articleHtml->showOne(
+                        $article,
+                        'MagicMonkey/MiniJournal/Article/views/vOneArticle.html'
+                    ),
                     "title" => "Détails d'un article"
                 ));
             }
         } else { /* id non renseigné */
-            /* $title = "Aucun article demandé";
-             $articleHtml->setError($title);
-             $this->response->setLstFragments(array(
-                 "content" => $articleHtml->listAll($articleBd->selectAll()),
-                 "title" => $title
-             ));*/
             $_SESSION['error'] = "Aucun article demandé";
             header('Location: index.php');
             exit();
@@ -219,8 +182,6 @@ class ArticleController
             return $this->$action();
         } else {
             throw new \Exception("Action {$action} non trouvée");
-            // que faire si l'actio n'existe pas ??
-            // lire la suite...
         }
     }
 

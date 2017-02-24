@@ -2,17 +2,13 @@
 
 namespace MagicMonkey\MiniJournal\Article;
 
+use MagicMonkey\Tools\Inheritance\PersistBd;
 use \Exception;
 use \PDO as PDO;
-use MagicMonkey\Tools\Database\DbConnection;
-use MagicMonkey\Tools\Database\Cleaner;
 
-class ArticleBd
+class ArticleBd extends PersistBd
 {
     const TABLE_NAME = "article";
-
-    private $dbh;
-    private $cleaner;
 
     /* ### CONSTRUCTOR ### */
     /**
@@ -20,71 +16,27 @@ class ArticleBd
      */
     public function __construct()
     {
-        $this->dbh = DbConnection::getInstance()->getConnexion();
-        $this->cleaner = new Cleaner();
+        parent::__construct(self::TABLE_NAME);
     }
 
-    /* ### SQL FUNCTIONS ### */
-
-    /* select one */
-    public function selectOne(array $conditions, $nl2br = true)
+    /* Creation d'un objet Article */
+    public function map($res, $nl2br = false)
     {
-        try {
-            $lstPrepare = array();
-            $sql = 'SELECT * from ' . self::TABLE_NAME . ' where ';
-            $i = 0;
-            foreach ($conditions as $columnOperator => $value) {
-                if ($i == 0) {
-                    $sql .= $columnOperator . " :p" . $i;
-                } else {
-                    $sql .= " and " . $columnOperator . " :p" . $i;
-                }
-                $lstPrepare[":p" . $i] = $value;
-            }
-            $stmt = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-            $stmt->execute($lstPrepare);
-            $res = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($res) {
-                return $this->map($res, $nl2br);
-            } else {
-                return $res;
-            }
-        } catch (Exception $ex) {
-            return false;
+        if ($nl2br) {
+            $this->cleaner->cleaningToInsert($res);
+        } else {
+            $this->cleaner->cleaningToDisplay($res);
         }
-    }
-
-    /* select all */
-    public function selectAll()
-    {
-        try {
-            $lstObjsArticle = array();
-            $sql = 'SELECT * from ' . self::TABLE_NAME;
-            $stmt = $this->dbh->query($sql);
-            if ($res = $stmt->fetchAll(PDO::FETCH_ASSOC)) {
-                foreach ($res as $row) {
-                    array_push($lstObjsArticle, $this->map($row, true));
-                }
-                return $lstObjsArticle;
-            } else {
-                return false;
-            }
-        } catch (Exception $ex) {
-            return false;
-        }
-    }
-
-    /* suppression d'un article => return false si error sinon true */
-    public function deleteOne($id)
-    {
-        $res = false;
-        $article = $this->selectOne(array("id =" => (int)$id));
-        if ($article) {
-            $sql = 'DELETE from ' . self::TABLE_NAME . ' where id = :id';
-            $stmt = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-            return $stmt->execute(array(":id" => $id));
-        }
-        return $res;
+        return new Article(
+            empty($res['id']) ? null : $res['id'],
+            $res['title'],
+            $res['author'],
+            $res['chapo'],
+            $res['content'],
+            $res['publication_status'],
+            empty($res['creation_date']) ? null : $res['creation_date'],
+            empty($res['publication_date']) ? null : $res['publication_date']
+        );
     }
 
     /* modification d'un article => return false si error sinon true */
@@ -122,25 +74,5 @@ class ArticleBd
         } catch (Exception $ex) {
             return false;
         }
-    }
-
-    /* Creation d'un objet Article */
-    public function map($res, $nl2br = false)
-    {
-        if ($nl2br) {
-            $this->cleaner->cleaningToInsert($res);
-        } else {
-            $this->cleaner->cleaningToDisplay($res);
-        }
-        return new Article(
-            empty($res['id']) ? null : $res['id'],
-            $res['title'],
-            $res['author'],
-            $res['chapo'],
-            $res['content'],
-            $res['publication_status'],
-            empty($res['creation_date']) ? null : $res['creation_date'],
-            empty($res['publication_date']) ? null : $res['publication_date']
-        );
     }
 }

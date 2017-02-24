@@ -1,16 +1,15 @@
-<!-- $this->showMsg(); -->
 <article>
     <div class="row-col-reverse-s flex-vertical-center align-center-s">
         <div class="cell-8">
             <h1 class="marg-0-bottom">
-                <a href="index.php?o=article&a=describe&id=<?= $article->getId(); ?>"
-                   title="<?= $article->getTitle(); ?>"><?= $article->getTitle(); ?></a>
+                <a href="index.php?o=article&a=describe&id=<?= $data->getId(); ?>"
+                   title="<?= $data->getTitle(); ?>"><?= $data->getTitle(); ?></a>
             </h1>
         </div>
         <div class="cell-4 align-right">
-            <a class="color-orange marg-15-right" href="index.php?a=update&id=<?= $article->getId(); ?>"
+            <a class="color-orange marg-15-right" href="index.php?a=update&id=<?= $data->getId(); ?>"
                title="Modifier cet article">Modifier</a>
-            <a class="color-error marg-15-right" href="index.php?a=delete&id=<?= $article->getId(); ?>"
+            <a class="color-error marg-15-right" href="index.php?a=delete&id=<?= $data->getId(); ?>"
                title="Supprimer cet article">Supprimer</a>
             <a href="index.php" title="Retour vers l'accueil">Retour</a>
         </div>
@@ -18,20 +17,20 @@
     <div class="row">
         <div class="cell-12">
             <p class="msg-info">
-                <span class="dis-block"># Par <?= $article->getAuthor(); ?></span>
-                <span class="dis-block"># Créé le <?= $article->getCreationDate(); ?></span>
-                <span># Pubié le <?= $article->getPublicationDate(); ?></span>
+                <span class="dis-block"># Par <?= $data->getAuthor(); ?></span>
+                <span class="dis-block"># Créé le <?= $data->getCreationDate(); ?></span>
+                <span># Pubié le <?= $data->getPublicationDate(); ?></span>
             </p>
         </div>
     </div>
     <div class="row">
         <div class="cell-12">
-            <p class="align-center"><?= $article->getChapo(); ?></p>
+            <p class="align-center"><?= $data->getChapo(); ?></p>
         </div>
     </div>
     <div class="row">
         <div class="cell-12">
-            <p><?= $article->getContent(); ?></p>
+            <p><?= $data->getContent(); ?></p>
         </div>
     </div>
 </article>

@@ -2,9 +2,10 @@
 
 namespace MagicMonkey\MiniJournal\Article;
 
-class Article
+use MagicMonkey\Tools\Inheritance\Entity;
+
+class Article extends Entity
 {
-    private $id;
     private $title;
     private $author;
     private $chapo;
@@ -34,7 +35,7 @@ class Article
         $creationDate = null,
         $publicationDate = null
     ) {
-        $this->id = $id;
+        parent::__construct($id);
         $this->title = $title;
         $this->author = $author;
         $this->chapo = $chapo;
@@ -42,22 +43,6 @@ class Article
         $this->publication_status = $publication_status;
         $this->creationDate = $creationDate;
         $this->publicationDate = $publicationDate == null ? "?" : $publicationDate;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     /**

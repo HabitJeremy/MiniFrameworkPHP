@@ -17,7 +17,10 @@ try{
     $flash = FlashMessage::getInstance();
     $response = new Response();
     $request = new Request();
+
     $controller = new FrontController($request, $response);
+
+
     $controller->execute();
 }catch(\Exception $ex){
     // utiliser la constante MODE_DEV déclarée en config pour décider du message à afficher
