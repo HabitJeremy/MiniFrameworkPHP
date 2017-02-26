@@ -10,17 +10,14 @@ namespace MagicMonkey\MiniJournal\Article;
 
 use MagicMonkey\Tools\HttpFoundation\Request;
 use MagicMonkey\Tools\HttpFoundation\Response;
+use MagicMonkey\Tools\Inheritance\BaseController;
 
-class ArticleController
+class ArticleController extends BaseController
 {
-
-    private $request;
-    private $response;
 
     public function __construct(Request $request, Response $response)
     {
-        $this->response = $response;
-        $this->request = $request;
+        parent::__construct($request, $response);
     }
 
     public function home()
@@ -48,7 +45,12 @@ class ArticleController
                 if ($article) { // si l'article existe
                     $title = "Modification d'un article";
                     $this->response->setLstFragments(array(
-                        "content" => $articleForm->formNewUpdate($article, $title, "update&id=" . $article->getId()),
+                        "content" => $articleForm->formNewUpdate(
+                            $title,
+                            "MagicMonkey/MiniJournal/Article/views/vFormNewUpdate.html",
+                            $article,
+                            "update&id=" . $article->getId()
+                        ),
                         "title" => $title
                     ));
                 } else { // s'il n'existe pas
@@ -59,7 +61,7 @@ class ArticleController
             } else { // s'il n'y a pas de données postées
                 if (!$articleForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
                     /* modification de l'article dans la bdd */
-                    $articleBd->updateOne($this->request->getPost(), $article->getId());
+                    $articleBd->update($this->request->getPost(), $article->getId());
                     $_SESSION['success'] = "Modification effectuée";
                     header('Location: index.php?o=article&a=describe&id=' . $article->getId());
                     exit();
@@ -68,8 +70,13 @@ class ArticleController
                     $this->request->getPost()['id'] =
                     $this->request->getPost()['creation_date'] =
                     $this->request->getPost()["publication_date"] = null;
-                    $tempArticle = $articleBd->map($this->request->getPost());
-                    $content = $articleForm->formNewUpdate($tempArticle, $title, "update&id=" . $article->getId());
+                    $tempArticle = $articleBd->mapp($this->request->getPost());
+                    $content = $articleForm->formNewUpdate(
+                        $title,
+                        "MagicMonkey/MiniJournal/Article/views/vFormNewUpdate.html",
+                        $tempArticle,
+                        "update&id=" . $article->getId()
+                    );
                     $this->response->setLstFragments(array(
                         "content" => $content,
                         "title" => $title
@@ -87,19 +94,26 @@ class ArticleController
         $articleBd = new ArticleBd();
         if (empty($this->request->getPost())) {
             $this->response->setLstFragments(array(
-                "content" => $articleForm->formNewUpdate(),
+                "content" => $articleForm->formNewUpdate(
+                    "Ajout d'un article",
+                    "MagicMonkey/MiniJournal/Article/views/vFormNewUpdate.html"
+                ),
                 "title" => $title
             ));
         } else {
             if (!$articleForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
-                $articleBd->addOne($this->request->getPost()); /* enregistrement du nouvel article dans la bdd */
+                $articleBd->add($this->request->getPost()); /* enregistrement du nouvel article dans la bdd */
                 $_SESSION['success'] = "Ajout effectué !";
                 header('Location: index.php');
                 exit();
             } else { // s'il y a au moins une erreur
-                $article = $articleBd->map($this->request->getPost());
+                $article = $articleBd->mapp($this->request->getPost());
                 $this->response->setLstFragments(array(
-                    "content" => $articleForm->formNewUpdate($article),
+                    "content" => $articleForm->formNewUpdate(
+                        "Ajout d'un article",
+                        "MagicMonkey/MiniJournal/Article/views/vFormNewUpdate.html",
+                        $article
+                    ),
                     "title" => $title
                 ));
             }
@@ -110,7 +124,6 @@ class ArticleController
     {
         $articleBd = new ArticleBd();
         $articleForm = new ArticleForm();
-        /* $articleHtml = new ArticleHtml();*/
         $title = "Liste des articles";
         $isEmptyGetId = empty($this->request->getGet()['id']);
         $isNotEmptyPostArticle = !empty($this->request->getPost()['article']);
@@ -145,7 +158,6 @@ class ArticleController
     public function describe()
     {
         $articleHtml = new ArticleHtml();
-        /* $articleBd = new ArticleBd();*/
         if (!empty($this->request->getGet()["id"])) { /* id pas vide */
             $article = (new ArticleBd())->selectOne(array("id =" => (int)$this->request->getGet()['id']));
             if (!$article) { /* article inexistant */
@@ -167,22 +179,4 @@ class ArticleController
             exit();
         }
     }
-
-    public function notFound()
-    {
-        $this->response->setLstFragments(array(
-            "content" => (new ArticleHtml())->notFound(),
-            "title" => "page inexistante"
-        ));
-    }
-
-    public function execute($action)
-    {
-        if (method_exists($this, $action)) {
-            return $this->$action();
-        } else {
-            throw new \Exception("Action {$action} non trouvée");
-        }
-    }
-
 }

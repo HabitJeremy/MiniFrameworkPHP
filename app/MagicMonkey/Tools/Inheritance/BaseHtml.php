@@ -9,7 +9,7 @@ namespace MagicMonkey\Tools\Inheritance;
  * Time: 10:11
  */
 
-abstract class DisplayHTML
+abstract class BaseHtml
 {
     protected $startContent;
     protected $endContent;
@@ -29,10 +29,10 @@ abstract class DisplayHTML
     public function showOne($dataObj, $htmlPath)
     {
         return $this->createView($dataObj, $htmlPath);
-
     }
 
-    private function createView($data, $htmlPath){
+    private function createView($data, $htmlPath)
+    {
         ob_start();
         $fullPath = APP_BASEFILE . DIRECTORY_SEPARATOR . $htmlPath;
         include $fullPath;

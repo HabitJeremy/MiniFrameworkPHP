@@ -8,9 +8,9 @@ namespace MagicMonkey\Tools\InterfaceRepository;
  * Date: 24/02/2017
  * Time: 10:19
  */
-interface EntityInterface
+interface BaseRouterInterface
 {
-    public function getId();
+    public function getControllerClassName();
 
-    public function setId($id);
+    public function getControllerAction();
 }

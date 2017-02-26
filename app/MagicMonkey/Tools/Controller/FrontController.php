@@ -4,7 +4,8 @@ namespace MagicMonkey\Tools\Controller;
 
 use MagicMonkey\Tools\HttpFoundation\Request;
 use MagicMonkey\Tools\HttpFoundation\Response;
-use MagicMonkey\MiniJournal\Article\ArticleRouter as Router;
+use MagicMonkey\MiniJournal\Article\ArticleRouter;
+use MagicMonkey\Tools\Inheritance\BaseController;
 
 /**
  * Created by PhpStorm.
@@ -12,7 +13,7 @@ use MagicMonkey\MiniJournal\Article\ArticleRouter as Router;
  * Date: 21/02/2017
  * Time: 09:28
  */
-class FrontController
+class FrontController extends BaseController
 {
     /**
      * @var string $controllerClass le nom complet de la classe à instancier
@@ -23,8 +24,6 @@ class FrontController
      * @var string $action le nom de l'action à exécuter
      */
     protected $action;
-    protected $request;
-    protected $response;
     protected $router;
 
     /**
@@ -36,20 +35,18 @@ class FrontController
      */
     public function __construct(Request $request, Response $response)
     {
-        $this->request = $request;
-        $this->response = $response;
-        $this->router = new Router($this->request);
+        parent::__construct($request, $response);
+        $this->router = new ArticleRouter($this->request);
     }
 
     /**
      * méthode pour lancer le contrôleur et exécuter l'action à faire
      */
-    public function execute()
+    public function main()
     {
         $className = $this->router->getControllerClassName();
         $controller = new $className($this->request, $this->response);
         $action = $this->router->getControllerAction();
-        // Noter que le contrôleur a maintenant une méthode execute(). Servira par la suite pour améliorer notre code.
         $controller->execute($action);
     }
 }

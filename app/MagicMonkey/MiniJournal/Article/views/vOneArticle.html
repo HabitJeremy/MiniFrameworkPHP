@@ -19,7 +19,8 @@
             <p class="msg-info">
                 <span class="dis-block"># Par <?= $data->getAuthor(); ?></span>
                 <span class="dis-block"># Créé le <?= $data->getCreationDate(); ?></span>
-                <span># Pubié le <?= $data->getPublicationDate(); ?></span>
+                <?= empty($data->getPublicationDate()) ? "" : "<span># Pubié le {$data->getPublicationDate()}</span>";
+                ?>
             </p>
         </div>
     </div>

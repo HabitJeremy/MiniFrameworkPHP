@@ -12,17 +12,14 @@ require_once 'config/config.php';
 
 $response = "";
 
-try{
+try {
     spl_autoload_register(array('\MagicMonkey\Tools\Loader\Autoloader', 'load'));
     $flash = FlashMessage::getInstance();
     $response = new Response();
     $request = new Request();
-
-    $controller = new FrontController($request, $response);
-
-
-    $controller->execute();
-}catch(\Exception $ex){
+    $frontCtrl = new FrontController($request, $response);
+    $frontCtrl->main();
+} catch (\Exception $ex) {
     // utiliser la constante MODE_DEV déclarée en config pour décider du message à afficher
     if (MODE_DEV) {
         $response->setLstFragments(array(

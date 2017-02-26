@@ -1,10 +1,10 @@
 <?php
 
-namespace MagicMonkey\MiniJournal\Article;
+namespace MagicMonkey\MiniJournal\Topical;
 
 use MagicMonkey\Tools\Inheritance\BaseHtml;
 
-class ArticleHtml extends BaseHtml
+class TopicalHtml extends BaseHtml
 {
     public function __construct()
     {

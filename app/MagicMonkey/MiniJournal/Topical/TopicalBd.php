@@ -1,13 +1,13 @@
 <?php
 
-namespace MagicMonkey\MiniJournal\Article;
+namespace MagicMonkey\MiniJournal\Topical;
 
 use MagicMonkey\Tools\Inheritance\BaseBd;
 use \Exception;
 
-class ArticleBd extends BaseBd
+class TopicalBd extends BaseBd
 {
-    const TABLE_NAME = "article";
+    const TABLE_NAME = "topical";
 
     /* ### CONSTRUCTOR ### */
     /**
@@ -18,7 +18,7 @@ class ArticleBd extends BaseBd
         parent::__construct(self::TABLE_NAME);
     }
 
-    /* Creation d'un objet Article */
+    /* Creation d'un objet Topical */
     public function mapp($arrayData, $nl2br = false)
     {
         if ($nl2br) {
@@ -26,11 +26,10 @@ class ArticleBd extends BaseBd
         } else {
             $this->cleaner->cleaningToDisplay($arrayData);
         }
-        return new Article(
+        return new Topical(
             empty($arrayData['id']) ? null : $arrayData['id'],
             $arrayData['title'],
             $arrayData['author'],
-            $arrayData['chapo'],
             $arrayData['content'],
             $arrayData['publication_status'],
             empty($arrayData['creation_date']) ? null : $arrayData['creation_date'],
@@ -38,7 +37,7 @@ class ArticleBd extends BaseBd
         );
     }
 
-    /* modification d'un article => return false si error sinon true */
+    /* modification d'une actu => return false si error sinon true */
     public function update($postedData, $id)
     {
         try {

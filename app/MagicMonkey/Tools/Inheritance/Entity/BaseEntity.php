@@ -1,7 +1,8 @@
 <?php
 
-namespace MagicMonkey\Tools\Inheritance;
-use MagicMonkey\Tools\InterfaceRepository\EntityInterface;
+namespace MagicMonkey\Tools\Inheritance\Entity;
+
+use MagicMonkey\Tools\InterfaceRepository\BaseEntityInterface;
 
 /**
  * Created by PhpStorm.
@@ -9,11 +10,12 @@ use MagicMonkey\Tools\InterfaceRepository\EntityInterface;
  * Date: 24/02/2017
  * Time: 10:11
  */
-class Entity implements EntityInterface
+abstract class BaseEntity implements BaseEntityInterface
 {
     protected $id;
 
-    protected function __construct($id){
+    protected function __construct($id)
+    {
         $this->id= $id;
     }
 
@@ -31,5 +33,10 @@ class Entity implements EntityInterface
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    public function getAttr()
+    {
+        return get_object_vars($this);
     }
 }

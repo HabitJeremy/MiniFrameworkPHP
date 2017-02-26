@@ -1,12 +1,11 @@
 <?php
 
-namespace MagicMonkey\MiniJournal\Article;
+namespace MagicMonkey\MiniJournal\Topical;
 
 use MagicMonkey\Tools\Inheritance\Entity\Type\DocumentEntity;
 
-class Article extends DocumentEntity
+class Topical extends DocumentEntity
 {
-    private $chapo;
     private $content;
 
     /**
@@ -14,7 +13,6 @@ class Article extends DocumentEntity
      * @param $id
      * @param $title
      * @param $author
-     * @param $chapo
      * @param $content
      * @param $publicationStatus
      * @param $creationDate
@@ -24,7 +22,6 @@ class Article extends DocumentEntity
         $id = null,
         $title = null,
         $author = null,
-        $chapo = null,
         $content = null,
         $publicationStatus = null,
         $creationDate = null,
@@ -38,24 +35,7 @@ class Article extends DocumentEntity
             $publicationDate,
             $publicationStatus
         );
-        $this->chapo = $chapo;
         $this->content = $content;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getChapo()
-    {
-        return $this->chapo;
-    }
-
-    /**
-     * @param mixed $chapo
-     */
-    public function setChapo($chapo)
-    {
-        $this->chapo = $chapo;
     }
 
     /**

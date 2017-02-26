@@ -8,46 +8,18 @@
 
 namespace MagicMonkey\MiniJournal\Article;
 
-class ArticleForm
+use MagicMonkey\Tools\Inheritance\BaseForm;
+
+class ArticleForm extends BaseForm
 {
     const LSTVALIDSTATUS = array("brouillon", "publie");
 
-    private $errors;
-    private $article;
+    protected $article;
 
     public function __construct()
     {
-        $this->errors = array();
+        parent::__construct("article");
         $this->article = new Article();
-    }
-
-    /* Permet l'affichage des notifications/messages afin d'informer l'utilisateur */
-    public function showMsg($key, $error = true)
-    {
-        $res = "";
-        if (array_key_exists($key, $this->errors)) {
-            $class = "error";
-            if (!$error) {
-                $class = "success";
-            }
-            $res = "<span class='msg-" . $class . " marg-10-bottom'>";
-            $res .= $this->errors[$key];
-            $res .= "</span>";
-        }
-        return $res;
-    }
-
-    /* show form new article */
-    public function formNewUpdate($obj = null, $h1 = "Ajout d'un article", $action = "insert")
-    {
-        if (!empty($obj)) {
-            $this->article = $obj;
-        }
-        ob_start();
-        include 'views/vFormNewUpdate.html';
-        $content = ob_get_contents();
-        ob_end_clean();
-        return $content;
     }
 
     public function formSelectArticle($lst, $action = "delete")
@@ -91,28 +63,6 @@ class ArticleForm
             $error = true;
         }
         return $error;
-    }
-
-    /**
-     * @return array
-     */
-    public function getErrors()
-    {
-        return $this->errors;
-    }
-
-    /**
-     * @param array $errors
-     */
-    public function setErrors($errors)
-    {
-        $this->errors = $errors;
-    }
-
-    /* ajout d'une erreur dans l'array errors */
-    public function addErrors($newItem)
-    {
-        array_push($this->errors, $newItem);
     }
 
     /**
