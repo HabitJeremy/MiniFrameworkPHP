@@ -1,5 +1,6 @@
 {
     "require": {
-        "symfony/yaml": "^3.2"
+        "twig/twig": "~1.0",
+        "ckeditor/ckeditor": "dev-full/latest"
     }
 }

@@ -8,7 +8,7 @@
         <!-- author -->
         <div class="groupform-large">
             <label class="required" for="author">Auteur</label>
-            <?= $this->showMsg("errorAuthor"); ?>
+            <?= $this->showMsg("author"); ?>
             <input class="padd-15" type="text" name="author" id="author" required placeholder="un auteur"
                    maxlength="255"
                    value="<?= $this->getArticle()->getAuthor(); ?>"/>
@@ -16,14 +16,14 @@
         <!-- title -->
         <div class="groupform-large">
             <label class="required" for="title">Titre</label>
-            <?= $this->showMsg("errorTitle"); ?>
+            <?= $this->showMsg("title"); ?>
             <input class="padd-15" type="text" name="title" id="title" required placeholder="un titre" maxlength="255"
                    value="<?= $this->getArticle()->getTitle(); ?>"/>
         </div>
         <!--  publication_status -->
         <div class="groupform-large">
             <label class="required" for="publication_status">Statut de publication</label>
-            <?= $this->showMsg("errorStatus"); ?>
+            <?= $this->showMsg("publication_status"); ?>
             <select class="padd-15" name="publication_status" id="publication_status">
                 <option value="brouillon"
                 <?= $this->getArticle()->getPublicationStatus() == "brouillon" ? "selected" : ""; ?>>Brouillon</option>
@@ -34,14 +34,14 @@
         <!-- chapo -->
         <div class="groupform-large">
             <label class="required" for="chapo">Chapo</label>
-            <?= $this->showMsg("errorChapo"); ?>
+            <?= $this->showMsg("chapo"); ?>
             <textarea class="padd-15" id="chapo" name="chapo" rows="5" placeholder="un chapo ..."
                       required><?= $this->getArticle()->getChapo(); ?></textarea>
         </div>
         <!-- content -->
         <div class="groupform-large">
             <label class="required" for="content">Contenu</label>
-            <?= $this->showMsg("errorContent"); ?>
+            <?= $this->showMsg("content"); ?>
             <textarea class="padd-15" id="content" name="content" rows="10" placeholder="un contenu ..."
                       required><?= $this->getArticle()->getContent(); ?></textarea>
         </div>
@@ -52,3 +52,8 @@
         </div>
     </div>
 </form>
+<script>
+    // Replace the <textarea id="editor1"> with a CKEditor
+    // instance, using default configuration.
+    CKEDITOR.replace( 'content' );
+</script>

@@ -2,10 +2,10 @@
 
 namespace MagicMonkey\MiniJournal\Article;
 
-use MagicMonkey\Tools\Inheritance\BaseBd;
+use MagicMonkey\Framework\Inheritance\AbstractBd;
 use \Exception;
 
-class ArticleBd extends BaseBd
+class ArticleBd extends AbstractBd
 {
     const TABLE_NAME = "article";
 
@@ -18,8 +18,31 @@ class ArticleBd extends BaseBd
         parent::__construct(self::TABLE_NAME);
     }
 
+
+    public function mapp($arrayData, $insertData = false)
+    {
+        if ($insertData) {
+            $this->cleaner->cleaningToInsert($arrayData);
+        } else {
+            $this->cleaner->cleaningToDisplay($arrayData);
+        }
+      /*  if(!$insertData){
+            $this->cleaner->cleaningToDisplay($arrayData);
+        }*/
+        return new Article(
+            empty($arrayData['id']) ? null : $arrayData['id'],
+            $arrayData['title'],
+            $arrayData['author'],
+            $arrayData['chapo'],
+            $arrayData['content'],
+            $arrayData['publication_status'],
+            empty($arrayData['creation_date']) ? null : $arrayData['creation_date'],
+            empty($arrayData['publication_date']) ? null : $arrayData['publication_date']
+        );
+    }
+
     /* Creation d'un objet Article */
-    public function mapp($arrayData, $nl2br = false)
+    /*public function mapp($arrayData, $nl2br = false)
     {
         if ($nl2br) {
             $this->cleaner->cleaningToInsert($arrayData);
@@ -36,7 +59,7 @@ class ArticleBd extends BaseBd
             empty($arrayData['creation_date']) ? null : $arrayData['creation_date'],
             empty($arrayData['publication_date']) ? null : $arrayData['publication_date']
         );
-    }
+    }*/
 
     /* modification d'un article => return false si error sinon true */
     public function update($postedData, $id)

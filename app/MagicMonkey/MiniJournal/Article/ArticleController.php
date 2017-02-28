@@ -1,18 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Jeremy
- * Date: 10/02/2017
- * Time: 09:27
- */
 
 namespace MagicMonkey\MiniJournal\Article;
 
-use MagicMonkey\Tools\HttpFoundation\Request;
-use MagicMonkey\Tools\HttpFoundation\Response;
-use MagicMonkey\Tools\Inheritance\BaseController;
+use MagicMonkey\Framework\HttpFoundation\Request;
+use MagicMonkey\Framework\HttpFoundation\Response;
+use MagicMonkey\Framework\Inheritance\AbstractController;
 
-class ArticleController extends BaseController
+class ArticleController extends AbstractController
 {
 
     public function __construct(Request $request, Response $response)
@@ -59,7 +53,7 @@ class ArticleController extends BaseController
                     exit();
                 }
             } else { // s'il n'y a pas de données postées
-                if (!$articleForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
+                if ($articleForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
                     /* modification de l'article dans la bdd */
                     $articleBd->update($this->request->getPost(), $article->getId());
                     $_SESSION['success'] = "Modification effectuée";
@@ -101,7 +95,7 @@ class ArticleController extends BaseController
                 "title" => $title
             ));
         } else {
-            if (!$articleForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
+            if ($articleForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
                 $articleBd->add($this->request->getPost()); /* enregistrement du nouvel article dans la bdd */
                 $_SESSION['success'] = "Ajout effectué !";
                 header('Location: index.php');

@@ -2,9 +2,9 @@
 
 namespace MagicMonkey\MiniJournal\Article;
 
-use MagicMonkey\Tools\Inheritance\Entity\Type\DocumentEntity;
+use MagicMonkey\Framework\Inheritance\Entity\Type\AbstractDocumentEntity;
 
-class Article extends DocumentEntity
+class Article extends AbstractDocumentEntity
 {
     private $chapo;
     private $content;

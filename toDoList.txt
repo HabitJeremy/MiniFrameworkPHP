@@ -1,5 +1,12 @@
-router abstract
-update et add for articlebd
-absrtact html
-ajouter actualité comme entity !
+twig => integration
+validator types (minLength) => s'inspirer de symfony @Assert
+pb cleaner ckeditor
 
+validator nettoyage
+
+url rewrite
+documentation
+bien commenté
+bien reglementé => guide bonne pratiques de nommages :
+    empty supprimer
+interfaces ???

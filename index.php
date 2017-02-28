@@ -2,19 +2,39 @@
 
 namespace MagicMonkey\MiniJournal;
 
-use MagicMonkey\Tools\HttpFoundation\Response;
-use MagicMonkey\Tools\HttpFoundation\Request;
-use MagicMonkey\Tools\Flash\FlashMessage;
-use MagicMonkey\Tools\Controller\FrontController;
+use MagicMonkey\Framework\HttpFoundation\Response;
+use MagicMonkey\Framework\HttpFoundation\Request;
+use MagicMonkey\Framework\Flash\FlashMessage;
+use MagicMonkey\Framework\Controller\FrontController;
 
-require_once 'app/MagicMonkey/Tools/Loader/Autoloader.php';
+require_once 'app/MagicMonkey/Framework/Loader/Autoloader.php';
 require_once 'config/config.php';
+require_once 'vendor/autoload.php';
+
+/* TWIG */
+use Twig_Environment;
+use Twig_Extension_Debug;
+use Twig_Loader_Filesystem;
+
+require_once("vendor/twig/twig/lib/Twig/Autoloader.php");
+/*Twig_Autoloader::register();*/
+$loader = new Twig_Loader_Filesystem("ui/layout");
+$twig = new Twig_Environment($loader, array(
+    "cache" => false,
+    "debug" => true
+));
+$twig->addExtension(new Twig_Extension_Debug());
+
+
+
+
+
 
 $response = "";
+spl_autoload_register(array('\MagicMonkey\Framework\Loader\Autoloader', 'load'));
+$flash = FlashMessage::getInstance();
 
 try {
-    spl_autoload_register(array('\MagicMonkey\Tools\Loader\Autoloader', 'load'));
-    $flash = FlashMessage::getInstance();
     $response = new Response();
     $request = new Request();
     $frontCtrl = new FrontController($request, $response);
@@ -35,4 +55,9 @@ try {
     }
 }
 
-include "ui/layout/lBase.html";
+echo $twig->render("lBase.html.twig", array(
+    "response" => $response,
+    "flashAll" => $flash->all(array("success", "error", "warning", "info"))
+));
+
+/*include "ui/layout/lBase.html";*/
