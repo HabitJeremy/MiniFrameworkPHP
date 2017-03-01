@@ -8,7 +8,7 @@
             <div class="cell-8">
                 <h1 class="marg-0-bottom">
                     <a href="index.php?o=article&a=describe&id={{ data.id }}"
-                       title="{{ data.title|raw }}">{{ data.title|raw }}</a>
+                       title="{{ data.title }}">{{ data.title }}</a>
                 </h1>
             </div>
             <div class="cell-4 align-right">
@@ -35,7 +35,7 @@
         </div>
         <div class="row">
             <div class="cell-12">
-                <p>{{ data.content }}</p>
+                <p>{{ data.content|raw }}</p>
             </div>
         </div>
     </article>

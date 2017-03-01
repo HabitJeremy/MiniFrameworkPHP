@@ -5,7 +5,7 @@ namespace MagicMonkey\MiniJournal\RepositoryForm;
 use MagicMonkey\Framework\Inheritance\AbstractForm;
 use MagicMonkey\Framework\Validator\Type\MaxLength;
 use MagicMonkey\Framework\Validator\Type\NotBlank;
-use MagicMonkey\Framework\Validator\Type\Valid;
+use MagicMonkey\Framework\Validator\Type\ValidValues;
 use MagicMonkey\MiniJournal\Entity\Article;
 
 class ArticleForm extends AbstractForm
@@ -17,15 +17,6 @@ class ArticleForm extends AbstractForm
         parent::__construct("article");
         $this->article = new Article();
     }
-    /*
-    public function formSelectArticle($lst, $action = "delete")
-    {
-        ob_start();
-        include 'view/vFormSelect.html';
-        $content = ob_get_contents();
-        ob_end_clean();
-        return $content;
-    }*/
 
     public function validationOptions()
     {
@@ -37,7 +28,7 @@ class ArticleForm extends AbstractForm
             ->add('content', new NotBlank())
             ->add('chapo', new NotBlank())
             ->add('publication_status', new NotBlank())
-            ->add('publication_status', new Valid(array("brouillon", "publie")));
+            ->add('publication_status', new ValidValues(array("brouillon", "publie")));
     }
 
     /**

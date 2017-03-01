@@ -17,7 +17,7 @@
                 <select class="padd-15" name="article" id="article" required>
                     {% if articles is defined %}
                         {% for article in articles %}
-                            <option value="{{ article.id }}">{{ article.title|raw }}</option>
+                            <option value="{{ article.id }}">{{ article.title }}</option>
                         {% endfor %}
                     {% endif %}
                 </select>

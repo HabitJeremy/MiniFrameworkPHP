@@ -13,12 +13,10 @@ class Router extends AbstractRouter
         $package = $this->request->getGetParam('o');
         switch ($package) {
             case "article":
-                $this->controllerClassName = "MagicMonkey" . DIRECTORY_SEPARATOR . "MiniJournal" . DIRECTORY_SEPARATOR;
-                $this->controllerClassName .= "Controller" . DIRECTORY_SEPARATOR . "ArticleController";
+                $this->controllerClassName = APP_OWNER . DS . APP_NAME . DS . "Controller" . DS . "ArticleController";
                 break;
             default:
-                $this->controllerClassName = "MagicMonkey" . DIRECTORY_SEPARATOR . "MiniJournal" . DIRECTORY_SEPARATOR;
-                $this->controllerClassName .= "Controller" . DIRECTORY_SEPARATOR . "ArticleController";
+                $this->controllerClassName = APP_OWNER . DS . APP_NAME . DS . "Controller" . DS . "ArticleController";
         }
 
         // tester si la classe à instancier existe bien. Si non lancer une Exception.
@@ -32,7 +30,7 @@ class Router extends AbstractRouter
 
         // tester si l'action existe bien. Si non lancer une Exception
         if (!method_exists($this->controllerClassName, $this->controllerAction)) {
-                throw new \Exception("Action {$this->controllerAction} non existante");
+            throw new \Exception("Action {$this->controllerAction} non existante");
         }
     }
 }

@@ -1,6 +1,3 @@
-validator types (minLength) => s'inspirer de symfony @Assert
-pb cleaner ckeditor
-validator nettoyage
 mapp2
 
 

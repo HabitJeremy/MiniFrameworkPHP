@@ -5,19 +5,19 @@ namespace MagicMonkey\Framework\Validator\Type;
 use MagicMonkey\Framework\Inheritance\AbstractValidator;
 use MagicMonkey\Framework\InterfaceRepository\ValidatorTypeInterface;
 
-class Valid extends AbstractValidator implements ValidatorTypeInterface
+class MinLength extends AbstractValidator implements ValidatorTypeInterface
 {
-    private $validValues;
+    private $min;
 
-    public function __construct($validValues, $message = null)
+    public function __construct($min, $message = null)
     {
         parent::__construct($message);
-        $this->validValues = $validValues;
+        $this->min = $min;
     }
 
     public function validate($value)
     {
-        if (!in_array($value, $this->validValues)) {
+        if (strlen($value) < $this->min) {
             return false;
         }
         return true;
@@ -25,6 +25,6 @@ class Valid extends AbstractValidator implements ValidatorTypeInterface
 
     protected function setMessage()
     {
-        $this->message = "La valeur doit correspondre à une valeur valide";
+        $this->message = "La valeur ne nécessite au moins ".$this->min." caractères";
     }
 }

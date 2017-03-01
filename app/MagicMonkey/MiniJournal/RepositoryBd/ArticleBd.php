@@ -21,14 +21,14 @@ class ArticleBd extends AbstractBd
 
     public function mapp($arrayData, $insertData = false)
     {
-        if ($insertData) {
+       /* if ($insertData) {
             $this->cleaner->cleaningToInsert($arrayData);
         } else {
             $this->cleaner->cleaningToDisplay($arrayData);
-        }
-      /*  if(!$insertData){
-            $this->cleaner->cleaningToDisplay($arrayData);
         }*/
+        /*  if(!$insertData){
+              $this->cleaner->cleaningToDisplay($arrayData);
+          }*/
         return new Article(
             empty($arrayData['id']) ? null : $arrayData['id'],
             $arrayData['title'],

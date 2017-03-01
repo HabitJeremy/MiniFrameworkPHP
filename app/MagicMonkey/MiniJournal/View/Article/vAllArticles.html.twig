@@ -12,7 +12,7 @@
             {% if articles|length > 0 %}
                 {% for article in articles %}
                     <a class="cell-4 padd-15 box-shad-2px align-center"
-                       href="index.php?o=article&a=describe&id={{ article.id }}">{{ article.title|raw }}</a>
+                       href="index.php?o=article&a=describe&id={{ article.id }}">{{ article.title }}</a>
                 {% endfor %}
             {% else %}
                 <div class='cell-12'><p class='msg-warning'>Aucun article trouvé !</p></div>
