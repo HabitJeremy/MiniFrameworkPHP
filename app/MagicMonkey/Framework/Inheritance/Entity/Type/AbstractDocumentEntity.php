@@ -4,12 +4,6 @@ namespace MagicMonkey\Framework\Inheritance\Entity\Type;
 
 use MagicMonkey\Framework\Inheritance\Entity\AbstractEntity;
 
-/**
- * Created by PhpStorm.
- * User: Jeremy
- * Date: 24/02/2017
- * Time: 10:11
- */
 abstract class AbstractDocumentEntity extends AbstractEntity
 {
     protected $title;

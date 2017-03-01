@@ -1,6 +1,6 @@
 <?php
 
-namespace MagicMonkey\MiniJournal\Article;
+namespace MagicMonkey\MiniJournal\Entity;
 
 use MagicMonkey\Framework\Inheritance\Entity\Type\AbstractDocumentEntity;
 

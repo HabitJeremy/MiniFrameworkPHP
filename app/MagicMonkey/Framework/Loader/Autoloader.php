@@ -11,8 +11,8 @@ class Autoloader
      */
     public static function load($className)
     {
-        $path = str_replace('\\', DIRECTORY_SEPARATOR, $className);
-        $fullPath = APP_BASEFILE . DIRECTORY_SEPARATOR . $path . '.php';
+        $path = str_replace('\\', DS, $className);
+        $fullPath = APP_BASEFILE . DS . $path . '.php';
         include($fullPath);
     }
 }

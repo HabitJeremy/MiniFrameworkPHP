@@ -7,12 +7,6 @@ use MagicMonkey\Framework\HttpFoundation\Response;
 use MagicMonkey\MiniJournal\Router;
 use MagicMonkey\Framework\Inheritance\AbstractController;
 
-/**
- * Created by PhpStorm.
- * User: Jeremy
- * Date: 21/02/2017
- * Time: 09:28
- */
 class FrontController extends AbstractController
 {
     /**

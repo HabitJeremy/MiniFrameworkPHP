@@ -3,20 +3,13 @@
 namespace MagicMonkey\Framework\Inheritance;
 use MagicMonkey\Framework\Validator\ValidatorManager;
 
-/**
- * Created by PhpStorm.
- * User: Jeremy
- * Date: 24/02/2017
- * Time: 10:11
- */
-
 abstract class AbstractForm
 {
     protected $errors;
     protected $objectName;
     protected $validatorManager;
 
-    abstract protected function validationOptions($postedData);
+    abstract protected function validationOptions();
 
     protected function __construct($objectName)
     {

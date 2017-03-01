@@ -2,13 +2,6 @@
 
 namespace MagicMonkey\Framework\Inheritance;
 
-/**
- * Created by PhpStorm.
- * User: Jeremy
- * Date: 24/02/2017
- * Time: 10:11
- */
-
 abstract class AbstractHtml
 {
 
@@ -30,7 +23,7 @@ abstract class AbstractHtml
     private function createView($data, $htmlPath)
     {
         ob_start();
-        $fullPath = APP_BASEFILE . DIRECTORY_SEPARATOR . $htmlPath;
+        $fullPath = APP_BASEFILE . DS . $htmlPath;
         include $fullPath;
         $content = ob_get_contents();
         ob_end_clean();

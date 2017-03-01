@@ -1,9 +1,10 @@
 <?php
 
-namespace MagicMonkey\MiniJournal\Article;
+namespace MagicMonkey\MiniJournal\RepositoryBd;
 
 use MagicMonkey\Framework\Inheritance\AbstractBd;
 use \Exception;
+use MagicMonkey\MiniJournal\Entity\Article;
 
 class ArticleBd extends AbstractBd
 {
@@ -17,7 +18,6 @@ class ArticleBd extends AbstractBd
     {
         parent::__construct(self::TABLE_NAME);
     }
-
 
     public function mapp($arrayData, $insertData = false)
     {

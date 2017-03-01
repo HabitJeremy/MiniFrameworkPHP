@@ -1,0 +1,42 @@
+{% extends "lBase.html.twig" %}
+
+{% block title %}Détails d'un article{% endblock %}
+
+{% block content %}
+    <article>
+        <div class="row-col-reverse-s flex-vertical-center align-center-s">
+            <div class="cell-8">
+                <h1 class="marg-0-bottom">
+                    <a href="index.php?o=article&a=describe&id={{ data.id }}"
+                       title="{{ data.title|raw }}">{{ data.title|raw }}</a>
+                </h1>
+            </div>
+            <div class="cell-4 align-right">
+                <a class="color-orange marg-15-right" href="index.php?a=update&id={{ data.id }}"
+                   title="Modifier cet article">Modifier</a>
+                <a class="color-error marg-15-right" href="index.php?a=delete&id={{ data.id }}"
+                   title="Supprimer cet article">Supprimer</a>
+                <a href="index.php" title="Retour vers l'accueil">Retour</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="cell-12">
+                <p class="msg-info">
+                    <span class="dis-block"># Par {{ data.author }}</span>
+                    <span class="dis-block"># Créé le {{ data.creationDate }}</span>
+                    <span> {{ data.publicationDate ? "# Pubié le " ~ data.publicationDate : "" }}</span>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="cell-12">
+                <p class="align-center">{{ data.chapo }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="cell-12">
+                <p>{{ data.content }}</p>
+            </div>
+        </div>
+    </article>
+{% endblock %}

@@ -1,16 +1,15 @@
 <?php
 
-namespace MagicMonkey\MiniJournal\Article;
+namespace MagicMonkey\MiniJournal\RepositoryForm;
 
 use MagicMonkey\Framework\Inheritance\AbstractForm;
 use MagicMonkey\Framework\Validator\Type\MaxLength;
 use MagicMonkey\Framework\Validator\Type\NotBlank;
 use MagicMonkey\Framework\Validator\Type\Valid;
+use MagicMonkey\MiniJournal\Entity\Article;
 
 class ArticleForm extends AbstractForm
 {
-   /* const LSTVALIDSTATUS = array("brouillon", "publie");*/
-
     protected $article;
 
     public function __construct()
@@ -18,17 +17,17 @@ class ArticleForm extends AbstractForm
         parent::__construct("article");
         $this->article = new Article();
     }
-
+    /*
     public function formSelectArticle($lst, $action = "delete")
     {
         ob_start();
-        include 'views/vFormSelect.html';
+        include 'view/vFormSelect.html';
         $content = ob_get_contents();
         ob_end_clean();
         return $content;
-    }
+    }*/
 
-    public function validationOptions($postedData)
+    public function validationOptions()
     {
         $this->validatorManager
             ->add('title', new NotBlank())

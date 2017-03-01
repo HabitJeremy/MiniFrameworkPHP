@@ -1,0 +1,69 @@
+{% extends "lBase.html.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="cell-12">
+            <h1>{{ title }}</h1>
+        </div>
+    </div>
+    <form class="row required" action="index.php?a={{ action }}&o=article" method="post">
+        <div class="cell-12">
+            <!-- author -->
+            <div class="groupform-large">
+                <label class="required" for="author">Auteur</label>
+                {{ articleForm.showMsg('author')|raw }}
+                <input class="padd-15" type="text" name="author" id="author" required placeholder="un auteur"
+                       maxlength="255"
+                       value="{{ article.author }}"/>
+            </div>
+            <!-- title -->
+            <div class="groupform-large">
+                <label class="required" for="title">Titre</label>
+                {{ articleForm.showMsg('title')|raw }}
+                <input class="padd-15" type="text" name="title" id="title" required placeholder="un titre"
+                       maxlength="255"
+                       value="{{ article.title }}"/>
+            </div>
+            <!--  publication_status -->
+            <div class="groupform-large">
+                <label class="required" for="publication_status">Statut de publication</label>
+                {{ articleForm.showMsg('publication_status')|raw }}
+                <select class="padd-15" name="publication_status" id="publication_status">
+                    <option value="brouillon" {{ article.publicationStatus == "brouillon" ?  "selected" : "" }}>
+                        Brouillon
+                    </option>
+                    <option value="publie" {{ article.publicationStatus == "publie" ?  "selected" : "" }}>
+                        Publié
+                    </option>
+                </select>
+            </div>
+            <!-- chapo -->
+            <div class="groupform-large">
+                <label class="required" for="chapo">Chapo</label>
+                {{ articleForm.showMsg('chapo')|raw }}
+                {{ article.publicationStatus == "brouillon" ?  "selected" : "" }}
+                <textarea class="padd-15" id="chapo" name="chapo" rows="5" placeholder="un chapo ..."
+                          required>{{ article.chapo }}</textarea>
+            </div>
+            <!-- content -->
+            <div class="groupform-large">
+                <label class="required" for="content">Contenu</label>
+                {{ articleForm.showMsg('content')|raw }}
+                <textarea class="padd-15" id="content" name="content" rows="10" placeholder="un contenu ..."
+                          required>{{ article.content }}</textarea>
+            </div>
+            <!-- submit -->
+            <div class="marg-15-top align-center">
+                <input class="padd-15" type="submit" value="valider" id="submit"/>
+                <input class="padd-15" type="reset" value="annuler" id="reset"/>
+            </div>
+        </div>
+    </form>
+    <script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace('content');
+    </script>
+{% endblock %}

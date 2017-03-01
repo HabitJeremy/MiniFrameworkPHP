@@ -7,12 +7,6 @@ use MagicMonkey\Framework\Database\DbConnection;
 use MagicMonkey\Framework\Database\Cleaner;
 use \PDO as PDO;
 
-/**
- * Created by PhpStorm.
- * User: Jeremy
- * Date: 24/02/2017
- * Time: 10:11
- */
 abstract class AbstractBd
 {
     protected $tableName;

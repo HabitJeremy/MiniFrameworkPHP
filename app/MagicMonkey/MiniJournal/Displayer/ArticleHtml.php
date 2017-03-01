@@ -1,6 +1,6 @@
 <?php
 
-namespace MagicMonkey\MiniJournal\Article;
+namespace MagicMonkey\MiniJournal\Displayer;
 
 use MagicMonkey\Framework\Inheritance\AbstractHtml;
 

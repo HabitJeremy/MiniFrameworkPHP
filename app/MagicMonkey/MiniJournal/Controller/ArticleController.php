@@ -1,14 +1,15 @@
 <?php
 
-namespace MagicMonkey\MiniJournal\Article;
+namespace MagicMonkey\MiniJournal\Controller;
 
 use MagicMonkey\Framework\HttpFoundation\Request;
 use MagicMonkey\Framework\HttpFoundation\Response;
 use MagicMonkey\Framework\Inheritance\AbstractController;
+use MagicMonkey\MiniJournal\RepositoryBd\ArticleBd;
+use MagicMonkey\MiniJournal\RepositoryForm\ArticleForm;
 
 class ArticleController extends AbstractController
 {
-
     public function __construct(Request $request, Response $response)
     {
         parent::__construct($request, $response);
@@ -16,13 +17,8 @@ class ArticleController extends AbstractController
 
     public function home()
     {
-        $title = "Tous les articles";
         $lstObjsArticles = (new ArticleBd())->selectAll();
-        $content = (new ArticleHtml())->listAll(
-            $lstObjsArticles,
-            'MagicMonkey/MiniJournal/Article/views/vAllArticles.html'
-        );
-        $this->response->setLstFragments(array("content" => $content, "title" => $title));
+        $this->render("Article/vAllArticles.html.twig", array("articles" => $lstObjsArticles));
     }
 
     public function update()
@@ -37,15 +33,11 @@ class ArticleController extends AbstractController
             $article = $articleBd->selectOne(array("id =" => (int)$this->request->getGet()['id']), false);
             if (empty($this->request->getPost())) { // s'il y a des données postées
                 if ($article) { // si l'article existe
-                    $title = "Modification d'un article";
-                    $this->response->setLstFragments(array(
-                        "content" => $articleForm->formNewUpdate(
-                            $title,
-                            "MagicMonkey/MiniJournal/Article/views/vFormNewUpdate.html",
-                            $article,
-                            "update&id=" . $article->getId()
-                        ),
-                        "title" => $title
+                    $this->render("Article/vFormNewUpdate.html.twig", array(
+                        "title" => "Modification d'un article",
+                        "article" => $article,
+                        "action" => "update&id=" . $article->getId(),
+                        "articleForm" => $articleForm
                     ));
                 } else { // s'il n'existe pas
                     $_SESSION['error'] = "L'article demandé n'existe pas";
@@ -60,20 +52,16 @@ class ArticleController extends AbstractController
                     header('Location: index.php?o=article&a=describe&id=' . $article->getId());
                     exit();
                 } else { // s'il y a au moins une erreur
-                    $title = "Modification d'un article";
                     $this->request->getPost()['id'] =
                     $this->request->getPost()['creation_date'] =
                     $this->request->getPost()["publication_date"] = null;
                     $tempArticle = $articleBd->mapp($this->request->getPost());
-                    $content = $articleForm->formNewUpdate(
-                        $title,
-                        "MagicMonkey/MiniJournal/Article/views/vFormNewUpdate.html",
-                        $tempArticle,
-                        "update&id=" . $article->getId()
-                    );
-                    $this->response->setLstFragments(array(
-                        "content" => $content,
-                        "title" => $title
+
+                    $this->render("Article/vFormNewUpdate.html.twig", array(
+                        "title" => "Modification d'un article",
+                        "article" => $tempArticle,
+                        "action" => "update&id=" . $article->getId(),
+                        "articleForm" => $articleForm
                     ));
                 }
             }
@@ -82,17 +70,13 @@ class ArticleController extends AbstractController
 
     public function insert()
     {
-        $title = "Saisir un article";
         $articleForm = new ArticleForm();
-        /* $articleHtml = new ArticleHtml();*/
         $articleBd = new ArticleBd();
         if (empty($this->request->getPost())) {
-            $this->response->setLstFragments(array(
-                "content" => $articleForm->formNewUpdate(
-                    "Ajout d'un article",
-                    "MagicMonkey/MiniJournal/Article/views/vFormNewUpdate.html"
-                ),
-                "title" => $title
+            $this->render("Article/vFormNewUpdate.html.twig", array(
+                "title" => "Ajout d'un article",
+                "action" => "insert",
+                "articleForm" => $articleForm
             ));
         } else {
             if ($articleForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
@@ -102,13 +86,11 @@ class ArticleController extends AbstractController
                 exit();
             } else { // s'il y a au moins une erreur
                 $article = $articleBd->mapp($this->request->getPost());
-                $this->response->setLstFragments(array(
-                    "content" => $articleForm->formNewUpdate(
-                        "Ajout d'un article",
-                        "MagicMonkey/MiniJournal/Article/views/vFormNewUpdate.html",
-                        $article
-                    ),
-                    "title" => $title
+                $this->render("Article/vFormNewUpdate.html.twig", array(
+                    "articleForm" => $articleForm,
+                    "title" => "Ajout d'un article",
+                    "article" => $article,
+                    "action" => "insert"
                 ));
             }
         }
@@ -118,7 +100,6 @@ class ArticleController extends AbstractController
     {
         $articleBd = new ArticleBd();
         $articleForm = new ArticleForm();
-        $title = "Liste des articles";
         $isEmptyGetId = empty($this->request->getGet()['id']);
         $isNotEmptyPostArticle = !empty($this->request->getPost()['article']);
         if (($isEmptyGetId && $isNotEmptyPostArticle) || !$isEmptyGetId) {
@@ -126,32 +107,32 @@ class ArticleController extends AbstractController
             $res = $articleBd->deleteOne($id);
             if (!$res && $isNotEmptyPostArticle) { //suppression par formulaire
                 $articleForm->setErrors(array("errorArticle" => "L'article doit être indiqué et doit existé"));
-                $this->response->setLstFragments(array(
-                    "content" => $articleForm->formSelectArticle($articleBd->selectAll()),
-                    "title" => $title
+                $this->render("Article/vFormSelect.html.twig", array(
+                    "articles" => $articleBd->selectAll(),
+                    "articleForm" => $articleForm,
+                    "action" => "delete"
                 ));
             } else {
                 if (!$res && !$isEmptyGetId) {
                     $_SESSION['error'] = "Une erreur est survenue lors de la suppression de
                        l'article ! Il se peut que l'article n'existe plus";
                 } else {
-                    /* $articleHtml->setSuccess("Suppression effectuée !");*/
                     $_SESSION['success'] = "Suppression effectuée !";
                 }
                 header('Location: index.php');
                 exit();
             }
         } else {
-            $this->response->setLstFragments(array(
-                "content" => $articleForm->formSelectArticle($articleBd->selectAll()),
-                "title" => "Choix d'un article"
+            $this->render("Article/vFormSelect.html.twig", array(
+                "articles" => $articleBd->selectAll(),
+                "articleForm" => $articleForm,
+                "action" => "delete"
             ));
         }
     }
 
     public function describe()
     {
-        $articleHtml = new ArticleHtml();
         if (!empty($this->request->getGet()["id"])) { /* id pas vide */
             $article = (new ArticleBd())->selectOne(array("id =" => (int)$this->request->getGet()['id']));
             if (!$article) { /* article inexistant */
@@ -159,13 +140,7 @@ class ArticleController extends AbstractController
                 header('Location: index.php');
                 exit();
             } else { /* article existe */
-                $this->response->setLstFragments(array(
-                    "content" => $articleHtml->showOne(
-                        $article,
-                        'MagicMonkey/MiniJournal/Article/views/vOneArticle.html'
-                    ),
-                    "title" => "Détails d'un article"
-                ));
+                $this->render("Article/vOneArticle.html.twig", array("data" => $article));
             }
         } else { /* id non renseigné */
             $_SESSION['error'] = "Aucun article demandé";

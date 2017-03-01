@@ -2,25 +2,36 @@
 
 namespace MagicMonkey\Framework\HttpFoundation;
 
-/**
- * Created by PhpStorm.
- * User: Jeremy
- * Date: 10/02/2017
- * Time: 11:07
- */
 class Response
 {
-
+    protected $template;
     protected $lstFragments;
 
-    public function __contstuct($lstFragments = array())
+    public function __contstuct($template = null, $lstFragments = array())
     {
+        $this->template = $template;
         $this->lstFragments = $lstFragments;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * @param mixed $template
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
     }
 
     public function addOneFragment($key, $value)
     {
-        if (array_key_exists($this->lstFragments, $key)) {
+        if (array_key_exists($key, $this->lstFragments)) {
             return false;
         } else {
             $this->lstFragments[$key] = $value;

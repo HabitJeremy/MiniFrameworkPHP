@@ -4,12 +4,6 @@ namespace MagicMonkey\Framework\Inheritance\Entity;
 
 use MagicMonkey\Framework\InterfaceRepository\EntityInterface;
 
-/**
- * Created by PhpStorm.
- * User: Jeremy
- * Date: 24/02/2017
- * Time: 10:11
- */
 abstract class AbstractEntity implements EntityInterface
 {
     protected $id;

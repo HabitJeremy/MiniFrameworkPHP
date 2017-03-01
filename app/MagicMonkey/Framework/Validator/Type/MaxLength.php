@@ -5,13 +5,6 @@ namespace MagicMonkey\Framework\Validator\Type;
 use MagicMonkey\Framework\Inheritance\AbstractValidator;
 use MagicMonkey\Framework\InterfaceRepository\ValidatorTypeInterface;
 
-/**
- * Created by PhpStorm.x
- * User: Jeremy
- * Date: 27/02/2017
- * Time: 10:56
- */
-
 class MaxLength extends AbstractValidator implements ValidatorTypeInterface
 {
     private $max;

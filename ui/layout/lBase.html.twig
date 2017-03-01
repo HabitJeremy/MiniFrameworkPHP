@@ -7,7 +7,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="Mini Framework PHP">
     <meta name="author" content="Habit Jérémy">
-    <title> {{ response.getOneFragment("title")|raw ?: "" }}</title>
+    <title>{% block title %}{% endblock %}</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="ui/css/libraries/normalize.min.css" type="text/css">
@@ -24,7 +24,9 @@
 <!--BODY START-->
 <main class="mw marg-auto padd-50-top-bottom padd-15-top-bottom-xs anim-zoom">
     {{ flashAll|raw ?: "" }}
-    {{ response.getOneFragment("content")|raw ?: "" }}
+    {#{{ response.getOneFragment("content")|raw ?: "" }}#}
+
+    {% block content %}{% endblock %}
 </main>
 
 <!--FOOTER START-->

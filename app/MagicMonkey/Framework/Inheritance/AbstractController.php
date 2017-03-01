@@ -5,12 +5,6 @@ namespace MagicMonkey\Framework\Inheritance;
 use MagicMonkey\Framework\HttpFoundation\Request;
 use MagicMonkey\Framework\HttpFoundation\Response;
 
-/**
- * Created by PhpStorm.
- * User: Jeremy
- * Date: 24/02/2017
- * Time: 10:11
- */
 abstract class AbstractController
 {
     protected $request;
@@ -29,5 +23,11 @@ abstract class AbstractController
         } else {
             throw new \Exception("Action {$action} non trouvée");
         }
+    }
+
+    public function render($template, $fragments)
+    {
+        $this->response->setTemplate($template);
+        $this->response->setLstFragments($fragments);
     }
 }

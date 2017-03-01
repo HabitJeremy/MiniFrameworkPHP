@@ -2,12 +2,6 @@
 
 namespace MagicMonkey\Framework\HttpFoundation;
 
-/**
- * Created by PhpStorm.
- * User: Jeremy
- * Date: 10/02/2017
- * Time: 11:10
- */
 class Request
 {
     private $post;
