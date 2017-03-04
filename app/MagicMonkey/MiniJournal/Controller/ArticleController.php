@@ -30,13 +30,13 @@ class ArticleController extends AbstractController
             header('Location: index.php');
             exit();
         } else {
-            $article = $articleBd->selectOne(array("id =" => (int)$this->request->getGet()['id']), false);
-            if (empty($this->request->getPost())) { // s'il n'y a pas de données postées
-                if ($article) { // si l'article existe
+            $articleForm->setArticle($articleBd->selectOne(array("id =" => (int)$this->request->getGet()['id']), false));
+            if (count($this->request->getPost()) == 0) { // s'il n'y a pas de données postées
+                if ($articleForm->getArticle()) { // si l'article existe
                     $this->render("article/vFormNewUpdate.html.twig", array(
                         "title" => "Modification d'un article",
-                        "article" => $article,
-                        "action" => "update&id=" . $article->getId(),
+                        "article" => $articleForm->getArticle(),
+                        "action" => "update&id=" . $articleForm->getArticle()->getId(),
                         "articleForm" => $articleForm
                     ));
                 } else { // s'il n'existe pas
@@ -47,20 +47,17 @@ class ArticleController extends AbstractController
             } else { // s'il y a des données postées
                 if ($articleForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
                     /* modification de l'article dans la bdd */
-                    $articleBd->update($this->request->getPost(), $article->getId());
+                    $articleBd->update($this->request->getPost(), $articleForm->getArticle()->getId());
                     $_SESSION['success'] = "Modification effectuée";
-                    header('Location: index.php?o=article&a=describe&id=' . $article->getId());
+                    header('Location: index.php?o=article&a=describe&id=' . $articleForm->getArticle()->getId());
                     exit();
                 } else { // s'il y a au moins une erreur
-                    $this->request->getPost()['id'] =
-                    $this->request->getPost()['creation_date'] =
-                    $this->request->getPost()["publication_date"] = null;
-                    $tempArticle = $articleBd->mapp($this->request->getPost());
-
+                    $this->request->addPostParam("id", $articleForm->getArticle()->getId());
+                    $articleForm->setArticle($articleBd->mapp($this->request->getPost()));
                     $this->render("article/vFormNewUpdate.html.twig", array(
                         "title" => "Modification d'un article",
-                        "article" => $tempArticle,
-                        "action" => "update&id=" . $article->getId(),
+                        "article" => $articleForm->getArticle(),
+                        "action" => "update&id=" . $articleForm->getArticle()->getId(),
                         "articleForm" => $articleForm
                     ));
                 }
@@ -72,7 +69,7 @@ class ArticleController extends AbstractController
     {
         $articleForm = new ArticleForm();
         $articleBd = new ArticleBd();
-        if (empty($this->request->getPost())) {
+        if (count($this->request->getPost()) == 0) {
             $this->render("article/vFormNewUpdate.html.twig", array(
                 "title" => "Ajout d'un article",
                 "action" => "insert",
@@ -85,11 +82,11 @@ class ArticleController extends AbstractController
                 header('Location: index.php');
                 exit();
             } else { // s'il y a au moins une erreur
-                $article = $articleBd->mapp($this->request->getPost());
+                $articleForm->setArticle($articleBd->mapp($this->request->getPost()));
                 $this->render("article/vFormNewUpdate.html.twig", array(
                     "articleForm" => $articleForm,
                     "title" => "Ajout d'un article",
-                    "article" => $article,
+                    "article" => $articleForm->getArticle(),
                     "action" => "insert"
                 ));
             }
@@ -100,8 +97,8 @@ class ArticleController extends AbstractController
     {
         $articleBd = new ArticleBd();
         $articleForm = new ArticleForm();
-        $isEmptyGetId = empty($this->request->getGet()['id']);
-        $isNotEmptyPostArticle = !empty($this->request->getPost()['article']);
+        $isEmptyGetId = !isset($this->request->getGet()['id']);
+        $isNotEmptyPostArticle = isset($this->request->getPost()['article']);
         if (($isEmptyGetId && $isNotEmptyPostArticle) || !$isEmptyGetId) {
             $id = $isEmptyGetId ? $this->request->getPost()['article'] : $this->request->getGet()['id'];
             $res = $articleBd->deleteOne($id);
@@ -133,7 +130,7 @@ class ArticleController extends AbstractController
 
     public function describe()
     {
-        if (!empty($this->request->getGet()["id"])) { /* id pas vide */
+        if (isset($this->request->getGet()["id"])) { /* id pas vide */
             $article = (new ArticleBd())->selectOne(array("id =" => (int)$this->request->getGet()['id']));
             if (!$article) { /* article inexistant */
                 $_SESSION['error'] = "L'article demandé n'existe pas";

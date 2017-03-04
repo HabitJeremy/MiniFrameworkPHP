@@ -39,11 +39,6 @@ class Request
         return $this->files[$key];
     }
 
-    /**
-     * @param $key : la clé à chercher dans POST
-     * @param $default : la valeur à renvoyer si $key n'existe pas
-     * @return null
-     */
     public function getPostParam($key, $default)
     {
         if (!isset($this->post[$key])) {
@@ -58,6 +53,12 @@ class Request
             return true;
         }
         return false;
+    }
+
+    public function removePostParam($key){
+        if(isset($this->post[$key])){
+            unset($this->post[$key]);
+        }
     }
 
     public function addFilesParam($key, $value){

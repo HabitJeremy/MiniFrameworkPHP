@@ -48,7 +48,6 @@
                 <div class="groupform-large">
                     <label class="required" for="chapo">Chapo</label>
                     {{ articleForm.showMsg('chapo')|raw }}
-                    {{ article.publicationStatus == "brouillon" ?  "selected" : "" }}
                     <textarea class="padd-15" id="chapo" name="chapo" rows="5" placeholder="un chapo ..."
                               required>{{ article.chapo }}</textarea>
                 </div>

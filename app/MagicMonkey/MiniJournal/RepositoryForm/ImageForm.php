@@ -6,6 +6,7 @@ use MagicMonkey\Framework\Inheritance\AbstractForm;
 use MagicMonkey\Framework\Validator\Type\MaxLength;
 use MagicMonkey\Framework\Validator\Type\NotBlank;
 use MagicMonkey\MiniJournal\Entity\Image;
+use MagicMonkey\Framework\Validator\Type\ImageFile;
 
 class ImageForm extends AbstractForm
 {
@@ -24,8 +25,7 @@ class ImageForm extends AbstractForm
             ->add('name', new MaxLength(255))
             ->add('attr_alt', new NotBlank())
             ->add('attr_alt', new MaxLength(255))
-            ->add('path', new MaxLength(255))
-            ->add('path', new NotBlank());
+            ->add('file', new ImageFile());
     }
 
     /**

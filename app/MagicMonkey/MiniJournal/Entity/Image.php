@@ -2,12 +2,11 @@
 
 namespace MagicMonkey\MiniJournal\Entity;
 
-use MagicMonkey\Framework\Inheritance\Entity\AbstractEntity;
+use MagicMonkey\Framework\Inheritance\Entity\Type\AbstractFileEntity;
 
-class Image extends AbstractEntity
+class Image extends AbstractFileEntity
 {
     private $name;
-    private $path;
     private $attrAlt;
 
     /**
@@ -19,9 +18,8 @@ class Image extends AbstractEntity
      */
     public function __construct($id = null, $name = null, $path = null, $attrAlt = null)
     {
-        parent::__construct($id);
+        parent::__construct($id, $path);
         $this->name = $name;
-        $this->path = $path;
         $this->attrAlt = $attrAlt;
     }
 
@@ -56,21 +54,4 @@ class Image extends AbstractEntity
     {
         $this->name = $name;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
-
-    /**
-     * @param mixed $path
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-    }
-
 }

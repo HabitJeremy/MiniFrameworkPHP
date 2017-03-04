@@ -10,7 +10,8 @@
     </div>
     <div class="row">
         <div class="cell-12">
-            <form class="form required" action="index.php?a={{ action }}&o=image" method="post" enctype="multipart/form-data">
+            <form class="form required" action="index.php?a={{ action }}&o=image" method="post"
+                  enctype="multipart/form-data">
                 <!-- name -->
                 <div class="groupform-large">
                     <label class="required" for="name">Nom</label>
@@ -21,17 +22,18 @@
                 </div>
                 <!-- attr_alt -->
                 <div class="groupform-large">
-                    <label class="required" for="attr_alt">Attribut alt</label>
+                    <label class="required" for="attr_alt">Description</label>
                     {{ imageForm.showMsg('attrAlt')|raw }}
-                    <input class="padd-15" type="text" name="attr_alt" id="attr_alt" required placeholder="Image de chien medor"
+                    <input class="padd-15" type="text" name="attr_alt" id="attr_alt" required
+                           placeholder="Image de chien medor"
                            maxlength="255"
                            value="{{ image.attrAlt }}"/>
                 </div>
                 <!-- image -->
                 <div class="groupform-large">
-                    <label class="required" for="image">Image</label>
-                    {{ imageForm.showMsg('image')|raw }}
-                    <input class="padd-15" type="file" name="image" id="image" required/>
+                    <label for="image">Image</label>
+                    {{ imageForm.showMsg('file')|raw }}
+                    <input class="padd-15" type="file" name="image" id="image" accept="image/*"/>
                 </div>
                 <!-- submit -->
                 <div class="groupform-actions">

@@ -25,6 +25,6 @@ class MinLength extends AbstractValidator implements ValidatorTypeInterface
 
     protected function setMessage()
     {
-        $this->message = "La valeur ne nécessite au moins ".$this->min." caractères";
+        $this->message = "La valeur nécessite au moins ".$this->min." caractères";
     }
 }

@@ -26,26 +26,31 @@ class ImageController extends AbstractController
     {
         $imageForm = new ImageForm();
         $imageeBd = new ImageBd();
-        if (empty($this->request->getPost())) {
+        if (count($this->request->getPost()) == 0) {
             $this->render("image/vFormNewUpdate.html.twig", array(
                 "title" => "Ajout d'une image",
                 "action" => "insert",
                 "imageForm" => $imageForm
             ));
         } else {
+            $file = $this->request->getFilesParam("image");
             $fm = new FileManager();
-            $this->request->addPostParam("path", $fm->upload($this->request->getFilesParam("image"), DIR_IMAGE));
+            $infoImg = $file['tmp_name'] ? getimagesize($file['tmp_name']) : false;
+            $this->request->addPostParam("file", array($file, $infoImg));
             if ($imageForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
+                $this->request->removePostParam('file');
+                /* upload */
+                $this->request->addPostParam("path", $fm->upload($file, DIR_IMAGE));
                 $imageeBd->add($this->request->getPost()); /* enregistrement du nouvel article dans la bdd */
                 $_SESSION['success'] = "Ajout effectué !";
                 header('Location: index.php?a=listAll&o=image');
                 exit();
             } else { // s'il y a au moins une erreur
-                $image = $imageeBd->mapp($this->request->getPost());
+                $imageForm->setImage($imageeBd->mapp($this->request->getPost()));
                 $this->render("image/vFormNewUpdate.html.twig", array(
-                    "iimageForm" => $imageForm,
+                    "imageForm" => $imageForm,
                     "title" => "Ajout d'une image",
-                    "image" => $image,
+                    "image" => $imageForm->getImage(),
                     "action" => "insert"
                 ));
             }
@@ -56,11 +61,11 @@ class ImageController extends AbstractController
     {
         $imageBd = new ImageBd();
         $imageForm = new ImageForm();
-        $isEmptyGetId = empty($this->request->getGet()['id']);
-        $isNotEmptyPostImage = !empty($this->request->getPost()['image']);
+        $isEmptyGetId = !isset($this->request->getGet()['id']);
+        $isNotEmptyPostImage = isset($this->request->getPost()['image']);
         if (($isEmptyGetId && $isNotEmptyPostImage) || !$isEmptyGetId) {
             $id = $isEmptyGetId ? $this->request->getPost()['image'] : $this->request->getGet()['id'];
-            $image = $imageBd->selectOne(array("id =" => (int)$id));
+            $imageForm->setImage($imageBd->selectOne(array("id =" => (int)$id)));
             $res = $imageBd->deleteOne($id);
             if (!$res && $isNotEmptyPostImage) { //suppression par formulaire
                 $imageForm->setErrors(array("errorImage" => "L'image doit être indiquée et doit existée"));
@@ -75,7 +80,7 @@ class ImageController extends AbstractController
                        l'image ! Il se peut que l'image n'existe plus";
                 } else {
                     $fm = new FileManager();
-                    $fm->deleteFile($image->getPath(), DIR_IMAGE);
+                    $fm->deleteFile($imageForm->getImage()->getPath(), DIR_IMAGE);
                     $_SESSION['success'] = "Suppression effectuée !";
                 }
                 header('Location: index.php?a=listAll&o=image');
@@ -92,7 +97,7 @@ class ImageController extends AbstractController
 
     public function describe()
     {
-        if (!empty($this->request->getGet()["id"])) { /* id pas vide */
+        if (isset($this->request->getGet()["id"])) { /* id présent */
             $image = (new ImageBd())->selectOne(array("id =" => (int)$this->request->getGet()['id']));
             if (!$image) { /* image inexistante */
                 $_SESSION['error'] = "L'image demandée n'existe pas";
@@ -112,18 +117,18 @@ class ImageController extends AbstractController
     {
         $imageBd = new ImageBd();
         $imageForm = new ImageForm();
-        if (empty($this->request->getGet()['id'])) {
+        if (!isset($this->request->getGet()['id'])) {
             $_SESSION['error'] = "Aucune image demandée";
             header('Location: index.php?o=image&a=listAll');
             exit();
         } else {
-            $image = $imageBd->selectOne(array("id =" => (int)$this->request->getGet()['id']), false);
-            if (empty($this->request->getPost())) { // s'il n'y a pas de données postées
-                if ($image) { // si l'image existe
+            $imageForm->setImage($imageBd->selectOne(array("id =" => (int)$this->request->getGet()['id']), false));
+            if (count($this->request->getPost()) == 0) { // s'il n'y a pas de données postées
+                if ($imageForm->getImage()) { // si l'image existe
                     $this->render("image/vFormNewUpdate.html.twig", array(
                         "title" => "Modification d'une image",
-                        "image" => $image,
-                        "action" => "update&o=image&id=" . $image->getId(),
+                        "image" => $imageForm->getImage(),
+                        "action" => "update&o=image&id=" . $imageForm->getImage()->getId(),
                         "imageForm" => $imageForm
                     ));
                 } else { // si elle n'existe pas
@@ -132,19 +137,37 @@ class ImageController extends AbstractController
                     exit();
                 }
             } else { // s'il y a des données postées
+                $file = $this->request->getFilesParam("image");
+                $fm = new FileManager();
+                $infoImg = $file['tmp_name'] ? getimagesize($file['tmp_name']) : true;
+                $this->request->addPostParam("file", array($file, $infoImg));
                 if ($imageForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
+                    /* si post file infoImg == true*/
+                    $test = $this->request->getPostParam('file', false);
+                    if (!is_array($test[1])) {
+                        /* pas besoin d'upload une nouvelle image */
+                        /* add post param 'path' avec l'ancienne valeur soit  $image->getPath()*/
+                        $this->request->addPostParam('path', $imageForm->getImage()->getPath());
+                    } else { /* sinon */
+                        /* et on upload */
+                        $this->request->addPostParam("path", $fm->upload($file, DIR_IMAGE));
+                        /* et on delete l'ancienne */
+                        $fm->deleteFile($imageForm->getImage()->getPath(), DIR_IMAGE);
+                    }
+                    /* on supprime le file post */
+                    $this->request->removePostParam('file');
                     /* modification de l'image dans la bdd */
-                    $imageBd->update($this->request->getPost(), $image->getId());
+                    $imageBd->update($this->request->getPost(), $imageForm->getImage()->getId());
                     $_SESSION['success'] = "Modification effectuée";
-                    header('Location: index.php?o=image&a=describe&id=' . $image->getId());
+                    header('Location: index.php?o=image&a=describe&id=' . $imageForm->getImage()->getId());
                     exit();
                 } else { // s'il y a au moins une erreur
-                    $this->request->getPost()['id'] = null;
-                    $tempImage = $imageBd->mapp($this->request->getPost());
+                    $this->request->addPostParam('id', $imageForm->getImage()->getId());
+                    $imageForm->setImage($imageBd->mapp($this->request->getPost()));
                     $this->render("image/vFormNewUpdate.html.twig", array(
                         "title" => "Modification d'une image",
-                        "image" => $tempImage,
-                        "action" => "update&o=image&id=" . $image->getId(),
+                        "image" => $imageForm->getImage(),
+                        "action" => "update&o=image&id=" . $imageForm->getImage()->getId(),
                         "imageForm" => $imageForm
                     ));
                 }
