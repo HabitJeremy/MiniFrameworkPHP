@@ -1,6 +1,6 @@
 <?php
 
-namespace MagicMonkey\Framework\Loader;
+namespace MagicMonkey\Framework\Tool\Loader;
 
 class Autoloader
 {

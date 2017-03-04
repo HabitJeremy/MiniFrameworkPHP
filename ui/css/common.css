@@ -1,0 +1,15 @@
+.ckeContent img {
+    max-width: 100%;
+    height: auto
+}
+
+.ckeContent {
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    -o-hyphens: auto;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    word-break: break-word;
+}

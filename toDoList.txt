@@ -1,10 +1,4 @@
-mapp2
-
-
-
 url rewrite
 documentation
 bien commenté
 bien reglementé => guide bonne pratiques de nommages :
-    empty supprimer
-interfaces ???

@@ -1,0 +1,33 @@
+{% extends "lBase.html.twig" %}
+
+{% block title %}Choisissez un image {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="cell-12">
+            <h1 class="align-center">Choisissez un image</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell-12">
+            <form class="form required" action="index.php?a={{ action }}&o=image" method="post" >
+                    <!--  image -->
+                    <div class="groupform-large">
+                        <label class="required" for="image">Image</label>
+                        {{ imageForm.showMsg('errorImage')|raw }}
+                        <select class="padd-15" name="image" id="image" required>
+                            {% if images is defined %}
+                                {% for image in images %}
+                                    <option value="{{ image.id }}">{{ image.name }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+                    <!-- submit -->
+                    <div class="groupform-actions">
+                        <input class="padd-15" type="submit" value="valider" id="submit"/>
+                    </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

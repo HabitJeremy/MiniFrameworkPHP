@@ -11,6 +11,7 @@ abstract class AbstractDocumentEntity extends AbstractEntity
     protected $creationDate;
     protected $publicationDate;
     protected $publicationStatus;
+
     protected function __construct($id, $title, $author, $creationDate, $publicationDate, $publicationStatus)
     {
         parent::__construct($id);

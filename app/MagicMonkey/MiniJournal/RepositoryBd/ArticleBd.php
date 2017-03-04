@@ -21,14 +21,7 @@ class ArticleBd extends AbstractBd
 
     public function mapp($arrayData, $insertData = false)
     {
-       /* if ($insertData) {
-            $this->cleaner->cleaningToInsert($arrayData);
-        } else {
-            $this->cleaner->cleaningToDisplay($arrayData);
-        }*/
-        /*  if(!$insertData){
-              $this->cleaner->cleaningToDisplay($arrayData);
-          }*/
+       /* $this->dataCleaning($arrayData, $insertData);*/
         return new Article(
             empty($arrayData['id']) ? null : $arrayData['id'],
             $arrayData['title'],
@@ -40,26 +33,6 @@ class ArticleBd extends AbstractBd
             empty($arrayData['publication_date']) ? null : $arrayData['publication_date']
         );
     }
-
-    /* Creation d'un objet Article */
-    /*public function mapp($arrayData, $nl2br = false)
-    {
-        if ($nl2br) {
-            $this->cleaner->cleaningToInsert($arrayData);
-        } else {
-            $this->cleaner->cleaningToDisplay($arrayData);
-        }
-        return new Article(
-            empty($arrayData['id']) ? null : $arrayData['id'],
-            $arrayData['title'],
-            $arrayData['author'],
-            $arrayData['chapo'],
-            $arrayData['content'],
-            $arrayData['publication_status'],
-            empty($arrayData['creation_date']) ? null : $arrayData['creation_date'],
-            empty($arrayData['publication_date']) ? null : $arrayData['publication_date']
-        );
-    }*/
 
     /* modification d'un article => return false si error sinon true */
     public function update($postedData, $id)

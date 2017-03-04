@@ -28,9 +28,4 @@ abstract class AbstractEntity implements EntityInterface
     {
         $this->id = $id;
     }
-
-    public function getAttr()
-    {
-        return get_object_vars($this);
-    }
 }

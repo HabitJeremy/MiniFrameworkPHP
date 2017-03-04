@@ -9,10 +9,7 @@ class NotNull extends AbstractValidator implements ValidatorTypeInterface
 {
     public function validate($value)
     {
-        if ($value === null) {
-            return false;
-        }
-        return true;
+        return $value ==! null;
     }
 
     protected function setMessage()

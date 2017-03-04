@@ -1,6 +1,6 @@
 <?php
 
-namespace MagicMonkey\Framework\Database;
+namespace MagicMonkey\Framework\Tool\Cleaner;
 
 class Cleaner
 {

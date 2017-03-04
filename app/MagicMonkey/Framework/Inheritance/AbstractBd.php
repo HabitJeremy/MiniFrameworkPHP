@@ -3,8 +3,8 @@
 namespace MagicMonkey\Framework\Inheritance;
 
 use \Exception;
-use MagicMonkey\Framework\Database\DbConnection;
-use MagicMonkey\Framework\Database\Cleaner;
+use MagicMonkey\Framework\Tool\Database\DbConnection;
+use MagicMonkey\Framework\Tool\Cleaner\Cleaner;
 use \PDO as PDO;
 
 abstract class AbstractBd
@@ -12,6 +12,8 @@ abstract class AbstractBd
     protected $tableName;
     protected $dbh;
     protected $cleaner;
+
+    abstract public function mapp($postedData);
 
     abstract public function add($postedData);
 
@@ -59,7 +61,7 @@ abstract class AbstractBd
             $stmt->execute($lstPrepare);
             $res = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($res) {
-               return $this->mapp($res, $nl2br);
+                return $this->mapp($res, $nl2br);
             } else {
                 return $res;
             }
@@ -118,53 +120,13 @@ abstract class AbstractBd
         return $stmt->execute($p);
     }
 
-    public function mapp2($arrayData, $nl2br = false)
-    {
-        $this->dataCleaning($arrayData, $nl2br);
-        return $this->dataMapping($arrayData);
-    }
-
-    private function dataMapping($arrayData)
-    {
-        $arrayData['id'] = empty($arrayData['id']) ? null : $arrayData['id'];
-        $class = 'MagicMonkey\\MiniJournal\\Article\\' . ucfirst($this->tableName);
-        /* @@@@ PB => namespace obligatoire ??? */
-        $newInstance = new $class();
-
-        $attrs = $newInstance->getAttr();
-        /* @@@@ PB => protected obigatoire */
-
-        foreach ($attrs as $attr => $value) {
-            $fieldParts = preg_split('/(?=[A-Z])/', $attr, -1, PREG_SPLIT_NO_EMPTY);
-            $attrSQL = "";
-            for ($i = 0; $i < count($fieldParts); $i++) {
-                if ($this->startsWithUpper($fieldParts[$i])) {
-                    $fieldParts[$i] = "_" . strtolower($fieldParts[$i]);
-                }
-                $attrSQL .= $fieldParts[$i];
-            }
-            $setterName = "set" . ucfirst($attr);
-            if (!empty($arrayData[$attrSQL])) {
-                $newInstance->$setterName($arrayData[$attrSQL]);
-            }
-        }
-
-        return $newInstance;
-    }
-
     /* Nettoyer les données avant insertion ou avant affichage */
-    private function dataCleaning(&$arrayData, $nl2br)
+    protected function dataCleaning(&$arrayData, $insertData)
     {
-        if ($nl2br) {
+        if ($insertData) {
             $this->cleaner->cleaningToInsert($arrayData);
         } else {
             $this->cleaner->cleaningToDisplay($arrayData);
         }
-    }
-
-    private function startsWithUpper($str)
-    {
-        $chr = mb_substr($str, 0, 1, "UTF-8");
-        return mb_strtolower($chr, "UTF-8") != $chr;
     }
 }

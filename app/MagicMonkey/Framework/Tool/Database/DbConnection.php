@@ -1,6 +1,6 @@
 <?php
 
-namespace MagicMonkey\Framework\Database;
+namespace MagicMonkey\Framework\Tool\Database;
 
 use \PDO as PDO;
 

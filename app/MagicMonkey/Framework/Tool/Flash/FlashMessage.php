@@ -1,6 +1,6 @@
 <?php
 
-namespace MagicMonkey\Framework\Flash;
+namespace MagicMonkey\Framework\Tool\Flash;
 
 class FlashMessage
 {

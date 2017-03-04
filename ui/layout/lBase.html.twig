@@ -7,14 +7,17 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="Mini Framework PHP">
     <meta name="author" content="Habit Jérémy">
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %} - Mini Framework</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="ui/css/libraries/normalize.min.css" type="text/css">
+    <link rel="stylesheet" href="ui/css/libraries/hover.css" type="text/css">
     <link rel="stylesheet" href="ui/css/libraries/MagicMonkeyCSS.min.css" type="text/css">
+    <link rel="stylesheet" href="ui/css/common.css" type="text/css">
+    {% block css %}{% endblock %}
 
     <!-- JS-->
-    <script src="vendor/ckeditor/ckeditor/ckeditor.js"></script>
+    {% block js %}{% endblock %}
 </head>
 <body>
 
@@ -22,11 +25,23 @@
 {% include 'lHeader.html.twig' %}
 
 <!--BODY START-->
-<main class="mw marg-auto padd-50-top-bottom padd-15-top-bottom-xs anim-zoom">
-    {{ flashAll|raw ?: "" }}
-    {#{{ response.getOneFragment("content")|raw ?: "" }}#}
-
-    {% block content %}{% endblock %}
+<main class="mw marg-auto padd-15-top-bottom-xs">
+    <div class="row-col-s">
+        <div class="cell-3 c4-l border-right border-right-clouds">
+            <div class="row">
+                <div class="cell-12 bg-clouds">
+                    {% include 'lRightAsideArticle.html.twig' %}
+                </div>
+                <div class="cell-12 bg-clouds">
+                    {% include 'lRightAsideImage.html.twig' %}
+                </div>
+            </div>
+        </div>
+        <div class="cell-9 c8-l anim-zoom">
+            {{ flashAll|raw ?: "" }}
+            {% block content %}{% endblock %}
+        </div>
+    </div>
 </main>
 
 <!--FOOTER START-->

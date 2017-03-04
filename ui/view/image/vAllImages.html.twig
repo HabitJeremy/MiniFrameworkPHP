@@ -1,0 +1,23 @@
+{% extends "lBase.html.twig" %}
+
+{% block title %}Toutes les images{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="cell-12">
+            <h1 class="align-center">Liste des images</h1>
+        </div>
+    </div>
+    <div class="row-col-s flex-vertical-center">
+        {% if images|length > 0 %}
+            {% for image in images %}
+                <a class="cell-3 color-yang padd-15 box-shad-2px align-center hvr-bob"
+                   href="index.php?o=image&a=describe&id={{ image.id }}">
+                    <img class="responsive-img" src="{{ constant('DIR_IMAGE') ~ constant('DS') ~ image.path }}" alt="{{ image.attrAlt }}"/>
+                </a>
+            {% endfor %}
+        {% else %}
+            <div class='cell-12'><p class='msg-warning'>Aucune image trouvée !</p></div>
+        {% endif %}
+    </div>
+{% endblock %}

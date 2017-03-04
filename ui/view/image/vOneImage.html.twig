@@ -1,0 +1,28 @@
+{% extends "lBase.html.twig" %}
+
+{% block title %}Détails d'une image{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="cell-12">
+            <h1 class="marg-0-bottom align-center">
+                <a href="index.php?o=image&a=describe&id={{ image.id }}"
+                   title="{{ image.name }}">{{ image.name }}</a>
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell-12 align-center">
+            <a class="color-orange marg-15-right" href="index.php?o=image&a=update&id={{ image.id }}"
+               title="Modifier cet image">Modifier</a>
+            <a class="color-error marg-15-right" href="index.php?o=image&a=delete&id={{ image.id }}"
+               title="Supprimer cet image">Supprimer</a>
+            <a href="index.php?a=listAll&o=image" title="Retour vers la liste des images">Retour</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell-12">
+            <img class="responsive-img" src="{{ constant("DIR_IMAGE") ~ constant("DS") ~ image.path}}" alt="{{ image.alt }}"/>
+        </div>
+    </div>
+{% endblock %}

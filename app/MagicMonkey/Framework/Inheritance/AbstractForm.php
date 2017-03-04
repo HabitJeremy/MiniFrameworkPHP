@@ -1,6 +1,7 @@
 <?php
 
 namespace MagicMonkey\Framework\Inheritance;
+
 use MagicMonkey\Framework\Validator\ValidatorManager;
 
 abstract class AbstractForm
@@ -34,23 +35,9 @@ abstract class AbstractForm
         return $res;
     }
 
-    /* show form new article */
-    public function formNewUpdate($h1, $htmlPath, $obj = null, $action = "insert")
-    {
-        $fullPath = APP_BASEFILE . DIRECTORY_SEPARATOR . $htmlPath;
-        if (!empty($obj)) {
-            $this->{$this->objectName} = $obj;
-        }
-        ob_start();
-        include $fullPath;
-        $content = ob_get_contents();
-        ob_end_clean();
-        return $content;
-    }
-
     public function validate($postedData)
     {
-        $this->validationOptions($postedData);
+        $this->validationOptions();
         $this->errors = $this->validatorManager->validate($postedData);
         if (count($this->errors) > 0) {
             return false;
@@ -79,6 +66,4 @@ abstract class AbstractForm
     {
         array_push($this->errors, $newItem);
     }
-
-
 }

@@ -15,6 +15,9 @@ class Router extends AbstractRouter
             case "article":
                 $this->controllerClassName = APP_OWNER . DS . APP_NAME . DS . "Controller" . DS . "ArticleController";
                 break;
+            case "image":
+                $this->controllerClassName = APP_OWNER . DS . APP_NAME . DS . "Controller" . DS . "ImageController";
+                break;
             default:
                 $this->controllerClassName = APP_OWNER . DS . APP_NAME . DS . "Controller" . DS . "ArticleController";
         }

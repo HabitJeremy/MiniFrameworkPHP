@@ -9,10 +9,7 @@ class NotBlank extends AbstractValidator implements ValidatorTypeInterface
 {
     public function validate($value)
     {
-        if ($value === "") {
-            return false;
-        }
-        return true;
+        return $value ==! "";
     }
 
     protected function setMessage()

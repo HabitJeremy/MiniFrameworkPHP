@@ -12,8 +12,7 @@ class Time extends AbstractValidator implements ValidatorTypeInterface
     {
         $p1 = '/^(0?\d|1\d|2[0-3]):[0-5]\d:[0-5]\d$/';
         $p2 = '/^(0?\d|1[0-2]):[0-5]\d\s(am|pm)$/i';
-        $res = preg_match($p1, $value) || preg_match($p2, $value);
-        return $res;
+        return preg_match($p1, $value) || preg_match($p2, $value);
     }
 
     protected function setMessage()

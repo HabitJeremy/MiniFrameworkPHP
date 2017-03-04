@@ -1,0 +1,33 @@
+{% extends "lBase.html.twig" %}
+
+{% block title %}Choisissez un article {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="cell-12">
+            <h1 class="align-center">Choisissez un article</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell-12">
+            <form class="form required" action="index.php?a={{ action }}" method="post">
+                    <!--  article -->
+                    <div class="groupform-large">
+                        <label class="required" for="article">Article </label>
+                        {{ articleForm.showMsg('errorArticle')|raw }}
+                        <select class="padd-15" name="article" id="article" required>
+                            {% if articles is defined %}
+                                {% for article in articles %}
+                                    <option value="{{ article.id }}">{{ article.title }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </div>
+                    <!-- submit -->
+                    <div class="groupform-actions">
+                        <input class="padd-15" type="submit" value="valider" id="submit"/>
+                    </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
