@@ -53,9 +53,9 @@ abstract class AbstractController
      * @param $template : le chemin de la vue à affichée
      * @param $fragments : les différentes données qui seront utilisées dans la vue
      */
-    public function render($template, $fragments)
+    public function render($template, $fragments = array())
     {
-        $this->response->setTemplate($template);
         $this->response->setLstFragments($fragments);
+        $this->response->setTemplate($template);
     }
 }

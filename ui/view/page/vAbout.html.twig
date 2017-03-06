@@ -1,0 +1,117 @@
+{% extends "lBase.html.twig" %}
+
+{% block title %}A propos{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="cell-12">
+            <h1 class="marg-0-bottom align-center">
+                A propos
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell-12 align-center">
+            <p class="msg-success">
+                <span class="txt-b">Lien : </span>
+                <a href="#" title="Vers la documentation auto-générée">Vers la documentation auto-générée</a>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell-12">
+            <h2>Fonctionnalités demandées</h2>
+            <ul>
+                <li>
+                    <span class="txt-b">architecture avec FrontController et contrôleurs de classe :</span>
+                    La classe <span class="txt-i">FrontController</span> est présente dans
+                    <span class="color-emerald">app/MagicMonkey/FrameWork/Controller</span>
+                </li>
+                <li>
+                    <span class="txt-b">utilisation de classes gérant la requête et la réponse :</span>
+                    Les classes <span class="txt-i">Request</span> et <span class="txt-i">Response</span> sont
+                    présentes dans <span class="color-emerald">app/MagicMonkey/FrameWork/HttpFoundation</span>
+                </li>
+                <li>
+                    <span class="txt-b">utilisation de la délégation pour les opérations en base de données et les
+                        affichages :</span> Voir les dossiers
+                    <span class="color-emerald">app/MagicMonkey/MiniJournal/RepositoryForm</span> et
+                    <span class="color-emerald">app/MagicMonkey/MiniJournal/RepositoryBd</span>
+                </li>
+                <li>
+                    <span class="txt-b">Gestion d'articles : création, modification, suppression, liste :</span>
+                    Voir la classe <span class="txt-i">ArticleController</span> présente dans
+                    <span class="color-emerald">app/MagicMonkey/MiniJournal/Controller</span>
+                </li>
+                <li>
+                    <span class="txt-b">Gestion d'images : création avec upload de fichier, modification, suppression,
+                        liste :</span>
+                    Voir la classe <span class="txt-i">ImageController</span> présente dans
+                    <span class="color-emerald">app/MagicMonkey/MiniJournal/Controller</span> ainsi que
+                    <span class="txt-i">FileManager</span> présente dans
+                    <span class="color-emerald">app/MagicMonkey/Framework/Tool/FileManager</span>
+                </li>
+                <li>
+                    <span class="txt-b">Nettoyage des données entrantes avec un objet Nettoyeur qui utilise une liste
+                        de nettoyeurs à mettre en oeuvre : </span> La classe <span class="txt-i">Cleaner</span> est
+                    présente dans <span class="color-emerald">app/MagicMonkey/Framework/Tool/Cleaner</span>.
+                    Un seul nettoyage avant l'insertion des données dans la bdd qui utilise la fonction trim
+                    (supprime les espaces (ou d'autres caractères) en début et fin de chaîne), strip_tags(supprime les
+                    balises HTML et PHP d'une chaîne) et nl2br(insère un retour à la ligne HTML à chaque nouvelle ligne)
+                    .
+                </li>
+                <li>
+                     <span class="txt-b">Validation des données du formulaire avec un objet Validateur qui prend une
+                         liste de validateurs et gère les messages d'erreur du formulaire :</span> Tout ce qui concerne
+                    la validation des données postées se trouve dans
+                    <span class="color-emerald">app/MagicMonkey/Framework/Validator</span>
+                </li>
+                <li>
+                     <span class="txt-b">Gestion des exceptions avec un affichage en "mode développement"
+                         ou non :</span> Le mode de développement est défini à l'aide d'une constante dans le fichier
+                    <span class="color-emerald">config/config.php</span> et les exceptions sont gérées grâce à un
+                    try/catch qui affiche donc les exceptions selon deux vues différentes
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell-12">
+            <h2>Compléments possibles</h2>
+            <span class="msg-success">Fonctionnalités ajoutées</span>
+            <span class="msg-error">Fonctionnalités non ajoutées</span>
+            <ul>
+                <li class="msg-success">
+                    Utilisation de CKeditor pour avoir un éditeur Wysiwyg pour le contenu des articles
+                </li>
+                <li class="msg-success">
+                    Intégrer un gestionnaire de templates (Twig ou autre) pour gérer les affichages. Dans ce cas, les
+                    classes *Html deviennent normalement inutiles.
+                </li>
+                <li class="msg-success">
+                    Avoir un design autre que noir & blanc pour le site...
+                </li>
+                <li class="msg-success">
+                    Avoir un site responsive.
+                </li>
+                <li class="msg-error">
+                    Avoir un gestionnaire d'upload pour les fichiers envoyés sur le serveur
+                </li>
+                <li class="msg-error">
+                    Avoir un fichier de configuration des routes du site et dans ce cas intégrer complètement le routeur
+                    dans le framework.
+                </li>
+                <li class="msg-error">
+                    Utiliser un uploader Javascript qui permet de faire un Drag'n'Drop de son fichier.
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell-12">
+            <h2>Évaluation</h2>
+            <p>PHP Code Sniffer exécuter sur le dossier <span class="color-emerald">app</span> et <span
+                        class="color-emerald">config</span> avec le standard PSR2</p>
+        </div>
+    </div>
+{% endblock %}

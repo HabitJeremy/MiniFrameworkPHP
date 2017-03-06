@@ -60,7 +60,7 @@ abstract class AbstractBd
             $stmt = $this->dbh->query($sql);
             if ($res = $stmt->fetchAll(PDO::FETCH_ASSOC)) {
                 foreach ($res as $row) {
-                    array_push($lstObjsArticle, $this->mapp($row, true));
+                    array_push($lstObjsArticle, $this->mapp($row));
                 }
                 return $lstObjsArticle;
             } else {
@@ -123,6 +123,7 @@ abstract class AbstractBd
      */
     public function saveOne($array)
     {
+        $this->cleaner->cleaningToInsert($array); // nettoyage des données
         $sql_value = "";
         $idisPresent = null;
         if (!array_key_exists('id', $array)) {
@@ -156,16 +157,4 @@ abstract class AbstractBd
         $stmt = $this->dbh->prepare($sql);
         return $stmt->execute($p);
     }
-
-    /* ### useless with twig ### */
-    /* Nettoyer les données avant insertion ou avant affichage */
-  /*  protected function dataCleaning(&$arrayData, $insertData)
-    {
-        if ($insertData) {
-            $this->cleaner->cleaningToInsert($arrayData);
-            $this->cleaner->cleaningToDisplay($arrayData);
-        } else {
-            $this->cleaner->cleaningToDisplay($arrayData);
-        }
-    }*/
 }

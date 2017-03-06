@@ -32,7 +32,6 @@ class ArticleBd extends AbstractBd
      */
     public function mapp($arrayData)
     {
-        /*$this->dataCleaning($arrayData, $insertData);*/
         return new Article(
             empty($arrayData['id']) ? null : $arrayData['id'],
             $arrayData['title'],

@@ -32,7 +32,6 @@ class ImageBd extends AbstractBd
      */
     public function mapp($arrayData)
     {
-        /* $this->dataCleaning($arrayData, $insertData);*/
         return new Image(
             empty($arrayData['id']) ? null : $arrayData['id'],
             $arrayData['name'],
@@ -56,7 +55,6 @@ class ImageBd extends AbstractBd
             return false;
         }
     }
-
 
     /**
      * Ajout d'une image => return false si error sinon true

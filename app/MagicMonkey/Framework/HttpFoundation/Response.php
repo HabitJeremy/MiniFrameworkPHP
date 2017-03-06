@@ -37,11 +37,14 @@ class Response
      */
     public function addOneFragment($key, $value)
     {
-        if (array_key_exists($key, $this->lstFragments)) {
-            return false;
-        } else {
-            $this->lstFragments[$key] = $value;
+        if (isset($this->lstFragments)) {
+            if (array_key_exists($key, $this->lstFragments)) {
+                return false;
+            } else {
+                $this->lstFragments[$key] = $value;
+            }
         }
+        return false;
     }
 
     /**
