@@ -39,6 +39,7 @@ try {
         ));
         $_SESSION['error'] = "Une erreur d'exécution s'est produite";
     }
+    header('HTTP/1.0 404 Not Found');
 }
 
 // ajout du gestionnaire des notifications

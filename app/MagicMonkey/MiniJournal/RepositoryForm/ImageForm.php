@@ -8,16 +8,30 @@ use MagicMonkey\Framework\Validator\Type\NotBlank;
 use MagicMonkey\MiniJournal\Entity\Image;
 use MagicMonkey\Framework\Validator\Type\ImageFile;
 
+/**
+ * Class ImageForm
+ * @package MagicMonkey\MiniJournal\RepositoryForm
+ */
 class ImageForm extends AbstractForm
 {
+    /**
+     * @var Image
+     */
     protected $image;
 
+    /**
+     * ImageForm constructor.
+     */
     public function __construct()
     {
         parent::__construct("image");
         $this->image = new Image();
     }
 
+    /**
+     * Permet de vérifier les données postées via un formulaire :
+     * ajout de différentes validations sur différents champ
+     */
     public function validationOptions()
     {
         $this->validatorManager

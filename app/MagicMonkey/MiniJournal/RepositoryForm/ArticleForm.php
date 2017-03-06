@@ -8,16 +8,30 @@ use MagicMonkey\Framework\Validator\Type\NotBlank;
 use MagicMonkey\Framework\Validator\Type\ValidValues;
 use MagicMonkey\MiniJournal\Entity\Article;
 
+/**
+ * Class ArticleForm
+ * @package MagicMonkey\MiniJournal\RepositoryForm
+ */
 class ArticleForm extends AbstractForm
 {
+    /**
+     * @var Article
+     */
     protected $article;
 
+    /**
+     * ArticleForm constructor.
+     */
     public function __construct()
     {
         parent::__construct("article");
         $this->article = new Article();
     }
 
+    /**
+     * Permet de vérifier les données postées via un formulaire :
+     * ajout de différentes validations sur différents champ
+     */
     public function validationOptions()
     {
         $this->validatorManager

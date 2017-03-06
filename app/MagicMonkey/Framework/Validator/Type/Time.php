@@ -2,12 +2,20 @@
 
 namespace MagicMonkey\Framework\Validator\Type;
 
-use DateTime;
 use MagicMonkey\Framework\Inheritance\AbstractValidator;
 use MagicMonkey\Framework\InterfaceRepository\ValidatorTypeInterface;
 
+/**
+ * Permet de valider une valeur en tant que temps
+ * Class Time
+ * @package MagicMonkey\Framework\Validator\Type
+ */
 class Time extends AbstractValidator implements ValidatorTypeInterface
 {
+    /**
+     * @param $value
+     * @return bool
+     */
     public function validate($value)
     {
         $p1 = '/^(0?\d|1\d|2[0-3]):[0-5]\d:[0-5]\d$/';

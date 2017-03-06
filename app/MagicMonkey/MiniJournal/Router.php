@@ -4,8 +4,15 @@ namespace MagicMonkey\MiniJournal;
 
 use MagicMonkey\Framework\Inheritance\AbstractRouter;
 
+/**
+ * Class Router
+ * @package MagicMonkey\MiniJournal
+ */
 class Router extends AbstractRouter
 {
+    /**
+     * @throws \Exception
+     */
     public function parseRequest()
     {
         // ici le code qui détermine le contrôleur de classe et l'action

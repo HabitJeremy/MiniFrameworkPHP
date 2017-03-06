@@ -7,11 +7,28 @@ use MagicMonkey\Framework\Tool\Database\DbConnection;
 use MagicMonkey\Framework\Tool\Cleaner\Cleaner;
 use \PDO as PDO;
 
+/***
+ * Classe abstraite permettant de définir des attributs et des functions de base pour les classe gérent les relations
+ * avec la BD
+ * Class AbstractBd
+ * @package MagicMonkey\Framework\Inheritance
+ */
 abstract class AbstractBd
 {
+    /**
+     * @var
+     */
     protected $tableName;
+    /**
+     * @var
+     */
     protected $dbh;
+    /**
+     * @var Cleaner
+     */
     protected $cleaner;
+
+    /* ### functions obligatoires pour les classes filles de celle-ci  */
 
     abstract public function mapp($postedData);
 
@@ -19,6 +36,11 @@ abstract class AbstractBd
 
     abstract public function update($postedData, $id);
 
+    /**
+     * Constructeur
+     * AbstractBd constructor.
+     * @param $tableName
+     */
     protected function __construct($tableName)
     {
         $this->cleaner = new Cleaner();
@@ -26,7 +48,10 @@ abstract class AbstractBd
         $this->dbh = DbConnection::getInstance()->getConnexion();
     }
 
-    /* Lire plusieurs enregistrements */
+    /**
+     * Permet de lire plusieurs enregistrements
+     * @return array|bool
+     */
     public function selectAll()
     {
         try {
@@ -46,8 +71,12 @@ abstract class AbstractBd
         }
     }
 
-    /* Lire un enregistrement */
-    public function selectOne(array $conditions, $nl2br = true)
+    /**
+     * Permet de lire un enregistrement
+     * @param array $conditions : conditions dans la clause SQL WHERE
+     * @return bool
+     */
+    public function selectOne(array $conditions)
     {
         try {
             $lstPrepare = array();
@@ -61,7 +90,7 @@ abstract class AbstractBd
             $stmt->execute($lstPrepare);
             $res = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($res) {
-                return $this->mapp($res, $nl2br);
+                return $this->mapp($res);
             } else {
                 return $res;
             }
@@ -70,7 +99,11 @@ abstract class AbstractBd
         }
     }
 
-    /* Supprimer d'un enregistrement => return false en cas d'erreurs sinon true */
+    /**
+     * Permet de upprimer d'un enregistrement => return false en cas d'erreurs sinon true
+     * @param $id : identifiant de l'objet
+     * @return bool
+     */
     public function deleteOne($id)
     {
         $res = false;
@@ -83,7 +116,11 @@ abstract class AbstractBd
         return $res;
     }
 
-    /* Ajouter/éditer un enregistrement */
+    /**
+     * Permet d'ajouter/éditer un enregistrement
+     * @param $array : données postées
+     * @return mixed
+     */
     public function saveOne($array)
     {
         $sql_value = "";
@@ -120,13 +157,15 @@ abstract class AbstractBd
         return $stmt->execute($p);
     }
 
+    /* ### useless with twig ### */
     /* Nettoyer les données avant insertion ou avant affichage */
-    protected function dataCleaning(&$arrayData, $insertData)
+  /*  protected function dataCleaning(&$arrayData, $insertData)
     {
         if ($insertData) {
             $this->cleaner->cleaningToInsert($arrayData);
+            $this->cleaner->cleaningToDisplay($arrayData);
         } else {
             $this->cleaner->cleaningToDisplay($arrayData);
         }
-    }
+    }*/
 }

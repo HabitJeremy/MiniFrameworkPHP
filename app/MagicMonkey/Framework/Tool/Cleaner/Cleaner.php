@@ -2,9 +2,15 @@
 
 namespace MagicMonkey\Framework\Tool\Cleaner;
 
+/**
+ * Class Cleaner
+ * @package MagicMonkey\Framework\Tool\Cleaner
+ */
 class Cleaner
 {
-
+    /**
+     * @param $array
+     */
     public function cleaningToInsert(&$array)
     {
         foreach ($array as $key => $value) {
@@ -12,7 +18,10 @@ class Cleaner
         }
     }
 
-    /* Nettoyage pour l'affichage */
+    /**
+     * Permet de nettoyer pour l'affichage
+     * @param $array
+     */
     public function cleaningToDisplay(&$array)
     {
         foreach ($array as $key => $value) {

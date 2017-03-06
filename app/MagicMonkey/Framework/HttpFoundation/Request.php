@@ -2,10 +2,24 @@
 
 namespace MagicMonkey\Framework\HttpFoundation;
 
+/**
+ * Gère les données envoyées au serveur
+ * Class Request
+ * @package MagicMonkey\Framework\HttpFoundation
+ */
 class Request
 {
+    /**
+     * @var
+     */
     private $post;
+    /**
+     * @var
+     */
     private $get;
+    /**
+     * @var
+     */
     private $files;
 
     /**
@@ -19,8 +33,9 @@ class Request
     }
 
     /**
+     * Retourne un élement du tableau $_GET
      * @param $key : la clé à chercher dans GET
-     * @param $default:  la valeur à renvoyer si $key n'existe pas
+     * @param $default :  la valeur à renvoyer si $key n'existe pas
      * @return null
      */
     public function getGetParam($key, $default = null)
@@ -31,6 +46,12 @@ class Request
         return $this->get[$key];
     }
 
+    /**
+     * Retourne un élément du tableau $_FILEs
+     * @param $key
+     * @param null $default
+     * @return null
+     */
     public function getFilesParam($key, $default = null)
     {
         if (!isset($this->files[$key])) {
@@ -39,6 +60,12 @@ class Request
         return $this->files[$key];
     }
 
+    /**
+     * Retourne un élément du tableau $_POST
+     * @param $key
+     * @param $default
+     * @return mixed
+     */
     public function getPostParam($key, $default)
     {
         if (!isset($this->post[$key])) {
@@ -47,27 +74,48 @@ class Request
         return $this->post[$key];
     }
 
-    public function addPostParam($key, $value){
-        if(!isset($this->post[$key])){
+    /**
+     * Permet d'ajouter un élément au tableau $_POST
+     * @param $key
+     * @param $value
+     * @return bool
+     */
+    public function addPostParam($key, $value)
+    {
+        if (!isset($this->post[$key])) {
             $this->post[$key] = $value;
             return true;
         }
         return false;
     }
 
-    public function removePostParam($key){
-        if(isset($this->post[$key])){
+    /**
+     * Permet de supprimer un élément du tableau $_POST
+     * @param $key
+     */
+    public function removePostParam($key)
+    {
+        if (isset($this->post[$key])) {
             unset($this->post[$key]);
         }
     }
 
-    public function addFilesParam($key, $value){
-        if(!isset($this->files[$key])){
+    /**
+     * Permet d'ajouter un élément au tableau $_FILES
+     * @param $key
+     * @param $value
+     * @return bool
+     */
+    public function addFilesParam($key, $value)
+    {
+        if (!isset($this->files[$key])) {
             $this->files[$key] = $value;
             return true;
         }
         return false;
     }
+
+    /* ### GETTERS & SETTERS ### */
 
     /**
      * @return mixed
@@ -85,7 +133,8 @@ class Request
         return $this->get;
     }
 
-    public function getFiles(){
+    public function getFiles()
+    {
         return $this->files;
     }
 
@@ -105,7 +154,11 @@ class Request
         $this->get = $get;
     }
 
-    public function setFiles($files){
+    /**
+     * @param $files
+     */
+    public function setFiles($files)
+    {
         $this->files = $files;
     }
 }

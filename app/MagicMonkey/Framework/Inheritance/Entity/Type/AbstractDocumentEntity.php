@@ -4,14 +4,45 @@ namespace MagicMonkey\Framework\Inheritance\Entity\Type;
 
 use MagicMonkey\Framework\Inheritance\Entity\AbstractEntity;
 
+/**
+ * Classe abstraite permettant de définir des functions et des attributs de base pour les classes "Entity"
+ * de type document
+ * Class AbstractDocumentEntity
+ * @package MagicMonkey\Framework\Inheritance\Entity\Type
+ */
 abstract class AbstractDocumentEntity extends AbstractEntity
 {
+    /**
+     * @var
+     */
     protected $title;
+    /**
+     * @var
+     */
     protected $author;
+    /**
+     * @var
+     */
     protected $creationDate;
+    /**
+     * @var
+     */
     protected $publicationDate;
+    /**
+     * @var
+     */
     protected $publicationStatus;
 
+    /**
+     * Constructor
+     * AbstractDocumentEntity constructor.
+     * @param $id
+     * @param $title
+     * @param $author
+     * @param $creationDate
+     * @param $publicationDate
+     * @param $publicationStatus
+     */
     protected function __construct($id, $title, $author, $creationDate, $publicationDate, $publicationStatus)
     {
         parent::__construct($id);
@@ -21,6 +52,8 @@ abstract class AbstractDocumentEntity extends AbstractEntity
         $this->publicationDate = $publicationDate;
         $this->publicationStatus = $publicationStatus;
     }
+
+    /* ### GETTERS & SETTERS ### */
 
     /**
      * @return mixed

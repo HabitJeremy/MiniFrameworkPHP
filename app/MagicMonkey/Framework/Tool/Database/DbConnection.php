@@ -14,7 +14,6 @@ class DbConnection
      * et être sûr qu'il n'y a qu'une et une seule instance
      */
 
-
     private static $instance;
 
     /**

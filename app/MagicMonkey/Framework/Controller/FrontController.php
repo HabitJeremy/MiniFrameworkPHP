@@ -7,6 +7,11 @@ use MagicMonkey\Framework\HttpFoundation\Response;
 use MagicMonkey\MiniJournal\Router;
 use MagicMonkey\Framework\Inheritance\AbstractController;
 
+/**
+ * Controlleur principal qui instancie la classe controlleur nécessaire selon les informations du router
+ * Class FrontController
+ * @package MagicMonkey\Framework\Controller
+ */
 class FrontController extends AbstractController
 {
     /**

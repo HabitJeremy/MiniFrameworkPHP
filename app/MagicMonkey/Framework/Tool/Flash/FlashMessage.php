@@ -2,6 +2,11 @@
 
 namespace MagicMonkey\Framework\Tool\Flash;
 
+/**
+ * Classe permettant de gérer des variables de sessions pour les notifications utilisateurs
+ * Class FlashMessage
+ * @package MagicMonkey\Framework\Tool\Flash
+ */
 class FlashMessage
 {
     /**
@@ -25,6 +30,10 @@ class FlashMessage
     }
 
     /* Permet d'afficher tout les messages flash (notifications) en une seule ligne dans la vue */
+    /**
+     * @param $array
+     * @return string
+     */
     public function all($array)
     {
         $res = "";
@@ -34,12 +43,15 @@ class FlashMessage
         return $res;
     }
 
-    /*
-        * Permet d'afficher la valeur d'une variable de session puis de la détruire
-        * Paramètres :
-            *- $name : nom de la variable de session
-            *- $input : détermine l'affichage de la variable de session
-       */
+    /**
+     * Permet d'afficher la valeur d'une variable de session puis de la détruire
+     * Paramètres :
+     *      - $name : nom de la variable de session
+     *      - $input : détermine l'affichage de la variable de session
+     * @param $name
+     * @param bool $input
+     * @return string
+     */
     public function one($name, $input = false)
     {
         $res = "";
@@ -57,8 +69,11 @@ class FlashMessage
         return $res;
     }
 
-
-    /* Retourne le "titre" en gras pour les messages flash */
+    /**
+     * Retourne le "titre" en gras pour les messages flash
+     * @param $class
+     * @return string
+     */
     private function getBoldText($class)
     {
         $boldText = "Notification";

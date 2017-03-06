@@ -4,14 +4,36 @@ namespace MagicMonkey\Framework\Inheritance;
 
 use MagicMonkey\Framework\Validator\ValidatorManager;
 
+/**
+ * Classe abstraite permettant de définir des fonctions et des attributs de base pour les classes de type "Form"
+ * Class AbstractForm
+ * @package MagicMonkey\Framework\Inheritance
+ */
 abstract class AbstractForm
 {
+    /**
+     * @var array
+     */
     protected $errors;
+    /**
+     * @var
+     */
     protected $objectName;
+    /**
+     * @var ValidatorManager
+     */
     protected $validatorManager;
 
+    /**
+     * @return mixed
+     */
     abstract protected function validationOptions();
 
+    /**
+     * Constructeur
+     * AbstractForm constructor.
+     * @param $objectName
+     */
     protected function __construct($objectName)
     {
         $this->errors = array();
@@ -19,7 +41,12 @@ abstract class AbstractForm
         $this->objectName = $objectName;
     }
 
-    /* Permet l'affichage des notifications/messages afin d'informer l'utilisateur */
+    /**
+     * Permet l'affichage des notifications/messages afin d'informer l'utilisateur
+     * @param $key
+     * @param bool $error
+     * @return string
+     */
     public function showMsg($key, $error = true)
     {
         $res = "";
@@ -35,6 +62,11 @@ abstract class AbstractForm
         return $res;
     }
 
+    /**
+     * Permet de valider un formulaire selon les configurations de validation d'un objet (dans <objet>Form)
+     * @param $postedData
+     * @return bool
+     */
     public function validate($postedData)
     {
         $this->validationOptions();
@@ -44,6 +76,17 @@ abstract class AbstractForm
         }
         return true;
     }
+
+    /**
+     * Permet d'ajouter une erreur dans le tableau erros
+     * @param $newItem
+     */
+    public function addErrors($newItem)
+    {
+        array_push($this->errors, $newItem);
+    }
+
+    /* ### GETTERS & SETTERS ### */
 
     /**
      * @return array
@@ -59,11 +102,5 @@ abstract class AbstractForm
     public function setErrors($errors)
     {
         $this->errors = $errors;
-    }
-
-    /* ajout d'une erreur dans l'array errors */
-    public function addErrors($newItem)
-    {
-        array_push($this->errors, $newItem);
     }
 }

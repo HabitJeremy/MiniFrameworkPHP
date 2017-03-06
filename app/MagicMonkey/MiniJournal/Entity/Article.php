@@ -4,9 +4,19 @@ namespace MagicMonkey\MiniJournal\Entity;
 
 use MagicMonkey\Framework\Inheritance\Entity\Type\AbstractDocumentEntity;
 
+/**
+ * Class Article
+ * @package MagicMonkey\MiniJournal\Entity
+ */
 class Article extends AbstractDocumentEntity
 {
+    /**
+     * @var null
+     */
     private $chapo;
+    /**
+     * @var null
+     */
     private $content;
 
     /**

@@ -2,6 +2,10 @@
 
 namespace MagicMonkey\Framework\Tool\Loader;
 
+/**
+ * Class Autoloader
+ * @package MagicMonkey\Framework\Tool\Loader
+ */
 class Autoloader
 {
     /**

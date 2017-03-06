@@ -6,11 +6,17 @@ use MagicMonkey\Framework\Inheritance\AbstractBd;
 use \Exception;
 use MagicMonkey\MiniJournal\Entity\Article;
 
+/**
+ * Class ArticleBd
+ * @package MagicMonkey\MiniJournal\RepositoryBd
+ */
 class ArticleBd extends AbstractBd
 {
+    /**
+     * constante = table name pour la classe abstraite abstractBd
+     */
     const TABLE_NAME = "article";
 
-    /* ### CONSTRUCTOR ### */
     /**
      * ArticleBD constructor.
      */
@@ -19,9 +25,14 @@ class ArticleBd extends AbstractBd
         parent::__construct(self::TABLE_NAME);
     }
 
-    public function mapp($arrayData, $insertData = false)
+    /**
+     * Permet d'instancier un objet Article
+     * @param $arrayData
+     * @return Article
+     */
+    public function mapp($arrayData)
     {
-       /* $this->dataCleaning($arrayData, $insertData);*/
+        /*$this->dataCleaning($arrayData, $insertData);*/
         return new Article(
             empty($arrayData['id']) ? null : $arrayData['id'],
             $arrayData['title'],
@@ -34,7 +45,12 @@ class ArticleBd extends AbstractBd
         );
     }
 
-    /* modification d'un article => return false si error sinon true */
+    /**
+     * Modification d'un article => return false si error sinon true
+     * @param $postedData
+     * @param $id
+     * @return bool|mixed
+     */
     public function update($postedData, $id)
     {
         try {
@@ -46,7 +62,11 @@ class ArticleBd extends AbstractBd
         }
     }
 
-    /* ajout d'un article => return false si error sinon true*/
+    /**
+     * Ajout d'un article => return false si error sinon true
+     * @param $postedData
+     * @return bool|mixed
+     */
     public function add($postedData)
     {
         try {
@@ -58,7 +78,10 @@ class ArticleBd extends AbstractBd
         }
     }
 
-    /* Manipulation spécifique des données postées (propre à Article) */
+    /**
+     * Manipulation spécifique des données postées (propre à Article)
+     * @param $postedData
+     */
     private function prepareSpecifics(&$postedData)
     {
         if ($postedData['publication_status'] == "publie") {

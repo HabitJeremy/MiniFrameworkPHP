@@ -4,16 +4,35 @@ namespace MagicMonkey\Framework\Validator;
 
 use MagicMonkey\Framework\InterfaceRepository\ValidatorTypeInterface;
 
+/**
+ * Gère les types de vaidateur et leur exécution
+ * Class ValidatorManager
+ * @package MagicMonkey\Framework\Validator
+ */
 class ValidatorManager
 {
+    /**
+     * @var array
+     */
     private $validatorsList = array();
 
+    /**
+     * Ajout d'une validation
+     * @param $propriete
+     * @param ValidatorTypeInterface $validator
+     * @return $this
+     */
     public function add($propriete, ValidatorTypeInterface $validator)
     {
         $this->validatorsList[] = [$propriete, $validator];
         return $this;
     }
 
+    /**
+     * Permet de valider des valeurs selon les validations demandée
+     * @param $postedData
+     * @return array
+     */
     public function validate($postedData)
     {
         $errors = array();

@@ -4,9 +4,19 @@ namespace MagicMonkey\MiniJournal\Entity;
 
 use MagicMonkey\Framework\Inheritance\Entity\Type\AbstractFileEntity;
 
+/**
+ * Class Image
+ * @package MagicMonkey\MiniJournal\Entity
+ */
 class Image extends AbstractFileEntity
 {
+    /**
+     * @var null
+     */
     private $name;
+    /**
+     * @var null
+     */
     private $attrAlt;
 
     /**

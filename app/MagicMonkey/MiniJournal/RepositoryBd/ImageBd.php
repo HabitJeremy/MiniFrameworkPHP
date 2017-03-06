@@ -6,11 +6,17 @@ use MagicMonkey\Framework\Inheritance\AbstractBd;
 use \Exception;
 use MagicMonkey\MiniJournal\Entity\Image;
 
+/**
+ * Class ImageBd
+ * @package MagicMonkey\MiniJournal\RepositoryBd
+ */
 class ImageBd extends AbstractBd
 {
+    /**
+     * constante = table name pour la classe abstraite abstractBd
+     */
     const TABLE_NAME = "image";
 
-    /* ### CONSTRUCTOR ### */
     /**
      * ArticleBD constructor.
      */
@@ -19,7 +25,12 @@ class ImageBd extends AbstractBd
         parent::__construct(self::TABLE_NAME);
     }
 
-    public function mapp($arrayData, $insertData = false)
+    /**
+     * Permet d'instancier un objet Image
+     * @param $arrayData
+     * @return Image
+     */
+    public function mapp($arrayData)
     {
         /* $this->dataCleaning($arrayData, $insertData);*/
         return new Image(
@@ -30,7 +41,12 @@ class ImageBd extends AbstractBd
         );
     }
 
-    /* modification d'une image => return false si error sinon true */
+    /**
+     * Modification d'une image => return false si error sinon true
+     * @param $postedData
+     * @param $id
+     * @return bool|mixed
+     */
     public function update($postedData, $id)
     {
         try {
@@ -41,7 +57,12 @@ class ImageBd extends AbstractBd
         }
     }
 
-    /* ajout d'une image => return false si error sinon true*/
+
+    /**
+     * Ajout d'une image => return false si error sinon true
+     * @param $postedData
+     * @return bool|mixed
+     */
     public function add($postedData)
     {
         try {

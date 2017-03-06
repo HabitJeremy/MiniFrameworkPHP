@@ -11,7 +11,7 @@
     <div class="row-col-s flex-vertical-center">
         {% if images|length > 0 %}
             {% for image in images %}
-                <a class="cell-3 color-yang padd-15 box-shad-2px align-center hvr-bob"
+                <a class="cell-3 c4-l c6-m color-yang padd-15 box-shad-2px align-center hvr-bob"
                    href="index.php?o=image&a=describe&id={{ image.id }}">
                     <img class="responsive-img" src="{{ constant('DIR_IMAGE') ~ constant('DS') ~ image.path }}" alt="{{ image.attrAlt }}"/>
                 </a>

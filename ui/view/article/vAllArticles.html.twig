@@ -11,7 +11,7 @@
     <div class="row-col-s">
             {% if articles|length > 0 %}
                 {% for article in articles %}
-                    <a class="cell-3 padd-15 box-shad-2px align-center hvr-bob"
+                    <a class="cell-4 c6-m padd-15 box-shad-2px align-center hvr-bob"
                        href="index.php?o=article&a=describe&id={{ article.id }}">{{ article.title }}</a>
                 {% endfor %}
             {% else %}

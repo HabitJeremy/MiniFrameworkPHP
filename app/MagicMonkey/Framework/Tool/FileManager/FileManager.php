@@ -2,9 +2,18 @@
 
 namespace MagicMonkey\Framework\Tool\FileManager;
 
+/**
+ * Class FileManager
+ * @package MagicMonkey\Framework\Tool\FileManager
+ */
 class FileManager
 {
-    /* Permet d'uploader un fichier */
+    /**
+     * Permet d'uploader un fichier
+     * @param $file
+     * @param $targetDir
+     * @return string
+     */
     public function upload($file, $targetDir)
     {
         if ($targetDir != "" && $file != null) {
@@ -25,16 +34,23 @@ class FileManager
         return "";
     }
 
-    /* Détermine si un fichier est "uploadé" ou non */
+    /**
+     * Détermine si un fichier est "uploadé" ou non
+     * @param $file
+     * @return bool
+     */
     public function isUploaded($file)
     {
         return file_exists($file['tmp_name']) && is_uploaded_file($file['tmp_name']);
     }
 
-    /* Permet de supprimer un fichier */
+    /**
+     * Permet de supprimer un fichier
+     * @param $filePath
+     * @param $targetDir
+     */
     public function deleteFile($filePath, $targetDir)
     {
         unlink($targetDir . DS . $filePath);
     }
-
 }
