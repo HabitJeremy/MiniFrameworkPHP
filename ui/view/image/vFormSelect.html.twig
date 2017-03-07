@@ -16,6 +16,7 @@
                         <label class="required" for="image">Image</label>
                         {{ imageForm.showMsg('errorImage')|raw }}
                         <select class="padd-15" name="image" id="image" required>
+                            <option value="" disabled selected>Choisir un article</option>
                             {% if images is defined %}
                                 {% for image in images %}
                                     <option value="{{ image.id }}">{{ image.name }}</option>

@@ -110,8 +110,17 @@
     <div class="row">
         <div class="cell-12">
             <h2>Évaluation</h2>
-            <p>PHP Code Sniffer exécuter sur le dossier <span class="color-emerald">app</span> et <span
-                        class="color-emerald">config</span> avec le standard PSR2</p>
+            <ul>
+                <li>
+                    PHP Code Sniffer exécuter sur le dossier <span class="color-emerald">app</span> et <span
+                            class="color-emerald">config</span> avec le standard PSR2
+                </li>
+                <li>
+                    W3C Validator html ok sauf sur les pages avec des images :
+                    Erreur lié à l'utilisation de la constante DIRECTORY_SEPARATOR pour l'attribut "src" ...
+                    cependant les images sont correctement affichées
+                </li>
+            </ul>
         </div>
     </div>
 {% endblock %}

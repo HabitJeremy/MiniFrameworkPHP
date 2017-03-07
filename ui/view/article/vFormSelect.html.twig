@@ -16,6 +16,7 @@
                         <label class="required" for="article">Article </label>
                         {{ articleForm.showMsg('errorArticle')|raw }}
                         <select class="padd-15" name="article" id="article" required>
+                            <option value="" disabled selected>Choisir un article</option>
                             {% if articles is defined %}
                                 {% for article in articles %}
                                     <option value="{{ article.id }}">{{ article.title }}</option>
