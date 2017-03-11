@@ -2,6 +2,14 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+ {% block css %}
+     <link rel="stylesheet" href="ui/css/myDropzone.css" type="text/css">
+ {% endblock %}
+
+ {% block js %}
+     <script src="ui/js/myDropzone.js" type="text/javascript"></script>
+ {% endblock %}
+
 {% block content %}
     <div class="row">
         <div class="cell-12">
@@ -30,11 +38,25 @@
                            value="{{ image.attrAlt }}"/>
                 </div>
                 <!-- image -->
+                {#  <div class="groupform-large">
+                      <label for="image">Image</label>
+                      {{ imageForm.showMsg('file')|raw }}
+                      <input class="padd-15" type="file" name="image" id="image" accept="image/*"/>
+                  </div>#}
+
                 <div class="groupform-large">
                     <label for="image">Image</label>
                     {{ imageForm.showMsg('file')|raw }}
-                    <input class="padd-15" type="file" name="image" id="image" accept="image/*"/>
+
+                    <div class="file-area ">
+                        <input type="file" name="image" id="image" accept="image/*"/>
+                        <div class="file-dummy">
+                            <span id="defaultTxt">Choisissez un fichier</span>
+                            <img id="imgPreview" class="responsive-img dis-none" src="" alt=""/>
+                        </div>
+                    </div>
                 </div>
+
                 <!-- submit -->
                 <div class="groupform-actions">
                     <input class="padd-15" type="submit" value="valider" id="submit"/>

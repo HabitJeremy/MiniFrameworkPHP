@@ -1,4 +1,0 @@
-url rewrite
-documentation
-bien commenté
-bien reglementé => guide bonne pratiques de nommages :

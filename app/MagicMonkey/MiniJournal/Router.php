@@ -38,7 +38,7 @@ class Router extends AbstractRouter
         }
 
         // regarder si une action est demandée dans l'URL
-        // si le paramètre 'a' n'existe pas alors l'action sera 'defaultAction'
+        // si le paramètre 'a' n'existe pas alors l'action sera 'homeAction'
         $this->controllerAction = $this->request->getGetParam('a', 'home');
 
         // tester si l'action existe bien. Si non lancer une Exception
