@@ -2,10 +2,13 @@
 
 namespace MagicMonkey\MiniJournal\RepositoryForm;
 
+use MagicMonkey\Framework\Cleaner\CleanerList\Nl2br;
+use MagicMonkey\Framework\Cleaner\CleanerList\StripTags;
+use MagicMonkey\Framework\Cleaner\CleanerList\Trim;
 use MagicMonkey\Framework\Inheritance\AbstractForm;
-use MagicMonkey\Framework\Validator\Type\MaxLength;
-use MagicMonkey\Framework\Validator\Type\NotBlank;
-use MagicMonkey\Framework\Validator\Type\ValidValues;
+use MagicMonkey\Framework\Validator\ValidatorList\MaxLength;
+use MagicMonkey\Framework\Validator\ValidatorList\NotBlank;
+use MagicMonkey\Framework\Validator\ValidatorList\ValidValues;
 use MagicMonkey\MiniJournal\Entity\Article;
 
 /**
@@ -30,7 +33,7 @@ class ArticleForm extends AbstractForm
 
     /**
      * Permet de vérifier les données postées via un formulaire :
-     * ajout de différentes validations sur différents champ
+     * ajout de différentes validations sur différents champs
      */
     public function validationOptions()
     {
@@ -43,6 +46,24 @@ class ArticleForm extends AbstractForm
             ->add('chapo', new NotBlank())
             ->add('publication_status', new NotBlank())
             ->add('publication_status', new ValidValues(array("brouillon", "publie")));
+    }
+
+    public function cleaningOptions()
+    {
+        $this->cleanerManager
+            ->add('author', new StripTags())
+            ->add('author', new Trim())
+            ->add('author', new Nl2br())
+            ->add('title', new StripTags())
+            ->add('title', new Trim())
+            ->add('title', new Nl2br())
+            ->add('publication_status', new StripTags())
+            ->add('publication_status', new Trim())
+            ->add('publication_status', new Nl2br())
+            ->add('chapo', new StripTags())
+            ->add('chapo', new Trim())
+            ->add('chapo', new Nl2br())
+            ->add('content', new Trim());
     }
 
     /**

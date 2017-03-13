@@ -2,6 +2,7 @@
 
 namespace MagicMonkey\Framework\Inheritance;
 
+use MagicMonkey\Framework\Cleaner\CleanerManager;
 use MagicMonkey\Framework\Validator\ValidatorManager;
 
 /**
@@ -24,10 +25,14 @@ abstract class AbstractForm
      */
     protected $validatorManager;
 
+    protected $cleanerManager;
+
     /**
      * @return mixed
      */
     abstract protected function validationOptions();
+
+    abstract public function cleaningOptions();
 
     /**
      * Constructeur
@@ -37,6 +42,7 @@ abstract class AbstractForm
     protected function __construct($objectName)
     {
         $this->errors = array();
+        $this->cleanerManager = new CleanerManager();
         $this->validatorManager = new ValidatorManager();
         $this->objectName = $objectName;
     }
@@ -75,6 +81,12 @@ abstract class AbstractForm
             return false;
         }
         return true;
+    }
+
+    public function clean(&$postedData)
+    {
+        $this->cleaningOptions();
+        $this->cleanerManager->clean($postedData);
     }
 
     /**

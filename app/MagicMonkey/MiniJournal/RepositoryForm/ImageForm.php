@@ -2,11 +2,14 @@
 
 namespace MagicMonkey\MiniJournal\RepositoryForm;
 
+use MagicMonkey\Framework\Cleaner\CleanerList\Nl2br;
+use MagicMonkey\Framework\Cleaner\CleanerList\StripTags;
+use MagicMonkey\Framework\Cleaner\CleanerList\Trim;
 use MagicMonkey\Framework\Inheritance\AbstractForm;
-use MagicMonkey\Framework\Validator\Type\MaxLength;
-use MagicMonkey\Framework\Validator\Type\NotBlank;
+use MagicMonkey\Framework\Validator\ValidatorList\MaxLength;
+use MagicMonkey\Framework\Validator\ValidatorList\NotBlank;
 use MagicMonkey\MiniJournal\Entity\Image;
-use MagicMonkey\Framework\Validator\Type\ImageFile;
+use MagicMonkey\Framework\Validator\ValidatorList\ImageFile;
 
 /**
  * Class ImageForm
@@ -30,7 +33,7 @@ class ImageForm extends AbstractForm
 
     /**
      * Permet de vérifier les données postées via un formulaire :
-     * ajout de différentes validations sur différents champ
+     * ajout de différentes validations sur différents champs
      */
     public function validationOptions()
     {
@@ -40,6 +43,20 @@ class ImageForm extends AbstractForm
             ->add('attr_alt', new NotBlank())
             ->add('attr_alt', new MaxLength(255))
             ->add('file', new ImageFile());
+    }
+
+    public function cleaningOptions()
+    {
+        $this->cleanerManager
+            ->add('name', new StripTags())
+            ->add('name', new Trim())
+            ->add('name', new Nl2br())
+            ->add('path', new StripTags())
+            ->add('path', new Trim())
+            ->add('path', new Nl2br())
+            ->add('attr_alt', new StripTags())
+            ->add('attr_alt', new Trim())
+            ->add('attr_alt', new Nl2br());
     }
 
     /**

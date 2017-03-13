@@ -5,7 +5,6 @@ window.addEventListener("load", function () {
             // obtention des données chargées et rendu de l'aperçu
             $imgPreview = document.getElementById("imgPreview");
             $imgPreview.style.display = "inline-block";
-            console.log(e.target.result);
             $imgPreview.src = e.target.result;
         };
         // Suppresson du texte par défaut

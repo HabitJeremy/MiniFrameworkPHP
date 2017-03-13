@@ -65,9 +65,11 @@ class ArticleController extends AbstractController
                     exit();
                 }
             } else { // s'il y a des données postées
-                if ($articleForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
+                $postedData = $this->request->getPost();
+                if ($articleForm->validate($postedData)) { // verif du formulaire : si aucune erreur
+                    $articleForm->clean($postedData);
                     /* modification de l'article dans la bdd */
-                    $articleBd->update($this->request->getPost(), $articleForm->getArticle()->getId());
+                    $articleBd->update($postedData, $articleForm->getArticle()->getId());
                     $_SESSION['success'] = "Modification effectuée";
                     header('Location: index.php?o=article&a=describe&id=' . $articleForm->getArticle()->getId());
                     exit();
@@ -100,8 +102,10 @@ class ArticleController extends AbstractController
                 "articleForm" => $articleForm
             ));
         } else {
-            if ($articleForm->validate($this->request->getPost())) { // verif du formulaire : si aucune erreur
-                $articleBd->add($this->request->getPost()); /* enregistrement du nouvel article dans la bdd */
+            $postedData = $this->request->getPost();
+            if ($articleForm->validate($postedData)) { // verif du formulaire : si aucune erreur
+                $articleForm->clean($postedData);
+                $articleBd->add($postedData); /* enregistrement du nouvel article dans la bdd */
                 $_SESSION['success'] = "Ajout effectué !"; // et redirection vers l'accueil
                 header('Location: index.php');
                 exit();

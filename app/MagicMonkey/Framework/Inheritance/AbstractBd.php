@@ -4,7 +4,6 @@ namespace MagicMonkey\Framework\Inheritance;
 
 use \Exception;
 use MagicMonkey\Framework\Tool\Database\DbConnection;
-use MagicMonkey\Framework\Tool\Cleaner\Cleaner;
 use \PDO as PDO;
 
 /***
@@ -23,10 +22,6 @@ abstract class AbstractBd
      * @var
      */
     protected $dbh;
-    /**
-     * @var Cleaner
-     */
-    protected $cleaner;
 
     /* ### functions obligatoires pour les classes filles de celle-ci  */
 
@@ -43,7 +38,6 @@ abstract class AbstractBd
      */
     protected function __construct($tableName)
     {
-        $this->cleaner = new Cleaner();
         $this->tableName = $tableName;
         $this->dbh = DbConnection::getInstance()->getConnexion();
     }
@@ -123,7 +117,6 @@ abstract class AbstractBd
      */
     public function saveOne($array)
     {
-        $this->cleaner->cleaningToInsert($array); // nettoyage des données
         $sql_value = "";
         $idisPresent = null;
         if (!array_key_exists('id', $array)) {

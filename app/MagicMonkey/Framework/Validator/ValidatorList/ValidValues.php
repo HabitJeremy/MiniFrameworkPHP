@@ -1,6 +1,6 @@
 <?php
 
-namespace MagicMonkey\Framework\Validator\Type;
+namespace MagicMonkey\Framework\Validator\ValidatorList;
 
 use MagicMonkey\Framework\Inheritance\AbstractValidator;
 use MagicMonkey\Framework\InterfaceRepository\ValidatorTypeInterface;
@@ -8,7 +8,7 @@ use MagicMonkey\Framework\InterfaceRepository\ValidatorTypeInterface;
 /**
  * Permet de valider une valeur selon une liste de valeurs données
  * Class ValidValues
- * @package MagicMonkey\Framework\Validator\Type
+ * @package MagicMonkey\Framework\Validator\ValidatorList
  */
 class ValidValues extends AbstractValidator implements ValidatorTypeInterface
 {

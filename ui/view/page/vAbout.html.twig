@@ -12,7 +12,7 @@
     </div>
     <div class="row">
         <div class="cell-12 align-center">
-            <p class="msg-success">
+            <p class="msg-info">
                 <span class="txt-b">Lien : </span>
                 <a href="#" title="Vers la documentation auto-générée">Vers la documentation auto-générée</a>
             </p>
@@ -21,29 +21,29 @@
     <div class="row">
         <div class="cell-12">
             <h2>Fonctionnalités demandées</h2>
-            <ul>
-                <li>
+            <ul class="txt-over-breakline">
+                <li class="marg-15-bottom">
                     <span class="txt-b">architecture avec FrontController et contrôleurs de classe :</span>
                     La classe <span class="txt-i">FrontController</span> est présente dans
                     <span class="color-emerald">app/MagicMonkey/FrameWork/Controller</span>
                 </li>
-                <li>
+                <li class="marg-15-bottom">
                     <span class="txt-b">utilisation de classes gérant la requête et la réponse :</span>
                     Les classes <span class="txt-i">Request</span> et <span class="txt-i">Response</span> sont
                     présentes dans <span class="color-emerald">app/MagicMonkey/FrameWork/HttpFoundation</span>
                 </li>
-                <li>
+                <li class="marg-15-bottom">
                     <span class="txt-b">utilisation de la délégation pour les opérations en base de données et les
                         affichages :</span> Voir les dossiers
                     <span class="color-emerald">app/MagicMonkey/MiniJournal/RepositoryForm</span> et
                     <span class="color-emerald">app/MagicMonkey/MiniJournal/RepositoryBd</span>
                 </li>
-                <li>
+                <li class="marg-15-bottom">
                     <span class="txt-b">Gestion d'articles : création, modification, suppression, liste :</span>
                     Voir la classe <span class="txt-i">ArticleController</span> présente dans
                     <span class="color-emerald">app/MagicMonkey/MiniJournal/Controller</span>
                 </li>
-                <li>
+                <li class="marg-15-bottom">
                     <span class="txt-b">Gestion d'images : création avec upload de fichier, modification, suppression,
                         liste :</span>
                     Voir la classe <span class="txt-i">ImageController</span> présente dans
@@ -51,16 +51,12 @@
                     <span class="txt-i">FileManager</span> présente dans
                     <span class="color-emerald">app/MagicMonkey/Framework/Tool/FileManager</span>
                 </li>
-                <li>
+                <li class="marg-15-bottom">
                     <span class="txt-b">Nettoyage des données entrantes avec un objet Nettoyeur qui utilise une liste
-                        de nettoyeurs à mettre en oeuvre : </span> La classe <span class="txt-i">Cleaner</span> est
-                    présente dans <span class="color-emerald">app/MagicMonkey/Framework/Tool/Cleaner</span>.
-                    Un seul nettoyage avant l'insertion des données dans la bdd qui utilise la fonction trim
-                    (supprime les espaces (ou d'autres caractères) en début et fin de chaîne), strip_tags(supprime les
-                    balises HTML et PHP d'une chaîne) et nl2br(insère un retour à la ligne HTML à chaque nouvelle ligne)
-                    .
+                        de nettoyeurs à mettre en oeuvre : </span>Tout ce qui concerne le nettoyage des données postées
+                    se trouve dans <span class="color-emerald">app/MagicMonkey/Framework/Cleaner</span>
                 </li>
-                <li>
+                <li class="marg-15-bottom">
                      <span class="txt-b">Validation des données du formulaire avec un objet Validateur qui prend une
                          liste de validateurs et gère les messages d'erreur du formulaire :</span> Tout ce qui concerne
                     la validation des données postées se trouve dans
@@ -81,28 +77,28 @@
             <span class="msg-success">Fonctionnalités ajoutées</span>
             <span class="msg-error">Fonctionnalités non ajoutées</span>
             <ul>
-                <li class="msg-success">
+                <li class="msg-success marg-15-bottom">
                     Utilisation de CKeditor pour avoir un éditeur Wysiwyg pour le contenu des articles
                 </li>
-                <li class="msg-success">
+                <li class="msg-success marg-15-bottom">
                     Intégrer un gestionnaire de templates (Twig ou autre) pour gérer les affichages. Dans ce cas, les
                     classes *Html deviennent normalement inutiles.
                 </li>
-                <li class="msg-success">
+                <li class="msg-success marg-15-bottom">
                     Avoir un design autre que noir & blanc pour le site...
                 </li>
-                <li class="msg-success">
+                <li class="msg-success marg-15-bottom">
                     Avoir un site responsive.
                 </li>
-                <li class="msg-success">
+                <li class="msg-success marg-15-bottom">
                     Avoir un gestionnaire d'upload pour les fichiers envoyés sur le serveur
                 </li>
-                <li class="msg-error">
+                <li class="msg-success marg-15-bottom">
+                    Utiliser un uploader Javascript qui permet de faire un Drag'n'Drop de son fichier.
+                </li>
+                <li class="msg-success">
                     Avoir un fichier de configuration des routes du site et dans ce cas intégrer complètement le routeur
                     dans le framework.
-                </li>
-                <li class="msg-error">
-                    Utiliser un uploader Javascript qui permet de faire un Drag'n'Drop de son fichier.
                 </li>
             </ul>
         </div>
@@ -116,9 +112,7 @@
                             class="color-emerald">config</span> avec le standard PSR2
                 </li>
                 <li>
-                    W3C Validator html ok sauf sur les pages avec des images :
-                    Erreur lié à l'utilisation de la constante DIRECTORY_SEPARATOR pour l'attribut "src" ...
-                    cependant les images sont correctement affichées
+                    W3C Validator html normalement ok
                 </li>
             </ul>
         </div>

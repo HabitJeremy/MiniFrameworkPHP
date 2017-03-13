@@ -5,7 +5,7 @@ namespace MagicMonkey\Framework\Validator;
 use MagicMonkey\Framework\InterfaceRepository\ValidatorTypeInterface;
 
 /**
- * Gère les types de vaidateur et leur exécution
+ * Gère les types de validateur et leur exécution
  * Class ValidatorManager
  * @package MagicMonkey\Framework\Validator
  */
@@ -29,7 +29,7 @@ class ValidatorManager
     }
 
     /**
-     * Permet de valider des valeurs selon les validations demandée
+     * Permet de valider des valeurs selon les validations demandées
      * @param $postedData
      * @return array
      */

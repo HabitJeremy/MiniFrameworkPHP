@@ -1,6 +1,6 @@
 <?php
 
-namespace MagicMonkey\Framework\Validator\Type;
+namespace MagicMonkey\Framework\Validator\ValidatorList;
 
 use MagicMonkey\Framework\Inheritance\AbstractValidator;
 use MagicMonkey\Framework\InterfaceRepository\ValidatorTypeInterface;
@@ -8,7 +8,7 @@ use MagicMonkey\Framework\InterfaceRepository\ValidatorTypeInterface;
 /**
  * Permet de valider une valeur en tant que temps
  * Class Time
- * @package MagicMonkey\Framework\Validator\Type
+ * @package MagicMonkey\Framework\Validator\ValidatorList
  */
 class Time extends AbstractValidator implements ValidatorTypeInterface
 {

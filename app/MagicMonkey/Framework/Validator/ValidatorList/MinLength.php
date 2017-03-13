@@ -1,6 +1,6 @@
 <?php
 
-namespace MagicMonkey\Framework\Validator\Type;
+namespace MagicMonkey\Framework\Validator\ValidatorList;
 
 use MagicMonkey\Framework\Inheritance\AbstractValidator;
 use MagicMonkey\Framework\InterfaceRepository\ValidatorTypeInterface;
@@ -8,7 +8,7 @@ use MagicMonkey\Framework\InterfaceRepository\ValidatorTypeInterface;
 /**
  * Permet de valider une valeur selon un minimum de caractères
  * Class MinLength
- * @package MagicMonkey\Framework\Validator\Type
+ * @package MagicMonkey\Framework\Validator\ValidatorList
  */
 class MinLength extends AbstractValidator implements ValidatorTypeInterface
 {
