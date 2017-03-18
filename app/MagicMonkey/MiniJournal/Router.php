@@ -20,6 +20,7 @@ class Router extends AbstractRouter
         $package = $this->request->getGetParam('o');
         switch ($package) {
             case "article":
+            default:
                 $this->controllerClassName = APP_OWNER . DS_ROUTER . APP_NAME . DS_ROUTER . "Controller" . DS_ROUTER .
                     "ArticleController";
                 break;
@@ -31,9 +32,6 @@ class Router extends AbstractRouter
                 $this->controllerClassName = APP_OWNER . DS_ROUTER . APP_NAME . DS_ROUTER . "Controller" . DS_ROUTER .
                     "PageController";
                 break;
-            default:
-                $this->controllerClassName = APP_OWNER . DS_ROUTER . APP_NAME . DS_ROUTER . "Controller" . DS_ROUTER .
-                    "ArticleController";
         }
 
         // tester si la classe à instancier existe bien. Si non lancer une Exception.

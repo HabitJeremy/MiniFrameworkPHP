@@ -3,8 +3,10 @@
 namespace MagicMonkey\MiniJournal\RepositoryBd;
 
 use MagicMonkey\Framework\Inheritance\AbstractBd;
-use \Exception;
+use \Exception as Exception;
 use MagicMonkey\MiniJournal\Entity\Article;
+use MagicMonkey\MiniJournal\Entity\Image;
+use \PDO as PDO;
 
 /**
  * Class ArticleBd
@@ -70,8 +72,29 @@ class ArticleBd extends AbstractBd
     {
         try {
             $postedData['creation_date'] = date("Y-m-d");
-            $this->prepareSpecifics($postedData);
-            return $this->saveOne($postedData);
+            $lstImages = $this->prepareSpecifics($postedData);
+            $lastInsertId = $this->saveOne($postedData);
+            $this->saveArticleImageRelations($lstImages, $lastInsertId);
+            return true;
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
+
+
+    /**
+     * @param $lstImages
+     * @param $articleId
+     */
+    private function saveArticleImageRelations($lstImages, $articleId)
+    {
+        try {
+            foreach ($lstImages as $imageId) {
+                $sql = "INSERT INTO cim_article_image (idArticle, idImage) VALUES (:articleId, :imageId)";
+                $stmt = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+                $stmt->execute(array(":articleId" => (int)$articleId, ":imageId" => (int)$imageId));
+            }
+            return true;
         } catch (Exception $ex) {
             return false;
         }
@@ -87,6 +110,34 @@ class ArticleBd extends AbstractBd
             $postedData['publication_date'] = date("Y-m-d");
         } else {
             $postedData['publication_date'] = null;
+        }
+        $lstImages = $postedData['imageCheckboxes'] ? $postedData['imageCheckboxes'] : array();
+        unset($postedData["imageCheckboxes"]);
+        return $lstImages;
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function eagerSelectOne($id)
+    {
+        try {
+            $article = $this->selectOne(array("id =" => $id));
+            $sql = 'SELECT i.* from cim_article_image as cim, image as i';
+            $sql .= ' where cim.idArticle = :id and i.id = cim.idImage order by cim.num';
+            $stmt = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+            $stmt->execute(array(":id" => $id));
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($res) {
+                foreach ($res as $row) {
+                    $newImage = new Image($row['id'], $row['name'], $row['path'], $row['attr_alt']);
+                    $article->addImage($newImage);
+                }
+            }
+            return $article;
+        } catch (Exception $ex) {
+            return false;
         }
     }
 }

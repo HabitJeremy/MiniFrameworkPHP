@@ -48,6 +48,10 @@ class ArticleForm extends AbstractForm
             ->add('publication_status', new ValidValues(array("brouillon", "publie")));
     }
 
+    /**
+     * Permet de nettoyer les données postées via un formulaire :
+     * ajout de différents nettoyages sur différents champs
+     */
     public function cleaningOptions()
     {
         $this->cleanerManager

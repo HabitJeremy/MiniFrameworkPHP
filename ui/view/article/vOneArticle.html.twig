@@ -40,5 +40,15 @@
                 {{ article.content|raw }}
             </div>
         </div>
+        {% if article.lstImages|length > 0 %}
+            <div class="row flex-vertical-center">
+                {% for image in article.lstImages %}
+                    <div class="cell-4">
+                        <img class="responsive-img" src="{{ constant("DIR_IMAGE") ~ constant("DS") ~ image.path }}"
+                             alt="{{ image.alt }}"/>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
     </article>
 {% endblock %}

@@ -148,6 +148,7 @@ abstract class AbstractBd
         }
         $sql = $sql_begin . $sql_value;
         $stmt = $this->dbh->prepare($sql);
-        return $stmt->execute($p);
+        $stmt->execute($p);
+        return $this->dbh->lastInsertId();
     }
 }

@@ -164,7 +164,7 @@ class ImageController extends AbstractController
                     ));
                 } else { // si elle n'existe pas
                     $_SESSION['error'] = "L'image demandée n'existe pas";
-                   // redirection => liste des images avec notifications
+                    // redirection => liste des images avec notifications
                     header('Location: index.php?o=image&a=listAll');
                     exit();
                 }

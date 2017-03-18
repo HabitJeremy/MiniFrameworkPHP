@@ -7,6 +7,7 @@ use MagicMonkey\Framework\HttpFoundation\Response;
 use MagicMonkey\Framework\Inheritance\AbstractController;
 use MagicMonkey\MiniJournal\RepositoryBd\ArticleBd;
 use MagicMonkey\MiniJournal\RepositoryForm\ArticleForm;
+use MagicMonkey\MiniJournal\RepositoryBd\ImageBd;
 
 /**
  * Class ArticleController
@@ -93,18 +94,21 @@ class ArticleController extends AbstractController
      */
     public function insert()
     {
+        $imageBd = new ImageBd();
         $articleForm = new ArticleForm();
         $articleBd = new ArticleBd();
         if (count($this->request->getPost()) == 0) { // s'il y a pas de données postées => affichage du formulaire
             $this->render("article/vFormNewUpdate.html.twig", array(
                 "title" => "Ajout d'un article",
                 "action" => "insert",
-                "articleForm" => $articleForm
+                "articleForm" => $articleForm,
+                "images" => $imageBd->selectAll()
             ));
         } else {
             $postedData = $this->request->getPost();
             if ($articleForm->validate($postedData)) { // verif du formulaire : si aucune erreur
                 $articleForm->clean($postedData);
+
                 $articleBd->add($postedData); /* enregistrement du nouvel article dans la bdd */
                 $_SESSION['success'] = "Ajout effectué !"; // et redirection vers l'accueil
                 header('Location: index.php');
@@ -166,7 +170,8 @@ class ArticleController extends AbstractController
     public function describe()
     {
         if (isset($this->request->getGet()["id"])) { /* si il y a un identifiant */
-            $article = (new ArticleBd())->selectOne(array("id =" => (int)$this->request->getGet()['id']));
+            //$article = (new ArticleBd())->selectOne(array("id =" => (int)$this->request->getGet()['id']));
+            $article = (new ArticleBd())->eagerSelectOne((int)$this->request->getGet()['id']);
             if (!$article) { /* article inexistant  => redirection vers l'accueil avec notification pour aider
  l'utilisateur*/
                 $_SESSION['error'] = "L'article demandé n'existe pas";

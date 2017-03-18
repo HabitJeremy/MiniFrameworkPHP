@@ -2,6 +2,10 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+{% block css %}
+    <link rel="stylesheet" href="ui/css/imageCheckboxes.css" type="text/css">
+{% endblock %}
+
 {% block js %}
     <script src="vendor/ckeditor/ckeditor/ckeditor.js"></script>
 {% endblock %}
@@ -57,6 +61,27 @@
                     {{ articleForm.showMsg('content')|raw }}
                     <textarea class="padd-15" id="content" name="content" rows="10" placeholder="un contenu ..."
                               required>{{ article.content }}</textarea>
+                </div>
+
+                <!-- images -->
+                <div class="groupform-large">
+                    <label for="content">Images</label>
+                    {{ articleForm.showMsg('images')|raw }}
+                    {% if not images is empty %}
+                        <div class="row-col-xs flex-vertical-center">
+                            {% for image in images %}
+                                <div class="cell-4 imageCheckbox">
+                                    <input type="checkbox" name="imageCheckboxes[]" id="{{ image.id }}"
+                                           value="{{ image.id }}">
+                                    <img class="responsive-img"
+                                         src="{{ constant("DIR_IMAGE") ~ constant("DS") ~ image.path }}"
+                                         alt="{{ image.alt }}"/>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="msg-warning">Aucune image</p>
+                    {% endif %}
                 </div>
                 <!-- submit -->
                 <div class="groupform-actions">

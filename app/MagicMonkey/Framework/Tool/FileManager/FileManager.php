@@ -25,7 +25,7 @@ class FileManager
                 // Move the file to the directory
                 $tmp_name = $file["tmp_name"];
                 if (!is_dir($targetDir)) {
-                    mkdir($targetDir, 0555, true);
+                    mkdir($targetDir, 0777, true);
                 }
                 move_uploaded_file($tmp_name, $targetDir . DS . $filePath);
                 return $filePath;

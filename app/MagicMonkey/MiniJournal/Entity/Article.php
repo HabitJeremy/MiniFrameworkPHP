@@ -20,6 +20,11 @@ class Article extends AbstractDocumentEntity
     private $content;
 
     /**
+     * @var array|null
+     */
+    private $lstImages;
+
+    /**
      * Article constructor.
      * @param $id
      * @param $title
@@ -29,6 +34,7 @@ class Article extends AbstractDocumentEntity
      * @param $publicationStatus
      * @param $creationDate
      * @param $publicationDate
+     * @param array $lstImages
      */
     public function __construct(
         $id = null,
@@ -38,8 +44,10 @@ class Article extends AbstractDocumentEntity
         $content = null,
         $publicationStatus = null,
         $creationDate = null,
-        $publicationDate = null
-    ) {
+        $publicationDate = null,
+        $lstImages = null
+    )
+    {
         parent::__construct(
             $id,
             $title,
@@ -50,6 +58,46 @@ class Article extends AbstractDocumentEntity
         );
         $this->chapo = $chapo;
         $this->content = $content;
+        if ($lstImages == null) {
+            $this->lstImages = array();
+        } else {
+            $this->lstImages = $lstImages;
+        }
+    }
+
+    /**
+     * @param Image $image
+     */
+    public function addImage(Image $image)
+    {
+        $this->lstImages[] = $image;
+    }
+
+    /**
+     * @param Image $image
+     */
+    public function removeImage(Image $image)
+    {
+        if (in_array($image, $this->lstImages)) {
+            $key = array_keys($this->lstImages, $image);
+            unset($this->lstImages[$key]);
+        }
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getLstImages()
+    {
+        return $this->lstImages;
+    }
+
+    /**
+     * @param array|null $lstImages
+     */
+    public function setLstImages($lstImages)
+    {
+        $this->lstImages = $lstImages;
     }
 
     /**
