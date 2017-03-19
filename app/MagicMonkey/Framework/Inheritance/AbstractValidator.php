@@ -7,6 +7,14 @@ namespace MagicMonkey\Framework\Inheritance;
  * Class AbstractValidator
  * @package MagicMonkey\Framework\Inheritance
  */
+/**
+ * Class AbstractValidator
+ * @package MagicMonkey\Framework\Inheritance
+ */
+/**
+ * Class AbstractValidator
+ * @package MagicMonkey\Framework\Inheritance
+ */
 abstract class AbstractValidator
 {
     /**

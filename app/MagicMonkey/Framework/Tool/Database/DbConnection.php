@@ -23,7 +23,6 @@ class DbConnection
 
     /**
      * constructeur privé qui initialise la connexion
-     * @todo rendre le constructeur indépendant du nom des constantes
      */
     private function __construct()
     {

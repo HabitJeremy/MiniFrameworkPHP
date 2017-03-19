@@ -66,7 +66,7 @@
                 <!-- images -->
                 <div class="groupform-large">
                     <label for="content">Images</label>
-                    {{ articleForm.showMsg('images')|raw }}
+                    {{ articleForm.showMsg('imageCheckboxes')|raw }}
                     {% if not images is empty %}
                         <div class="row-col-xs flex-vertical-center">
                             {% for image in images %}

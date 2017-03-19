@@ -6,21 +6,19 @@ use MagicMonkey\Framework\Inheritance\AbstractValidator;
 use MagicMonkey\Framework\InterfaceRepository\ValidatorTypeInterface;
 
 /**
- * Permet de valider plusieurs valeurs selon liste de valeurs possibles
+ * Permet de valider une valeur selon une liste de valeurs possibles
  * Class ValidValues
  * @package MagicMonkey\Framework\Validator\ValidatorList
  */
-class ValidValues extends AbstractValidator implements ValidatorTypeInterface
+class ValidValue extends AbstractValidator implements ValidatorTypeInterface
 {
-
     /**
      * @var null
      */
     private $possibleValues;
 
-
     /**
-     * ValidArrayValues constructor.
+     * ValidValues constructor.
      * @param null $possibleValues
      * @param null $message
      */
@@ -31,17 +29,13 @@ class ValidValues extends AbstractValidator implements ValidatorTypeInterface
     }
 
     /**
-     * @param $arrayValues
+     * @param $value
      * @return bool
      */
-    public function validate($arrayValues)
+    public function validate($value)
     {
-        if (isset($arrayValues) && count($arrayValues) > 0) {
-            foreach ($arrayValues as $value) {
-                if (!in_array($value, $this->possibleValues)) {
-                    return false;
-                }
-            }
+        if (!in_array($value, $this->possibleValues)) {
+            return false;
         }
         return true;
     }
@@ -51,6 +45,6 @@ class ValidValues extends AbstractValidator implements ValidatorTypeInterface
      */
     protected function setMessage()
     {
-        $this->message = "Chaque valeur doit correspondre à une valeur valide";
+        $this->message = "La valeur doit correspondre à une valeur valide";
     }
 }

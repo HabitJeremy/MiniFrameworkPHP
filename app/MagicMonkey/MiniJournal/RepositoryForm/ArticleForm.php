@@ -8,8 +8,10 @@ use MagicMonkey\Framework\Cleaner\CleanerList\Trim;
 use MagicMonkey\Framework\Inheritance\AbstractForm;
 use MagicMonkey\Framework\Validator\ValidatorList\MaxLength;
 use MagicMonkey\Framework\Validator\ValidatorList\NotBlank;
-use MagicMonkey\Framework\Validator\ValidatorList\ValidValues;
+use MagicMonkey\Framework\Validator\ValidatorList\ValidObjects;
+use MagicMonkey\Framework\Validator\ValidatorList\ValidValue;
 use MagicMonkey\MiniJournal\Entity\Article;
+use MagicMonkey\MiniJournal\RepositoryBd\ImageBd;
 
 /**
  * Class ArticleForm
@@ -45,7 +47,8 @@ class ArticleForm extends AbstractForm
             ->add('content', new NotBlank())
             ->add('chapo', new NotBlank())
             ->add('publication_status', new NotBlank())
-            ->add('publication_status', new ValidValues(array("brouillon", "publie")));
+            ->add('publication_status', new ValidValue(array("brouillon", "publie")))
+            ->add('imageCheckboxes', new ValidObjects(ImageBd::class));
     }
 
     /**
