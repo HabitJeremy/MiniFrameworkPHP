@@ -72,7 +72,7 @@
                             {% for image in images %}
                                 <div class="cell-4 imageCheckbox">
                                     <input type="checkbox" name="imageCheckboxes[]" id="{{ image.id }}"
-                                           value="{{ image.id }}">
+                                           value="{{ image.id }}" {{ articleForm.check(image.id, article.lstImages) }}>
                                     <img class="responsive-img"
                                          src="{{ constant("DIR_IMAGE") ~ constant("DS") ~ image.path }}"
                                          alt="{{ image.alt }}"/>

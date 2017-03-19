@@ -25,10 +25,23 @@ abstract class AbstractBd
 
     /* ### functions obligatoires pour les classes filles de celle-ci  */
 
+    /**
+     * @param $postedData
+     * @return mixed
+     */
     abstract public function mapp($postedData);
 
+    /**
+     * @param $postedData
+     * @return mixed
+     */
     abstract public function add($postedData);
 
+    /**
+     * @param $postedData
+     * @param $id
+     * @return mixed
+     */
     abstract public function update($postedData, $id);
 
     /**
@@ -65,10 +78,11 @@ abstract class AbstractBd
         }
     }
 
+
     /**
-     * Permet de lire un enregistrement
-     * @param array $conditions : conditions dans la clause SQL WHERE
-     * @return bool
+     *  Permet de lire un enregistrement
+     * @param array $conditions
+     * @return bool|mixed
      */
     public function selectOne(array $conditions)
     {

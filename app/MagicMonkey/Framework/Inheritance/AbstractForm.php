@@ -68,6 +68,20 @@ abstract class AbstractForm
         return $res;
     }
 
+    public function check($id, $array)
+    {
+        $res = "";
+        if (isset($array) && count($array) > 0) {
+            foreach ($array as $elt) {
+                if ((is_object($elt) && method_exists($elt, 'getId') && $elt->getId() == $id) || $elt == $id) {
+                    $res = "checked";
+                    break;
+                }
+            }
+        }
+        return $res;
+    }
+
     /**
      * Permet de valider un formulaire selon les configurations de validation d'un objet (dans <objet>Form)
      * @param $postedData

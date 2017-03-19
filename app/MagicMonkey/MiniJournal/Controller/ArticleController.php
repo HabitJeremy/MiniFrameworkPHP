@@ -41,6 +41,7 @@ class ArticleController extends AbstractController
      */
     public function update()
     {
+        $imageBd = new ImageBd();
         $articleBd = new ArticleBd();
         $articleForm = new ArticleForm();
         if (empty($this->request->getGet()['id'])) { // si il n'y a pas d'identifiant de passé
@@ -48,17 +49,19 @@ class ArticleController extends AbstractController
             header('Location: index.php');
             exit();
         } else { // s'il y a un identifiant
-            $articleForm->setArticle($articleBd->selectOne(array(
-                "id =" => (int)$this->request->getGet()['id']),
-                false
-            ));
+            /*  $articleForm->setArticle($articleBd->selectOne(array(
+                  "id =" => (int)$this->request->getGet()['id']),
+                  false
+              ));*/
+            $articleForm->setArticle($articleBd->eagerSelectOne((int)$this->request->getGet()['id']));
             if (count($this->request->getPost()) == 0) { // s'il n'y a pas de données postées
                 if ($articleForm->getArticle()) { // si l'article existe => affichage formulaire d'édition article
                     $this->render("article/vFormNewUpdate.html.twig", array(
                         "title" => "Modification d'un article",
                         "article" => $articleForm->getArticle(),
                         "action" => "update&id=" . $articleForm->getArticle()->getId(),
-                        "articleForm" => $articleForm
+                        "articleForm" => $articleForm,
+                        "images" => $imageBd->selectAll()
                     ));
                 } else { // s'il n'existe pas => notifcation d'erreur + redirection accueil
                     $_SESSION['error'] = "L'article demandé n'existe pas";
@@ -82,7 +85,8 @@ class ArticleController extends AbstractController
                         "title" => "Modification d'un article",
                         "article" => $articleForm->getArticle(),
                         "action" => "update&id=" . $articleForm->getArticle()->getId(),
-                        "articleForm" => $articleForm
+                        "articleForm" => $articleForm,
+                        "images" => $imageBd->selectAll()
                     ));
                 }
             }
@@ -108,7 +112,6 @@ class ArticleController extends AbstractController
             $postedData = $this->request->getPost();
             if ($articleForm->validate($postedData)) { // verif du formulaire : si aucune erreur
                 $articleForm->clean($postedData);
-
                 $articleBd->add($postedData); /* enregistrement du nouvel article dans la bdd */
                 $_SESSION['success'] = "Ajout effectué !"; // et redirection vers l'accueil
                 header('Location: index.php');
@@ -120,7 +123,8 @@ class ArticleController extends AbstractController
                     "articleForm" => $articleForm,
                     "title" => "Ajout d'un article",
                     "article" => $articleForm->getArticle(),
-                    "action" => "insert"
+                    "action" => "insert",
+                    "images" => $imageBd->selectAll()
                 ));
             }
         }

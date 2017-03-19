@@ -34,7 +34,7 @@ class ArticleBd extends AbstractBd
      */
     public function mapp($arrayData)
     {
-        return new Article(
+        $article = new Article(
             empty($arrayData['id']) ? null : $arrayData['id'],
             $arrayData['title'],
             $arrayData['author'],
@@ -44,6 +44,15 @@ class ArticleBd extends AbstractBd
             empty($arrayData['creation_date']) ? null : $arrayData['creation_date'],
             empty($arrayData['publication_date']) ? null : $arrayData['publication_date']
         );
+        if (isset($arrayData['imageCheckboxes']) && count($arrayData['imageCheckboxes']) > 0) {
+            foreach ($arrayData['imageCheckboxes'] as $imageId) {
+                $image = (new ImageBd())->selectOne(array("id =" => (int)$imageId));
+                if ($image) {
+                    $article->addImage($image);
+                }
+            }
+        }
+        return $article;
     }
 
     /**
@@ -56,8 +65,10 @@ class ArticleBd extends AbstractBd
     {
         try {
             $postedData['id'] = $id;
-            $this->prepareSpecifics($postedData);
-            return $this->saveOne($postedData);
+            $lstImages = $this->prepareSpecifics($postedData);
+            $this->saveOne($postedData);
+            $this->saveArticleImageRelations($lstImages, $id);
+            return true;
         } catch (Exception $ex) {
             return false;
         }
@@ -81,14 +92,27 @@ class ArticleBd extends AbstractBd
         }
     }
 
-
     /**
-     * @param $lstImages
+     * @param array $lstImages
      * @param $articleId
+     * @return bool
      */
-    private function saveArticleImageRelations($lstImages, $articleId)
+    private function saveArticleImageRelations(array $lstImages, $articleId)
     {
         try {
+            $article = $this->eagerSelectOne($articleId);
+            if (count($article->getLstImages()) > 0) {
+                foreach ($article->getLstImages() as $image) {
+                    if (in_array($image->getId(), $lstImages)) {
+                        $key = array_search($image->getId(), $lstImages);
+                        unset($lstImages[$key]);
+                    } else {
+                        $sql = 'DELETE from cim_article_image where idArticle = :idArticle and idImage = :idImage';
+                        $stmt = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+                        $stmt->execute(array(":idArticle" => $articleId, ":idImage" => $image->getId()));
+                    }
+                }
+            }
             foreach ($lstImages as $imageId) {
                 $sql = "INSERT INTO cim_article_image (idArticle, idImage) VALUES (:articleId, :imageId)";
                 $stmt = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
@@ -101,8 +125,8 @@ class ArticleBd extends AbstractBd
     }
 
     /**
-     * Manipulation spécifique des données postées (propre à Article)
      * @param $postedData
+     * @return array
      */
     private function prepareSpecifics(&$postedData)
     {
@@ -115,6 +139,7 @@ class ArticleBd extends AbstractBd
         unset($postedData["imageCheckboxes"]);
         return $lstImages;
     }
+
 
     /**
      * @param $id
