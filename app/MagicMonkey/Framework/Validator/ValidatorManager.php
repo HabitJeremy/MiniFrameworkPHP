@@ -39,8 +39,10 @@ class ValidatorManager
         foreach ($this->validatorsList as $item) {
             $field = $item[0];
             $validator = $item[1];
-            if (!$validator->validate($postedData[$field])) {
-                $errors[$field] = $validator->getMessage();
+            if (isset($postedData[$field])) {
+                if (!$validator->validate($postedData[$field])) {
+                    $errors[$field] = $validator->getMessage();
+                }
             }
         }
         return $errors;
