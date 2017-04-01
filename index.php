@@ -6,20 +6,22 @@ use MagicMonkey\Framework\HttpFoundation\Response;
 use MagicMonkey\Framework\HttpFoundation\Request;
 use MagicMonkey\Framework\Tool\Flash\FlashMessage;
 use MagicMonkey\Framework\Controller\FrontController;
-/* ! utile pour twig !*/
-use Twig_Environment;
-use Twig_Extension_Debug;
-use Twig_Loader_Filesystem;
 
 require_once 'app/MagicMonkey/Framework/Tool/Loader/Autoloader.php';
 require_once 'config/config.php';
 require_once 'vendor/autoload.php'; // loader de composer
 require_once 'config/twigLoader.php'; // loader / initialisation de twig
 
+/* block session */
+session_name(WEB_SITE_NAME);
+session_start();
+/* end block session */
 spl_autoload_register(array('\MagicMonkey\Framework\Tool\Loader\Autoloader', 'load'));
 $response = new Response();
 $flash = FlashMessage::getInstance(); // objet pour les notifications
 $twig = iniTwig(); //initTwig from config/twigLoader.php
+include 'config/twigFunctions.php';
+
 try {
     $request = new Request();
     $frontCtrl = new FrontController($request, $response);

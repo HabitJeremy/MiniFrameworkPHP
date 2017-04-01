@@ -1,6 +1,5 @@
 .imageCheckbox img {
-    opacity: 0.3;
-    border:2px solid transparent;
+    opacity: 1;
     -webkit-transition: all 0.2s;
     -moz-transition: all 0.2s;
     -ms-transition: all 0.2s;
@@ -18,7 +17,6 @@
 }
 
 .imageCheckbox input:checked + img {
-    opacity: 1;
-    border-color: #2ecc71;
+    opacity: 0.3;
 }
 

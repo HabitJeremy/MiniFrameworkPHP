@@ -1,11 +1,13 @@
 {% extends "lBase.html.twig" %}
 
+{% block title %} Page inexistante{% endblock %}
+
 {% block content %}
-<div class="row">
-    <div class="cell-12">
-        <h1 class="txt-skinny">Oups !</h1>
-        <p>L'erreur suivante a été rencontrée : </p>
-        <p class="msg-error txt-over-breakline">{{ content }}</p>
+    <div class="row">
+        <div class="cell-12">
+            <h1 class="txt-skinny">Oups !</h1>
+            <p>L'erreur suivante a été rencontrée : </p>
+            <p class="msg-error txt-over-breakline">{{ content }}</p>
+        </div>
     </div>
-</div>
-{%  endblock %}
+{% endblock %}

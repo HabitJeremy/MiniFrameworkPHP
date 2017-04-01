@@ -1,17 +1,51 @@
 <header>
-    <div class="row bg-peter-river">
-        <div class="cell-12 color-info">
-            <a href="index.php" class="dis-block color-yang" title="Vers l'accueil">
-                <span class="txt-sizeM dis-block">Mini Journal</span>
-                <span class="txt-skinny">Projet pour réaliser un mini framework php</span>
+    <div class="row-col-s jumbo flex-vertical-baseline flex-vertical-stretch-s">
+        <div class="cell-9 cell-12-s">
+            <a href="index.php" class="color-yang fontBilly" title="Vers l'accueil">
+                <span class="txt-sizeXXL">Mini Journal</span><br>
+                <span class="hide-s fontCaviar">{ Projet pour réaliser un mini framework php }</span>
             </a>
         </div>
-    </div>
-    <div class="row">
-        <div class="cell-12">
-            <a class="color-orange" href="index.php?o=page&a=about" title="A propos">
-                <span>A propos</span>
+        <div class="cell-3 c-12-s align-right flex-self-vertical-start flex-self-vertical-stretch-s">
+            <a class="linkCarrot bg-opac-6 color-yang padd-15" href="index.php?o=user&a=registration"
+               title="S'inscrire">
+                Inscription
             </a>
+        </div>
+        <div class="cell-12 align-center">
+            {% include 'layout/lUserConnection.html.twig' %}
+        </div>
+    </div>
+    <div class="row box-shad-2px">
+        <div class="cell-12">
+            <ul class="list-unstyled list-inline linkCarrot">
+                <li>
+                    <a class="" href="index.php" title="Lien vers la liste des articles">Liste des articles</a>
+                </li>
+                <li>
+                    <a href="index.php?a=insert&o=article" title="Lien vers le formulaire pour ajouter un article">
+                        Ajouter un article</a>
+                </li>
+                <li class="liSeparator">
+                    <a href="index.php?a=delete&o=article" title="Lien vers le formulaire pour supprimer un article">
+                        Supprimer un article</a>
+                </li>
+                <li>
+                    <a href="index.php?a=listAll&o=image" title="Lien vers la liste des images">Liste des images</a
+                </li>
+                <li>
+                    <a href="index.php?a=insert&o=image"
+                       title="Lien vers le formulaire pour ajouter un image">Ajouter un image</a>
+                </li>
+                <li class="liSeparator">
+                    <a href="index.php?a=delete&o=image"
+                       title="Lien vers le formulaire pour supprimer un image">Supprimer une image</a>
+                </li>
+                <li>
+                    <a href="index.php?o=page&a=about" title="A propos">
+                        <span>A propos</span>
+                    </a>
+                </li>
         </div>
     </div>
 </header>

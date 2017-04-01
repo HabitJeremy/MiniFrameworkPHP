@@ -16,9 +16,8 @@
             <div class="cell-12 align-center">
                 <a class="color-orange marg-15-right" href="index.php?a=update&id={{ article.id }}"
                    title="Modifier cet article">Modifier</a>
-                <a class="color-error marg-15-right" href="index.php?a=delete&id={{ article.id }}"
+                <a class="color-error" href="index.php?a=delete&id={{ article.id }}"
                    title="Supprimer cet article">Supprimer</a>
-                <a href="index.php" title="Retour vers l'accueil">Retour</a>
             </div>
         </div>
         <div class="row">
@@ -41,12 +40,17 @@
             </div>
         </div>
         {% if article.lstImages|length > 0 %}
-            <div class="row flex-vertical-center">
+            <div class="row-col-s flex-vertical-center">
                 {% for image in article.lstImages %}
-                    <div class="cell-4">
-                        <img class="responsive-img" src="{{ constant("DIR_IMAGE") ~ constant("DS") ~ image.path }}"
-                             alt="{{ image.alt }}"/>
-                    </div>
+                    <a class="cell-4 c6-m color-yang padd-15 box-shad-2px align-center hvr-underline-from-center"
+                       href="index.php?o=image&a=describe&id={{ image.id }}">
+                        <figure>
+                            <img class="responsive-img"
+                                 src="{{ constant('DIR_IMAGE') ~ constant('DS') ~ image.path }}"
+                                 alt="{{ image.attrAlt }}"/>
+                        </figure>
+
+                    </a>
                 {% endfor %}
             </div>
         {% endif %}

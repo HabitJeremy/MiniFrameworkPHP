@@ -1,0 +1,49 @@
+/* #########################  start : BTN GROUP ######################### */
+
+div.btn-group {
+    position: relative;
+}
+
+div.btn-group ul.dropdown-menu {
+    display: none;
+    padding-left: 0;
+    margin: 0;
+    list-style: none;
+    letter-spacing: -.3em;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    border: 1px solid #c0c0c0;
+    background: #fff;
+    margin-top: 2px;
+}
+
+div.btn-group button {
+    background: #c0c0c0;
+    border: 1px solid transparent;
+    color: white;
+    padding: 10px;
+    width:100%;
+    display: block;
+}
+
+div.btn-group button:hover {
+    background: #c0c0c0;
+}
+
+div.btn-group ul.dropdown-menu li a {
+    padding: 5px;
+    display: block;
+}
+
+div.btn-group ul.dropdown-menu li a:hover {
+    background-color: #eee;
+}
+
+div.btn-group ul.dropdown-menu li.divider {
+    height: 1px;
+    overflow: hidden;
+    background-color: #c0c0c0;
+}
+
+/* #########################  end : BTN GROUP ######################### */

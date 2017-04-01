@@ -1,0 +1,9 @@
+<form class="form" method="post" action="{{ app.request.getBaseURL() }}">
+    <div class="groupform-compact marg-auto bg-opac-white-9 padd-15-left padd-15 border-bottom-7px border-midnight-blue">
+        <label class="required" for="loginConnection">Identifiant</label>
+        <input class="marg-15-right" type="text" id="loginConnection" name="loginConnection" required maxlength="25"/>
+        <label class="required" for="passwordConnection">Mot de passe</label>
+        <input class="marg-15-right" type="password" id="passwordConnection" name="passwordConnection" required/>
+        <input type="submit" value="Valider" class="bg-midnight-blue color-yang border-none padd-10"/>
+    </div>
+</form>

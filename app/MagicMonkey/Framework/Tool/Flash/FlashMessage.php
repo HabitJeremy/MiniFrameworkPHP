@@ -22,7 +22,6 @@ class FlashMessage
      */
     public static function getInstance()
     {
-        session_start();
         if (!(self::$instance instanceof self)) {
             self::$instance = new self();
         }

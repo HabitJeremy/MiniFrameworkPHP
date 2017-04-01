@@ -5,7 +5,7 @@ namespace MagicMonkey\Framework\Inheritance\Entity;
 use MagicMonkey\Framework\InterfaceRepository\EntityInterface;
 
 /**
- * Classe abstrait permette de définir des attributs et des functions de base pour les classes "Entty"
+ * Classe abstraite permettant de définir des attributs et des functions de base pour les classes "Entity"
  * Class AbstractEntity
  * @package MagicMonkey\Framework\Inheritance\Entity
  */
@@ -37,7 +37,8 @@ abstract class AbstractEntity implements EntityInterface
     }
 
     /**
-     * @param mixed $id
+     * @param $id
+     * @return void
      */
     public function setId($id)
     {

@@ -103,20 +103,15 @@ class ArticleBd extends AbstractBd
             $article = $this->eagerSelectOne($articleId);
             if (count($article->getLstImages()) > 0) {
                 foreach ($article->getLstImages() as $image) {
-                    if (in_array($image->getId(), $lstImages)) {
-                        $key = array_search($image->getId(), $lstImages);
-                        unset($lstImages[$key]);
-                    } else {
-                        $sql = 'DELETE from cim_article_image where idArticle = :idArticle and idImage = :idImage';
-                        $stmt = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-                        $stmt->execute(array(":idArticle" => $articleId, ":idImage" => $image->getId()));
-                    }
+                    $sql = 'DELETE from cim_article_image where idArticle = :idArticle and idImage = :idImage';
+                    $stmt = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+                    $stmt->execute(array(":idArticle" => $articleId, ":idImage" => $image->getId()));
                 }
             }
-            foreach ($lstImages as $imageId) {
-                $sql = "INSERT INTO cim_article_image (idArticle, idImage) VALUES (:articleId, :imageId)";
+            foreach ($lstImages as $key => $imageId) {
+                $sql = "INSERT INTO cim_article_image (idArticle, idImage, num) VALUES (:articleId, :imageId, :num)";
                 $stmt = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-                $stmt->execute(array(":articleId" => (int)$articleId, ":imageId" => (int)$imageId));
+                $stmt->execute(array(":articleId" => (int)$articleId, ":imageId" => (int)$imageId, ":num" => $key));
             }
             return true;
         } catch (Exception $ex) {
@@ -149,6 +144,8 @@ class ArticleBd extends AbstractBd
     {
         try {
             $article = $this->selectOne(array("id =" => $id));
+
+            /* a fonctionner */
             $sql = 'SELECT i.* from cim_article_image as cim, image as i';
             $sql .= ' where cim.idArticle = :id and i.id = cim.idImage order by cim.num';
             $stmt = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
@@ -160,9 +157,37 @@ class ArticleBd extends AbstractBd
                     $article->addImage($newImage);
                 }
             }
+            /* end : a fonctionner */
             return $article;
         } catch (Exception $ex) {
             return false;
         }
+    }
+
+    public function eagerSelectAll()
+    {
+        try {
+            $articles = $this->selectAll();
+            foreach ($articles as $article) {
+                /* a fonctionner */
+                $sql = 'SELECT i.* from cim_article_image as cim, image as i';
+                $sql .= ' where cim.idArticle = :id and i.id = cim.idImage order by cim.num';
+                $stmt = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+                $stmt->execute(array(":id" => $article->getId()));
+                $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if ($res) {
+                    foreach ($res as $row) {
+                        $newImage = new Image($row['id'], $row['name'], $row['path'], $row['attr_alt']);
+                        $article->addImage($newImage);
+                    }
+                }
+                /* end : a fonctionner */
+            }
+
+            return $articles;
+        } catch (Exception $ex) {
+            return false;
+        }
+
     }
 }

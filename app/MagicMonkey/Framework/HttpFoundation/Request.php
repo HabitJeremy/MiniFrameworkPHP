@@ -7,6 +7,14 @@ namespace MagicMonkey\Framework\HttpFoundation;
  * Class Request
  * @package MagicMonkey\Framework\HttpFoundation
  */
+/**
+ * Class Request
+ * @package MagicMonkey\Framework\HttpFoundation
+ */
+/**
+ * Class Request
+ * @package MagicMonkey\Framework\HttpFoundation
+ */
 class Request
 {
     /**
@@ -23,6 +31,11 @@ class Request
     private $files;
 
     /**
+     * @var
+     */
+    private $session;
+
+    /**
      * Request constructor.
      */
     public function __construct()
@@ -30,6 +43,58 @@ class Request
         $this->post = $_POST;
         $this->get = $_GET;
         $this->files = $_FILES;
+        $this->session = $_SESSION;
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     * @return bool
+     */
+    public function addSessionParam($key, $value)
+    {
+        if (!isset($this->session[$key])) {
+            $this->session[$key] = $value;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param $key
+     */
+    public function removeSessionParam($key)
+    {
+        if (isset($this->session[$key])) {
+            unset($this->session[$key]);
+        }
+    }
+
+    /**
+     * @param $key
+     * @param null $default
+     * @return null
+     */
+    public function getSessionParam($key, $default = null)
+    {
+        if (!isset($this->session[$key])) {
+            return $default;
+        }
+        return $this->session[$key];
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     * @return bool
+     */
+    public function updateSessionParam($key, $value)
+    {
+        if (isset($this->session[$key])) {
+            $this->session[$key] = $value;
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -66,7 +131,7 @@ class Request
      * @param $default
      * @return mixed
      */
-    public function getPostParam($key, $default)
+    public function getPostParam($key, $default = null)
     {
         if (!isset($this->post[$key])) {
             return $default;
@@ -120,6 +185,22 @@ class Request
     /**
      * @return mixed
      */
+    public function getSession()
+    {
+        return $this->session;
+    }
+
+    /**
+     * @param mixed $session
+     */
+    public function setSession($session)
+    {
+        $this->session = $session;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getPost()
     {
         return $this->post;
@@ -133,6 +214,9 @@ class Request
         return $this->get;
     }
 
+    /**
+     * @return mixed
+     */
     public function getFiles()
     {
         return $this->files;

@@ -7,11 +7,11 @@ use MagicMonkey\Framework\Inheritance\AbstractValidator;
 use MagicMonkey\Framework\InterfaceRepository\ValidatorTypeInterface;
 
 /**
- * Permet de valider une valeur en tant que Date
- * Class Date
+ * Permet de valider une valeur en tant que Date and time
+ * Class DateAndTime
  * @package MagicMonkey\Framework\Validator\ValidatorList
  */
-class Date extends AbstractValidator implements ValidatorTypeInterface
+class DateAndTime extends AbstractValidator implements ValidatorTypeInterface
 {
     /**
      * @param $value
@@ -19,7 +19,7 @@ class Date extends AbstractValidator implements ValidatorTypeInterface
      */
     public function validate($value)
     {
-        return DateTime::createFromFormat('Y-m-d', $value);
+        return DateTime::createFromFormat('Y-m-d G:i:s', $value);
     }
 
     /**
@@ -27,6 +27,6 @@ class Date extends AbstractValidator implements ValidatorTypeInterface
      */
     protected function setMessage()
     {
-        $this->message = "La valeur ne respecte pas le format d'une date";
+        $this->message = "La valeur ne respecte pas le format d'une date et d'une heure";
     }
 }

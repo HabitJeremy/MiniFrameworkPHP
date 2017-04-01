@@ -9,13 +9,13 @@
         </div>
     </div>
     <div class="row-col-s">
-            {% if articles|length > 0 %}
-                {% for article in articles %}
-                    <a class="cell-4 c6-m padd-15 box-shad-2px align-center hvr-bob"
-                       href="index.php?o=article&a=describe&id={{ article.id }}">{{ article.title }}</a>
-                {% endfor %}
-            {% else %}
-                <div class='cell-12'><p class='msg-warning'>Aucun article trouvé !</p></div>
-            {% endif %}
+        {% if articles|length > 0 %}
+            {% for article in articles %}
+                <a class="cell-4 c6-m padd-15 box-shad-2px align-center hvr-underline-from-center"
+                   href="index.php?o=article&a=describe&id={{ article.id }}">{{ article.title }}</a>
+            {% endfor %}
+        {% else %}
+            <div class='cell-12'><p class='msg-warning'>Aucun article trouvé !</p></div>
+        {% endif %}
     </div>
 {% endblock %}

@@ -28,17 +28,7 @@
 <!--BODY START-->
 <main class="mw marg-auto padd-15-top-bottom-xs">
     <div class="row-col-s">
-        <div class="cell-3 c4-l border-right border-right-clouds">
-            <div class="row">
-                <div class="cell-12 bg-clouds">
-                    {% include 'lRightAsideArticle.html.twig' %}
-                </div>
-                <div class="cell-12 bg-clouds">
-                    {% include 'lRightAsideImage.html.twig' %}
-                </div>
-            </div>
-        </div>
-        <div class="cell-9 c8-l">
+        <div class="cell-12">
             {{ flashAll|raw ?: "" }}
             {% block content %}{% endblock %}
         </div>

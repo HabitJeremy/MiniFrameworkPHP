@@ -32,6 +32,10 @@ class Router extends AbstractRouter
                 $this->controllerClassName = APP_OWNER . DS_ROUTER . APP_NAME . DS_ROUTER . "Controller" . DS_ROUTER .
                     "PageController";
                 break;
+            case "user":
+                $this->controllerClassName = APP_OWNER . DS_ROUTER . APP_NAME . DS_ROUTER . "Controller" . DS_ROUTER .
+                    "UserController";
+                break;
         }
 
         // tester si la classe à instancier existe bien. Si non lancer une Exception.

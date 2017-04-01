@@ -8,6 +8,7 @@
 
 {% block js %}
     <script src="vendor/ckeditor/ckeditor/ckeditor.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/Sortable/1.5.1/Sortable.min.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -68,7 +69,7 @@
                     <label for="content">Images</label>
                     {{ articleForm.showMsg('imageCheckboxes')|raw }}
                     {% if not images is empty %}
-                        <div class="row-col-xs flex-vertical-center">
+                        <div class="row-col-xs flex-vertical-center" id="items">
                             {% for image in images %}
                                 <div class="cell-4 imageCheckbox">
                                     <input type="checkbox" name="imageCheckboxes[]" id="{{ image.id }}"
@@ -92,5 +93,9 @@
     </div>
     <script>
         CKEDITOR.replace('content');
+
+
+        var el = document.getElementById('items');
+        var sortable = Sortable.create(el);
     </script>
 {% endblock %}

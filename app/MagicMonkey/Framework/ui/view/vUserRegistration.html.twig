@@ -1,0 +1,77 @@
+{% extends "lBase.html.twig" %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="cell-12">
+            <h1 class="marg-0-bottom align-center">
+                Inscription
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell-12">
+            <form class="form required" action="index.php?o=user&a=registration" method="post">
+                {# login #}
+                <div class="groupform-large">
+                    <label class="required" for="login">Pseudo</label>
+                    {{ userForm.showMsg('login')|raw }}
+                    <input class="padd-15" type="text" maxlength="25" name="login" id="login"
+                           required
+                           placeholder="MagicMonkey" value="{{ user.login }}"/>
+                </div>
+                {# password #}
+                <div class="groupform-large">
+                    <label class="required" for="password">Mot de passe</label>
+                    {{ userForm.showMsg('password')|raw }}
+                    <input class="padd-15" type="text" maxlength="25" name="password"
+                           id="passw" required
+                           placeholder="pas 123456 svp, plutôt j93dR${Y"/>
+                </div>
+                {# mail #}
+                <div class="groupform-large">
+                    <label class="required" for="mail">Adresse électronique</label>
+                    {{ userForm.showMsg('mail')|raw }}
+                    <input class="padd-15" type="text" maxlength="255" name="mail" id="mail" required
+                           placeholder="jean.jeanjeanjean@gmal.com" value="{{ user.mail }}"/>
+                </div>
+                <hr class="w-5">
+                {# gender #}
+                <div class="groupform-large">
+                    <label class="required" for="gender">Qualite</label>
+                    {{ userForm.showMsg('gender')|raw }}
+                    <select class="padd-15" id="gender" name="gender" required>
+                        <option value="Mme">Mme</option>
+                        <option value="Mr">Mr</option>
+                        <option value="Mlle">Mle</option>
+                    </select>
+                </div>
+                {# name #}
+                <div class="groupform-large">
+                    <label class="required" for="name">Nom</label>
+                    {{ userForm.showMsg('name')|raw }}
+                    <input class="padd-15" type="text" maxlength="50" name="name" id="name" required
+                           placeholder="Habit" value="{{ user.name }}"/>
+                </div>
+                {# first_name #}
+                <div class="groupform-large">
+                    <label class="required" for="first_name">Prénom</label>
+                    {{ userForm.showMsg('first_name')|raw }}
+                    <input class="padd-15" type="text" maxlength="50" name="first_name" id="first_name" required
+                           placeholder="Jérémy" value="{{ user.firstName }}"/>
+                </div>
+                {# birthday_date #}
+                <div class="groupform-large">
+                    <label class="required" for="birthday_date">Date de naissance</label>
+                    {{ userForm.showMsg('birthday_date')|raw }}
+                    <input class="padd-15" type="date" id="birthday_date" name="birthday_date" required
+                           value="{{ user.birthdayDate }}"/>
+                </div>
+                <div class="groupform-actions">
+                    <input type="submit" value="valider"/>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
