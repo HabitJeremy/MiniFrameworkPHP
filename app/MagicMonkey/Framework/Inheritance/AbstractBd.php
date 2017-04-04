@@ -18,6 +18,7 @@ abstract class AbstractBd
      * @var
      */
     protected $tableName;
+
     /**
      * @var
      */
@@ -89,10 +90,15 @@ abstract class AbstractBd
         try {
             $lstPrepare = array();
             $sql = 'SELECT * from ' . $this->tableName . ' where ';
+            $where = false;
             foreach ($conditions as $columnOperator => $value) {
+                if ($where) {
+                    $sql .= "and ";
+                }
                 $uniqNb = uniqid(rand()) . uniqid();
                 $sql .= $columnOperator . " :p" . $uniqNb . " ";
                 $lstPrepare[":p" . $uniqNb] = $value;
+                $where = true;
             }
             $stmt = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
             $stmt->execute($lstPrepare);

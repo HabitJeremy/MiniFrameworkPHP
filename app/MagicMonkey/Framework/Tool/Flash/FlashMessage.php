@@ -18,7 +18,7 @@ class FlashMessage
     /**
      * Méthode pour accéder à l'UNIQUE instance de la classe.
      *
-     * @return l'instance du singleton
+     * @return FlashMessage
      */
     public static function getInstance()
     {

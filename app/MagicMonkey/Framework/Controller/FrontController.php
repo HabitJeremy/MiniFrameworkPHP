@@ -20,6 +20,8 @@ class FrontController extends AbstractController
      */
     protected $controllerClass;
 
+    /* protected $authManager;*/
+
     /**
      * @var string $action le nom de l'action à exécuter
      */
@@ -67,15 +69,19 @@ class FrontController extends AbstractController
                     // notification flash
                     $_SESSION['error'] = "Identifiant et/ou mot de passe incorrect";
                 }
+                $this->request->removePostParam('loginConnection');
+                $this->request->removePostParam('passwordConnection');
             }
+
             $className = $this->router->getControllerClassName();
             $controller = new $className($this->request, $this->response);
             $action = $this->router->getControllerAction();
             $controller->execute($action);
-        } catch (AuthentificationException $e) {
+        } /*catch (AuthentificationException $e) {*/
+        catch (\Exception $e) {
             // => afficher un message d'erreur
-            $this->response->setPart('titre', "Erreur");
-            $this->response->setPart('contenu', "Erreur de connexion");
+            /* $this->response->setPart('titre', "Erreur");
+             $this->response->setPart('contenu', "Erreur de connexion");*/
         }
     }
 }

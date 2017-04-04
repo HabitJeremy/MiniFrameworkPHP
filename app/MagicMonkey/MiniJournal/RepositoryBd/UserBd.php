@@ -35,7 +35,7 @@ class UserBd extends AbstractBd
         $user = new User(
             empty($arrayData['id']) ? null : $arrayData['id'],
             $arrayData['login'],
-            $arrayData['password'],
+            hash('sha256', $arrayData['password']),
             $arrayData['mail'],
             $arrayData['name'],
             $arrayData['first_name'],
@@ -53,6 +53,7 @@ class UserBd extends AbstractBd
     public function add($postedData)
     {
         try {
+            $postedData['password'] = hash('sha256', $postedData['password']);
             return $this->saveOne($postedData);
         } catch (Exception $ex) {
             return false;

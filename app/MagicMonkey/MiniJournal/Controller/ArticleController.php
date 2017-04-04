@@ -49,10 +49,6 @@ class ArticleController extends AbstractController
             header('Location: index.php');
             exit();
         } else { // s'il y a un identifiant
-            /*  $articleForm->setArticle($articleBd->selectOne(array(
-                  "id =" => (int)$this->request->getGet()['id']),
-                  false
-              ));*/
             $articleForm->setArticle($articleBd->eagerSelectOne((int)$this->request->getGet()['id']));
             if (count($this->request->getPost()) == 0) { // s'il n'y a pas de données postées
                 if ($articleForm->getArticle()) { // si l'article existe => affichage formulaire d'édition article

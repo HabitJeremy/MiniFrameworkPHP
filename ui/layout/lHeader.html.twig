@@ -1,26 +1,34 @@
 <header>
-    <div class="row-col-s jumbo flex-vertical-baseline flex-vertical-stretch-s">
-        <div class="cell-9 cell-12-s">
+    <div class="row-col-s jumbo align-center-s">
+        <div class="cell-9 flex-self-vertical-baseline">
             <a href="index.php" class="color-yang fontBilly" title="Vers l'accueil">
-                <span class="txt-sizeXXL">Mini Journal</span><br>
+                <span class="txt-sizeXXL">Mini Journal</span><br class="hide-s">
                 <span class="hide-s fontCaviar">{ Projet pour réaliser un mini framework php }</span>
             </a>
         </div>
-        <div class="cell-3 c-12-s align-right flex-self-vertical-start flex-self-vertical-stretch-s">
+        <div class="cell-3 align-right align-center-s">
             <a class="linkCarrot bg-opac-6 color-yang padd-15" href="index.php?o=user&a=registration"
-               title="S'inscrire">
-                Inscription
-            </a>
+               title="S'inscrire">Inscription</a>
         </div>
         <div class="cell-12 align-center">
-            {% include 'layout/lUserConnection.html.twig' %}
+            {% if isLogged() %}
+                <span class="color-midnight-blue bg-opac-white-9 padd-15 border-bottom-7px border-midnight-blue dis-inblock txt-sizeL">
+                    {{ getUserData('name') }}
+                    {{ getUserData('first_name') }}
+                </span>
+                <div>
+                    <a href="index.php?o=auth&a=logout" class="color-error" title="Se déconnecter">Déconnexion</a>
+                </div>
+            {% else %}
+                {% include 'layout/lUserConnection.html.twig' %}
+            {% endif %}
         </div>
     </div>
     <div class="row box-shad-2px">
         <div class="cell-12">
-            <ul class="list-unstyled list-inline linkCarrot">
+            <ul class="list-unstyled list-inline containerLinkMidnight">
                 <li>
-                    <a class="" href="index.php" title="Lien vers la liste des articles">Liste des articles</a>
+                    <a href="index.php" title="Lien vers la liste des articles">Liste des articles</a>
                 </li>
                 <li>
                     <a href="index.php?a=insert&o=article" title="Lien vers le formulaire pour ajouter un article">

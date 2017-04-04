@@ -3,6 +3,7 @@
 namespace MagicMonkey\Framework\Tool\Auth;
 
 use MagicMonkey\Framework\HttpFoundation\Request;
+use MagicMonkey\MiniJournal\RepositoryBd\UserBd;
 
 class AuthManager
 {
@@ -10,11 +11,11 @@ class AuthManager
      * $instance est privée pour implémenter le pattern Singleton
      * et être sûr qu'il n'y a qu'une et une seule instance
      */
-    private static $instance;
+    private static $instance = null;
     protected $request;
     protected $userData = array();
 
-    public function __construct(Request $request)
+    private function __construct(Request $request)
     {
         /*if (is_null($request)) {
             throw new AuthenticationException("Missing Request parameter");
@@ -24,7 +25,7 @@ class AuthManager
             $this->userData = $this->request->getSessionParam('user');
         } catch (\Exception $e) {
             // pas d'élément user dans la session => initialiser en tableau vide
-            $this->authenticationData = array();
+            $this->userData = array();
         }
     }
 
@@ -32,15 +33,10 @@ class AuthManager
     {
     }
 
-    /**
-     * Méthode pour accéder à l'UNIQUE instance de la classe.
-     *
-     * @param Request $request
-     * @return l'instance du singleton
-     */
+
     public static function getInstance(Request $request = null)
     {
-        if (!(self::$instance instanceof self) || null === self::$instance) {
+        if (null === self::$instance) {
             self::$instance = new self($request);
         }
         return self::$instance;
@@ -48,7 +44,7 @@ class AuthManager
 
     public function isLogged()
     {
-        return !empty($this->userData);
+        return empty($this->userData) ? false : true;
     }
 
 
@@ -64,9 +60,22 @@ class AuthManager
      */
     public function checkAuthentication($login, $password)
     {
-        /* $this->request->getItemSession('user')['id'] = $id;
-         $this->request->getItemSession('user')['login'] = $login;
-         $this->request->getItemSession('user')['status'] = $status;*/
+        $user = (new UserBd())->selectOne(array(
+            "login =" => $login,
+            "password =" => hash('sha256', $password)
+        ));
+        if ($user) { // le couple (login, pwd) est correct
+            // remplissage de $this->userData
+            $this->userData['id'] = $user->getId();
+            $this->userData['name'] = $user->getName();
+            $this->userData['first_name'] = $user->getFirstName();
+            $this->userData['role'] = $user->getRole();
+            $this->userData['login'] = $user->getLogin();
+            // synchronisation
+            $this->synchronize();
+        } else {
+            /* throw new AuthenticationException("user incconnu");*/
+        }
     }
 
     public function getUserData($key)
@@ -94,6 +103,6 @@ class AuthManager
      */
     private function synchronize()
     {
-        $this->request->updateSessionParam('user', $this->authenticationData);
+        $_SESSION['user'] = $this->userData;
     }
 }

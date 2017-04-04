@@ -4,6 +4,7 @@ namespace MagicMonkey\MiniJournal;
 
 use MagicMonkey\Framework\HttpFoundation\Response;
 use MagicMonkey\Framework\HttpFoundation\Request;
+use MagicMonkey\Framework\Tool\Auth\AuthManager;
 use MagicMonkey\Framework\Tool\Flash\FlashMessage;
 use MagicMonkey\Framework\Controller\FrontController;
 
@@ -11,19 +12,20 @@ require_once 'app/MagicMonkey/Framework/Tool/Loader/Autoloader.php';
 require_once 'config/config.php';
 require_once 'vendor/autoload.php'; // loader de composer
 require_once 'config/twigLoader.php'; // loader / initialisation de twig
+require_once 'config/twigFunctions.php'; // initialisation des functions personnalisées de twig
 
 /* block session */
 session_name(WEB_SITE_NAME);
 session_start();
 /* end block session */
 spl_autoload_register(array('\MagicMonkey\Framework\Tool\Loader\Autoloader', 'load'));
+$request = new Request();
 $response = new Response();
 $flash = FlashMessage::getInstance(); // objet pour les notifications
+$authManager = AuthManager::getInstance($request);
 $twig = iniTwig(); //initTwig from config/twigLoader.php
-include 'config/twigFunctions.php';
-
+initFunctionsTwig($authManager, $twig);
 try {
-    $request = new Request();
     $frontCtrl = new FrontController($request, $response);
     $frontCtrl->main();
 } catch (\Exception $ex) {
