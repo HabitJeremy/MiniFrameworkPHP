@@ -155,6 +155,15 @@ class Request
     }
 
     /**
+     * Détermine si la requête est envoyée par http ou xhr
+     * @return bool
+     */
+    public function isXhrRequest()
+    {
+        return (isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest');
+    }
+
+    /**
      * Permet de supprimer un élément du tableau $_POST
      * @param $key
      */

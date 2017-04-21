@@ -54,3 +54,9 @@
 .fontCaviar {
     font-family: "Caviar", serif;
 }
+
+@media only screen and (max-width: 768px) {
+    .jumbo {
+        height: auto;
+    }
+}

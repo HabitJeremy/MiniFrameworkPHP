@@ -1,28 +1,30 @@
 <header>
+    {% include 'lBurger.html.twig' %}
     <div class="row-col-s jumbo align-center-s">
-        <div class="cell-9 flex-self-vertical-baseline">
+        <div class="cell-9 hide-s">
             <a href="index.php" class="color-yang fontBilly" title="Vers l'accueil">
                 <span class="txt-sizeXXL">Mini Journal</span><br class="hide-s">
                 <span class="hide-s fontCaviar">{ Projet pour réaliser un mini framework php }</span>
             </a>
         </div>
         <div class="cell-3 align-right align-center-s">
-            <a class="linkCarrot bg-opac-6 color-yang padd-15" href="index.php?o=user&a=registration"
+            <a class="linkCarrot bg-opac-6 color-yang padd-15 padd-10-s" href="index.php?o=user&a=registration"
                title="S'inscrire">Inscription</a>
         </div>
-        <div class="cell-12 align-center">
-            {% if isLogged() %}
+        {% if sessionUser %}
+            <div class="cell-12 align-center">
                 <span class="color-midnight-blue bg-opac-white-9 padd-15 border-bottom-7px border-midnight-blue dis-inblock txt-sizeL">
-                    {{ getUserData('name') }}
-                    {{ getUserData('first_name') }}
+                    {{ sessionUser['name'] }}
+                    {{ sessionUser['first_name'] }}
                 </span>
                 <div>
                     <a href="index.php?o=auth&a=logout" class="color-error" title="Se déconnecter">Déconnexion</a>
                 </div>
-            {% else %}
-                {% include 'layout/lUserConnection.html.twig' %}
-            {% endif %}
-        </div>
+            </div>
+        {% else %}
+            {% include 'layout/lUserConnection.html.twig' %}
+        {% endif %}
+    </div>
     </div>
     <div class="row box-shad-2px">
         <div class="cell-12">

@@ -2,17 +2,30 @@
 
 {% block title %}Tous les articles{% endblock %}
 
+{% block js %}
+    <script src="ui/js/libraries/jquery-3.2.0.min.js" type="text/javascript"></script>
+    <script src="ui/js/ajax/deleteArticle.js" type="text/javascript"></script>
+{% endblock %}
+
+
 {% block content %}
     <div class="row">
-        <div class="cell-12">
+        <div id="contentNotification" class="cell-12">
             <h1 class="align-center">Liste des articles</h1>
         </div>
     </div>
     <div class="row-col-s">
         {% if articles|length > 0 %}
             {% for article in articles %}
-                <a class="cell-4 c6-m padd-15 box-shad-2px align-center hvr-underline-from-center"
-                   href="index.php?o=article&a=describe&id={{ article.id }}">{{ article.title }}</a>
+                <div class="cell-4 c6-m box-shad-2px">
+                    <a class="align-center box-shad-2px padd-15 dis-block"
+                       href="index.php?o=article&a=describe&id={{ article.id }}">{{ article.title }}</a>
+                    <a class="color-error pos-abs-right-center marg-15-right deleteArticle" href="#"
+                       data-id="{{ article.id }}"
+                       title="Supprimer cet article">
+                        <img src="ui/media/icon_logo/x-mark-5-24.png" alt="Icône de suppression"/>
+                    </a>
+                </div>
             {% endfor %}
         {% else %}
             <div class='cell-12'><p class='msg-warning'>Aucun article trouvé !</p></div>

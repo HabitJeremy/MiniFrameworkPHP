@@ -35,6 +35,28 @@ class ArticleController extends AbstractController
         $this->render("article/vAllArticles.html.twig", array("articles" => $lstObjsArticles));
     }
 
+    /* suppression en ajax d'un article */
+    public function deleteAjax()
+    {
+        $articleBd = new ArticleBd();
+        $message = "error";
+        if ($this->request->isXhrRequest()) {
+            $id = $this->request->getGetParam("id");
+            $res = $articleBd->deleteOne($id);
+            if ($res) {
+                $message = "success";
+            }
+            header("Content-Type: application/json", true);
+            echo json_encode(array(
+                "message" => $message
+            ));
+        } else {
+            return false;
+            /* header('Location: index.php');
+             exit();*/
+        }
+    }
+
     /**
      * Permet de modifier un artile
      * Gère plusieurs cas d'erreurs

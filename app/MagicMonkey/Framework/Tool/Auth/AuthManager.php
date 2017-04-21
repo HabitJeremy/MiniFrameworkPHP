@@ -3,7 +3,6 @@
 namespace MagicMonkey\Framework\Tool\Auth;
 
 use MagicMonkey\Framework\HttpFoundation\Request;
-use MagicMonkey\MiniJournal\RepositoryBd\UserBd;
 
 class AuthManager
 {
@@ -14,6 +13,7 @@ class AuthManager
     private static $instance = null;
     protected $request;
     protected $userData = array();
+    protected $userBdClass;
 
     private function __construct(Request $request)
     {
@@ -21,6 +21,7 @@ class AuthManager
             throw new AuthenticationException("Missing Request parameter");
         }*/
         $this->request = $request;
+        $this->userBdClass = REPOSITORY_BD_USER;
         try {
             $this->userData = $this->request->getSessionParam('user');
         } catch (\Exception $e) {
@@ -47,7 +48,6 @@ class AuthManager
         return empty($this->userData) ? false : true;
     }
 
-
     /**
      * Méthode : verifierAuthentification
      * Vérifie si le couple (login, pwd) est correct
@@ -60,7 +60,7 @@ class AuthManager
      */
     public function checkAuthentication($login, $password)
     {
-        $user = (new UserBd())->selectOne(array(
+        $user = (new $this->userBdClass())->selectOne(array(
             "login =" => $login,
             "password =" => hash('sha256', $password)
         ));
@@ -103,6 +103,7 @@ class AuthManager
      */
     private function synchronize()
     {
+        $this->request->updateSessionParam('user', $this->userData);
         $_SESSION['user'] = $this->userData;
     }
 }

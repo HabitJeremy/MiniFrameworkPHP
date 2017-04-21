@@ -1,12 +1,12 @@
 <?php
 
-namespace MagicMonkey\MiniJournal\Entity;
+namespace MagicMonkey\Framework\Entity;
 
 use MagicMonkey\Framework\Inheritance\Entity\AbstractEntity;
 
 /**
  * Class User
- * @package MagicMonkey\MiniJournal\Entity
+ * @package MagicMonkey\Framework\Entity
  */
 class User extends AbstractEntity
 {

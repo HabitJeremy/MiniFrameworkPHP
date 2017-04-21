@@ -24,19 +24,20 @@ class UserController extends AbstractController
         parent::__construct($request, $response);
     }
 
+    /**
+     * Permet l'inscription d'un nouvel utilisateur
+     */
     public function registration()
     {
         $userForm = new UserForm();
         $userBd = new UserBd();
-       /* var_dump($this->request->getPost());
-        die();*/
         if (count($this->request->getPost()) == 0) { // si il n'y a pas de données postées
             $this->render("view/vUserRegistration.html.twig");
         } else {
             $postedData = $this->request->getPost();
             if ($userForm->validate($postedData)) { // verif du formulaire : si aucune erreur
                 $userForm->clean($postedData);
-                $userBd->add($postedData); /* enregistrement du nouvel article dans la bdd */
+                $userBd->add($postedData); /* enregistrement du nouvel utilisateur dans la bdd */
                 $_SESSION['success'] = "Féliciations " . $postedData['login'] . ", vous êtes maintenant inscrit !"; // et redirection vers l'accueil
                 header('Location: index.php');
                 exit();

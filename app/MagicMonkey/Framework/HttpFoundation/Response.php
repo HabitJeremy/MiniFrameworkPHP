@@ -16,7 +16,7 @@ class Response
     /**
      * @var
      */
-    protected $lstFragments;
+    protected $lstFragments = array();
 
     /**
      * Constructeur

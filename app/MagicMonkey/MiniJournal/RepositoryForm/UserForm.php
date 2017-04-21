@@ -10,11 +10,8 @@ use MagicMonkey\Framework\Validator\ValidatorList\Date;
 use MagicMonkey\Framework\Validator\ValidatorList\Email;
 use MagicMonkey\Framework\Validator\ValidatorList\MaxLength;
 use MagicMonkey\Framework\Validator\ValidatorList\NotBlank;
-use MagicMonkey\Framework\Validator\ValidatorList\ValidObjects;
 use MagicMonkey\Framework\Validator\ValidatorList\ValidValue;
-use MagicMonkey\Framework\Validator\ValidatorManager;
-use MagicMonkey\MiniJournal\Entity\User;
-use MagicMonkey\MiniJournal\RepositoryBd\ImageBd;
+use MagicMonkey\Framework\Entity\User;
 
 /**
  * Class UserForm
@@ -102,6 +99,4 @@ class UserForm extends AbstractForm
     {
         $this->user = $user;
     }
-
-
 }
