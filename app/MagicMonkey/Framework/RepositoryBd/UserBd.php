@@ -38,7 +38,8 @@ class UserBd extends AbstractBd
             $arrayData['name'],
             $arrayData['first_name'],
             $arrayData['birthday_date'],
-            $arrayData['gender']
+            $arrayData['gender'],
+            empty($arrayData['roles']) ? array() : json_decode($arrayData['roles'], true)
         );
         return $user;
     }

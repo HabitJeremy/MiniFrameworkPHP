@@ -4,6 +4,7 @@ namespace MagicMonkey\Framework\Inheritance;
 
 use MagicMonkey\Framework\HttpFoundation\Request;
 use MagicMonkey\Framework\HttpFoundation\Response;
+use MagicMonkey\Framework\Role\RoleManager;
 
 /**
  * Classe abstraite pour les classes "controlleur"
@@ -22,6 +23,11 @@ abstract class AbstractController
     protected $response;
 
     /**
+     * @var
+     */
+    protected $roleManager;
+
+    /**
      * Constructeur
      * AbstractController constructor.
      * @param Request $request : contient les données envoyées au serveur
@@ -31,6 +37,7 @@ abstract class AbstractController
     {
         $this->response = $response;
         $this->request = $request;
+        $this->roleManager = RoleManager::getInstance();
     }
 
     /**

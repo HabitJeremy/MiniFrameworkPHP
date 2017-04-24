@@ -52,8 +52,6 @@ class ArticleController extends AbstractController
             ));
         } else {
             return false;
-            /* header('Location: index.php');
-             exit();*/
         }
     }
 

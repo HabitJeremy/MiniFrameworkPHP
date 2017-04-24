@@ -60,6 +60,8 @@ class AuthManager
      */
     public function checkAuthentication($login, $password)
     {
+
+
         $user = (new $this->userBdClass())->selectOne(array(
             "login =" => $login,
             "password =" => hash('sha256', $password)
@@ -69,7 +71,7 @@ class AuthManager
             $this->userData['id'] = $user->getId();
             $this->userData['name'] = $user->getName();
             $this->userData['first_name'] = $user->getFirstName();
-            $this->userData['role'] = $user->getRole();
+            $this->userData['roles'] = $user->getRoles();
             $this->userData['login'] = $user->getLogin();
             // synchronisation
             $this->synchronize();
@@ -78,11 +80,15 @@ class AuthManager
         }
     }
 
-    public function getUserData($key)
+    public function getUserData($key = null)
     {
         if ($this->isLogged()) {
-            if (array_key_exists($key, $this->userData)) {
-                return $this->userData[$key];
+            if ($key != null) {
+                if (array_key_exists($key, $this->userData)) {
+                    return $this->userData[$key];
+                }
+            } else {
+                return $this->userData;
             }
         }
         return null;

@@ -54,9 +54,9 @@ class User extends AbstractEntity
      * @param $firstName
      * @param $birthdayDate
      * @param $gender
-     * @param $role
+     * @param $roles
      */
-    public function __construct($id = null, $login = null, $password = null, $mail = null, $name = null, $firstName = null, $birthdayDate = null, $gender = null, $role = null)
+    public function __construct($id = null, $login = null, $password = null, $mail = null, $name = null, $firstName = null, $birthdayDate = null, $gender = null, $roles = null)
     {
         parent::__construct($id);
         $this->login = $login;
@@ -66,7 +66,7 @@ class User extends AbstractEntity
         $this->firstName = $firstName;
         $this->birthdayDate = $birthdayDate;
         $this->gender = $gender;
-        $this->role = $role;
+        $this->roles = $roles;
     }
 
     /**
@@ -200,16 +200,16 @@ class User extends AbstractEntity
     /**
      * @return null
      */
-    public function getRole()
+    public function getRoles()
     {
-        return $this->role;
+        return $this->roles;
     }
 
     /**
-     * @param null $role
+     * @param null $roles
      */
-    public function setRole($role)
+    public function setRoles($roles)
     {
-        $this->role = $role;
+        $this->role = $roles;
     }
 }
