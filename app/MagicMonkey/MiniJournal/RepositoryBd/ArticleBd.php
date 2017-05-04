@@ -4,6 +4,7 @@ namespace MagicMonkey\MiniJournal\RepositoryBd;
 
 use MagicMonkey\Framework\Inheritance\AbstractBd;
 use \Exception as Exception;
+use MagicMonkey\Framework\Tool\Auth\AuthManager;
 use MagicMonkey\MiniJournal\Entity\Article;
 use MagicMonkey\MiniJournal\Entity\Image;
 use \PDO as PDO;
@@ -74,6 +75,14 @@ class ArticleBd extends AbstractBd
         }
     }
 
+    public function updatePublicationStatus($article)
+    {
+        $sql = 'UPDATE ' . self::TABLE_NAME . ' SET publication_status = :status WHERE id= :id';
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->execute(array(":status" => $article->getPublicationStatus(), ":id" => $article->getId()));
+        return true;
+    }
+
     /**
      * Ajout d'un article => return false si error sinon true
      * @param $postedData
@@ -82,6 +91,7 @@ class ArticleBd extends AbstractBd
     public function add($postedData)
     {
         try {
+            $postedData['author'] = AuthManager::getInstance()->getUserData("login");
             $postedData['creation_date'] = date("Y-m-d");
             $lstImages = $this->prepareSpecifics($postedData);
             $lastInsertId = $this->saveOne($postedData);
@@ -164,6 +174,9 @@ class ArticleBd extends AbstractBd
         }
     }
 
+    /**
+     * @return array|bool
+     */
     public function eagerSelectAll()
     {
         try {
@@ -183,7 +196,6 @@ class ArticleBd extends AbstractBd
                 }
                 /* end : a fonctionner */
             }
-
             return $articles;
         } catch (Exception $ex) {
             return false;

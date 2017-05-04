@@ -68,11 +68,12 @@ class FrontController extends AbstractController
                 if (!$authManager->isLogged()) { // echec de la connexion
                     // notification flash
                     $_SESSION['error'] = "Identifiant et/ou mot de passe incorrect";
+                } else {
+                    $_SESSION['success'] = "Bonjour";
                 }
                 $this->request->removePostParam('loginConnection');
                 $this->request->removePostParam('passwordConnection');
             }
-
             $className = $this->router->getControllerClassName();
             $controller = new $className($this->request, $this->response);
             $action = $this->router->getControllerAction();

@@ -22,7 +22,7 @@ $request = new Request();
 $response = new Response();
 $flash = FlashMessage::getInstance(); // singleton pour les notifications (sorte de flashbag à la symfony)
 $authManager = AuthManager::getInstance($request); // singleton pour gérer l'authentification
-$twigManager = new TwigManager($request->getSessionParam('user')); // gère l'initialisation de twig, ses functions et variables globales
+$twigManager = new TwigManager();// gère l'initialisation de twig, ses functions et variables globales
 try {
     $frontCtrl = new FrontController($request, $response);
     $frontCtrl->main();

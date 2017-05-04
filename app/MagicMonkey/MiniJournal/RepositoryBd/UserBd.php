@@ -21,6 +21,7 @@ class UserBd extends DefaultUserBd
     {
         try {
             $postedData['password'] = hash('sha256', $postedData['password']);
+            $postedData['roles'] = json_encode(array('0' => 'ROLE_EDITOR'));
             return $this->saveOne($postedData);
         } catch (Exception $ex) {
             return false;

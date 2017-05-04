@@ -1,0 +1,19 @@
+{% extends "lBase.html.twig" %}
+
+{% block title %}Auteur refusé{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="cell-12">
+            <h1 class="marg-0-bottom align-center">
+                Vous n'êtes pas l'auteur !
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell-12 msg-error">
+            <span class="txt-b">Oups : </span>
+            <span>Vous n'êtes pas l'auteur, et ainsi non autorisé à user de cette fonctionnalité.</span>
+        </div>
+    </div>
+{% endblock %}

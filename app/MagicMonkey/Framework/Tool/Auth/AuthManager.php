@@ -4,6 +4,10 @@ namespace MagicMonkey\Framework\Tool\Auth;
 
 use MagicMonkey\Framework\HttpFoundation\Request;
 
+/**
+ * Class AuthManager
+ * @package MagicMonkey\Framework\Tool\Auth
+ */
 class AuthManager
 {
     /**
@@ -45,7 +49,7 @@ class AuthManager
 
     public function isLogged()
     {
-        return empty($this->userData) ? false : true;
+        return empty($this->userData) ? false : $this->userData;
     }
 
     /**
@@ -60,8 +64,6 @@ class AuthManager
      */
     public function checkAuthentication($login, $password)
     {
-
-
         $user = (new $this->userBdClass())->selectOne(array(
             "login =" => $login,
             "password =" => hash('sha256', $password)

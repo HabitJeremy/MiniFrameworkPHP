@@ -5,6 +5,10 @@ namespace MagicMonkey\Framework\Role;
 
 use MagicMonkey\Framework\Tool\Auth\AuthManager;
 
+/**
+ * Class RoleManager
+ * @package MagicMonkey\Framework\Role
+ */
 class RoleManager
 {
     /**
@@ -26,6 +30,11 @@ class RoleManager
         return self::$instance;
     }
 
+    /**
+     * Retourne true ou false si l'utilisateur détient au moins un des rôles passés en paramètre
+     * @param array $roles
+     * @return bool
+     */
     public function isAuth(array $roles = array("ROLE_ADMIN"))
     {
         $authManager = AuthManager::getInstance();
@@ -40,12 +49,45 @@ class RoleManager
         return false;
     }
 
+    /**
+     * Permet de renvoyer une vue par défaut lorsque l'utilisateur n'a pas accès à certaines fonctionalités
+     * @param $ctrl
+     * @param array $roles
+     * @return bool
+     */
     public function renderAccessDenied($ctrl, array $roles = array("ROLE_ADMIN"))
     {
         if (!$this->isAuth($roles)) {
             // render acces denied view
             if (method_exists($ctrl, "render")) {
                 $ctrl->render("view/vAccessDenied.html.twig");
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /* Propre au mini-journal malheureusement ... */
+
+    /* Retourne true ou false si l'utilisateur connecté est l'auteur de l'article passé en paramètre */
+    public function isAuthor($article)
+    {
+        $authManager = AuthManager::getInstance();
+        if ($authManager->isLogged()) {
+            if (($authManager->getUserData("login") == $article->getAuthor()) || $this->isAuth()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /* Retourne true ou false + set une view twig author denied */
+    public function renderAuthorDenied($ctrl, $article)
+    {
+        if (!$this->isAuthor($article)) {
+            // render acces denied view
+            if (method_exists($ctrl, "render")) {
+                $ctrl->render("article/vAuthorDenied.html.twig");
             }
             return false;
         }

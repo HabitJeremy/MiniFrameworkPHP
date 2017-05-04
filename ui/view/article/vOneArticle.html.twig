@@ -1,7 +1,5 @@
 {% extends "lBase.html.twig" %}
 
-
-
 {% block metaFB %}
     <meta property="og:type" content="article">
     <meta property="og:title" content={{ article.title }}>
@@ -12,59 +10,78 @@
     <meta property="article:author" content="{{ article.content }}">
 {% endblock %}
 
-{% block title %}Détails d'un article{% endblock %}
-
-{% block content %}
-    <article>
-        <div class="row">
-            <div class="cell-12">
-                <h1 class="marg-0-bottom align-center">
-                    <a href="index.php?o=article&a=describe&id={{ article.id }}"
-                       title="{{ article.title }}">{{ article.title }}</a>
-                </h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="cell-12 align-center">
-                <a class="color-orange marg-15-right" href="index.php?a=update&id={{ article.id }}"
-                   title="Modifier cet article">Modifier</a>
-                <a class="color-error marg-15-right" href="index.php?a=delete&id={{ article.id }}"
-                   title="Supprimer cet article">Supprimer</a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="cell-12">
-                <p class="msg-info">
-                    <span class="dis-block"># Par {{ article.author }}</span>
-                    <span class="dis-block"># Créé le {{ article.creationDate }}</span>
-                    <span> {{ article.publicationDate ? "# Pubié le " ~ article.publicationDate : "" }}</span>
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="cell-12">
-                <p class="align-center">{{ article.chapo }}</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="cell-12 ckeContent">
-                {{ article.content|raw }}
-            </div>
-        </div>
-        {% if article.lstImages|length > 0 %}
-            <div class="row-col-s flex-vertical-center">
-                {% for image in article.lstImages %}
-                    <a class="cell-4 c6-m color-yang padd-15 box-shad-2px align-center hvr-underline-from-center"
-                       href="index.php?o=image&a=describe&id={{ image.id }}">
-                        <figure>
-                            <img class="responsive-img"
-                                 src="{{ constant('DIR_IMAGE') ~ constant('DS') ~ image.path }}"
-                                 alt="{{ image.attrAlt }}"/>
-                        </figure>
-
-                    </a>
-                {% endfor %}
-            </div>
-        {% endif %}
-    </article>
+{% block js %}
+    <script src="ui/js/libraries/jquery-3.2.0.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="ui/js/ajax/publicationArticle.js"></script>
 {% endblock %}
+
+    {% block title %}Détails d'un article{% endblock %}
+
+    {% block content %}
+        <article>
+            <div class="row">
+                <div id="contentNotification" class="cell-12">
+                    <h1 class="marg-0-bottom align-center">
+                        <a href="index.php?o=article&a=describe&id={{ article.id }}"
+                           title="{{ article.title }}">{{ article.title }}</a>
+                    </h1>
+                </div>
+            </div>
+            {% if isLoggedUser() %}
+                <div class="row">
+                    <div class="cell-12 align-center">
+                        {% if (isGranted(["ROLE_EDITOR"]) and isAuthor(article.author)) or isGranted(["ROLE_ADMIN"]) %}
+                            <a class="color-orange marg-15-right" href="index.php?a=update&id={{ article.id }}"
+                               title="Modifier cet article">Modifier</a>
+                            {% if article.publicationStatus == "brouillon" %}
+                                <a class="color-error marg-15-right" href="index.php?a=delete&id={{ article.id }}"
+                                   title="Supprimer cet article">Supprimer</a>
+                            {% endif %}
+                        {% endif %}
+                        {% if article.publicationStatus != "publie" %}
+                            <a class="color-green-sea marg-15-right changePublicationArticle" href="#"
+                               title="Publier cet article" data-id="{{ article.id }}">Publier</a>
+                        {% else %}
+                            <a class="color-green-sea marg-15-right changePublicationArticle" href="#"
+                               title="Mettre en etat de brouillon" data-id="{{ article.id }}">Mettre en etat de
+                                brouillon</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+            <div class="row">
+                <div class="cell-12">
+                    <p class="msg-info">
+                        <span class="dis-block"># Par {{ article.author }}</span>
+                        <span class="dis-block"># Créé le {{ article.creationDate }}</span>
+                        <span> {{ article.publicationDate ? "# Publié le " ~ article.publicationDate : "" }}</span>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell-12">
+                    <p class="align-center">{{ article.chapo }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="cell-12 ckeContent">
+                    {{ article.content|raw }}
+                </div>
+            </div>
+            {% if article.lstImages|length > 0 %}
+                <div class="row-col-s flex-vertical-center">
+                    {% for image in article.lstImages %}
+                        <a class="cell-4 c6-m color-yang padd-15 box-shad-2px align-center hvr-underline-from-center"
+                           href="index.php?o=image&a=describe&id={{ image.id }}">
+                            <figure>
+                                <img class="responsive-img"
+                                     src="{{ constant('DIR_IMAGE') ~ constant('DS') ~ image.path }}"
+                                     alt="{{ image.attrAlt }}"/>
+                            </figure>
+
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </article>
+    {% endblock %}

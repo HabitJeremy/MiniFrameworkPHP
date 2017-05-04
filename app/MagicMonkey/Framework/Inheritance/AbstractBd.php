@@ -79,6 +79,37 @@ abstract class AbstractBd
         }
     }
 
+    public function selectAllBy(array $conditions)
+    {
+        try {
+            $lstPrepare = array();
+            $lstObjsArticle = array();
+            $sql = 'SELECT * from ' . $this->tableName . ' where ';
+            $where = false;
+            foreach ($conditions as $columnOperator => $value) {
+                if ($where) {
+                    $sql .= "and ";
+                }
+                $uniqNb = uniqid(rand()) . uniqid();
+                $sql .= $columnOperator . " :p" . $uniqNb . " ";
+                $lstPrepare[":p" . $uniqNb] = $value;
+                $where = true;
+            }
+            $stmt = $this->dbh->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+            $stmt->execute($lstPrepare);
+            if ($res = $stmt->fetchAll(PDO::FETCH_ASSOC)) {
+                foreach ($res as $row) {
+                    array_push($lstObjsArticle, $this->mapp($row));
+                }
+                return $lstObjsArticle;
+            } else {
+                return false;
+            }
+        } catch (Exception $ex) {
+            return false;
+        }
+    }
+
 
     /**
      *  Permet de lire un enregistrement

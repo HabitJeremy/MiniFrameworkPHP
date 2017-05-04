@@ -1,0 +1,19 @@
+{% extends "lBase.html.twig" %}
+
+{% block title %}Artice non publié{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="cell-12">
+            <h1 class="marg-0-bottom align-center">
+                L'article est publié !
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="cell-12 msg-error">
+            <span class="txt-b">Oups : </span>
+            <span>Vous ne pouvez pas supprimer un article publié.</span>
+        </div>
+    </div>
+{% endblock %}
