@@ -5,6 +5,7 @@ namespace MagicMonkey\MiniJournal\Controller;
 use MagicMonkey\Framework\HttpFoundation\Request;
 use MagicMonkey\Framework\HttpFoundation\Response;
 use MagicMonkey\Framework\Inheritance\AbstractController;
+use MagicMonkey\Framework\Tool\Auth\AuthManager;
 use MagicMonkey\MiniJournal\RepositoryBd\UserBd;
 use MagicMonkey\MiniJournal\RepositoryForm\UserForm;
 
@@ -39,6 +40,10 @@ class UserController extends AbstractController
                 $userForm->clean($postedData);
                 $userBd->add($postedData); /* enregistrement du nouvel utilisateur dans la bdd */
                 $_SESSION['success'] = "Féliciations " . $postedData['login'] . ", vous êtes maintenant inscrit !"; // et redirection vers l'accueil
+                $user = $userBd->selectOne(array('login =' => $postedData['login']));
+                $authManager = AuthManager::getInstance();
+                $authManager->feedUserData($user);
+                $authManager->synchronize();
                 header('Location: index.php');
                 exit();
             } else { // s'il y a au moins une erreur => redirection vers le fomulaire avec des notifications pour

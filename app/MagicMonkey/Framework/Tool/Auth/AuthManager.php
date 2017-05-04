@@ -70,16 +70,21 @@ class AuthManager
         ));
         if ($user) { // le couple (login, pwd) est correct
             // remplissage de $this->userData
-            $this->userData['id'] = $user->getId();
-            $this->userData['name'] = $user->getName();
-            $this->userData['first_name'] = $user->getFirstName();
-            $this->userData['roles'] = $user->getRoles();
-            $this->userData['login'] = $user->getLogin();
+            $this->feedUserData($user);
             // synchronisation
             $this->synchronize();
         } else {
             /* throw new AuthenticationException("user incconnu");*/
         }
+    }
+
+    public function feedUserData($user)
+    {
+        $this->userData['id'] = $user->getId();
+        $this->userData['name'] = $user->getName();
+        $this->userData['first_name'] = $user->getFirstName();
+        $this->userData['roles'] = $user->getRoles();
+        $this->userData['login'] = $user->getLogin();
     }
 
     public function getUserData($key = null)
@@ -109,7 +114,7 @@ class AuthManager
      * Synchronisation des infos de $this->userData avec la session
      * Méthode à changer si on utilise un autre système pour conserver les infos
      */
-    private function synchronize()
+    public function synchronize()
     {
         $this->request->updateSessionParam('user', $this->userData);
         $_SESSION['user'] = $this->userData;

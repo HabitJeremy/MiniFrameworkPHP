@@ -33,18 +33,20 @@
                         {% if (isGranted(["ROLE_EDITOR"]) and isAuthor(article.author)) or isGranted(["ROLE_ADMIN"]) %}
                             <a class="color-orange marg-15-right" href="index.php?a=update&id={{ article.id }}"
                                title="Modifier cet article">Modifier</a>
-                            {% if article.publicationStatus == "brouillon" %}
+                            {% if article.publicationStatus == "brouillon" or isGranted(["ROLE_ADMIN"])%}
                                 <a class="color-error marg-15-right" href="index.php?a=delete&id={{ article.id }}"
                                    title="Supprimer cet article">Supprimer</a>
                             {% endif %}
                         {% endif %}
-                        {% if article.publicationStatus != "publie" %}
-                            <a class="color-green-sea marg-15-right changePublicationArticle" href="#"
-                               title="Publier cet article" data-id="{{ article.id }}">Publier</a>
-                        {% else %}
-                            <a class="color-green-sea marg-15-right changePublicationArticle" href="#"
-                               title="Mettre en etat de brouillon" data-id="{{ article.id }}">Mettre en etat de
-                                brouillon</a>
+                        {% if isGranted(["ROLE_ADMIN"]) %}
+                            {% if article.publicationStatus != "publie" %}
+                                <a class="color-green-sea marg-15-right changePublicationArticle" href="#"
+                                   title="Publier cet article" data-id="{{ article.id }}">Publier</a>
+                            {% else %}
+                                <a class="color-green-sea marg-15-right changePublicationArticle" href="#"
+                                   title="Mettre en etat de brouillon" data-id="{{ article.id }}">Mettre en etat de
+                                    brouillon</a>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>

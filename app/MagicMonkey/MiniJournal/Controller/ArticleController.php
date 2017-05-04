@@ -48,25 +48,29 @@ class ArticleController extends AbstractController
     public function changePublicationAjax()
     {
         $message = "error";
-        if ($this->request->isXhrRequest()) {
-            $id = $this->request->getGetParam("id");
-            $article = (new ArticleBd())->eagerSelectOne($id);
-            if ($article != null) {
-                if ($article->getPublicationStatus() == "publie") {
-                    $article->setPublicationStatus("brouillon");
-                } else {
-                    $article->setPublicationStatus("publie");
+        $newText = "Mettre en etat de publication";
+        if ($this->roleManager->isAuth()) {
+            if ($this->request->isXhrRequest()) {
+                $id = $this->request->getGetParam("id");
+                $article = (new ArticleBd())->eagerSelectOne($id);
+                if ($article != null) {
+                    if ($article->getPublicationStatus() == "publie") {
+                        $article->setPublicationStatus("brouillon");
+                        $newText = "Publier";
+                    } else {
+                        $article->setPublicationStatus("publie");
+                    }
+                    (new ArticleBd())->updatePublicationStatus($article);
+                    $message = "success";
                 }
-                (new ArticleBd())->updatePublicationStatus($article);
-                $message = "success";
             }
-            header("Content-Type: application/json", true);
-            echo json_encode(array(
-                "message" => $message
-            ));
-        } else {
-            return false;
         }
+        header("Content-Type: application/json", true);
+        echo json_encode(array(
+            "message" => $message,
+            "newText" => $newText
+        ));
+        return false;
     }
 
     /* suppression en ajax d'un article */
@@ -78,7 +82,7 @@ class ArticleController extends AbstractController
             if ($this->request->isXhrRequest()) {
                 $id = $this->request->getGetParam("id");
                 $article = $articleBd->selectOne(array('id =' => (int)$id));
-                if ($article && $article->getPublicationStatus() == "brouillon") {
+                if ($article && ($article->getPublicationStatus() == "brouillon" || $this->roleManager->isAuth())) {
                     if ($this->roleManager->isAuthor($article)) {
                         $res = $articleBd->deleteOne($id);
                         if ($res) {
@@ -208,7 +212,7 @@ class ArticleController extends AbstractController
             if (($isEmptyGetId && $isNotEmptyPostArticle) || !$isEmptyGetId) {
                 $id = $isEmptyGetId ? $this->request->getPost()['article'] : $this->request->getGet()['id'];
                 $article = $articleBd->selectOne(array('id =' => (int)$id));
-                if ($article->getPublicationStatus() == "brouillon") {
+                if ($article && ($article->getPublicationStatus() == "brouillon") || $this->roleManager->isAuth()) {
                     if ($this->roleManager->renderAuthorDenied($this, $article)) {
                         $res = $articleBd->deleteOne($id);
                         if (!$res && $isNotEmptyPostArticle) { //suppression par formulaire

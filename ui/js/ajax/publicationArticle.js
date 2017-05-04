@@ -4,6 +4,7 @@ $(document).ready(function () {
 
     $body.on('click', '.changePublicationArticle', function (e) {
         e.preventDefault();
+        var $btn = $(this);
         url = "index.php?o=article&a=changePublicationAjax&id=" + $(this).attr("data-id");
         $parent = $(this).parent();
         $.ajax({
@@ -13,17 +14,14 @@ $(document).ready(function () {
             .done(function (response) {
                 if (typeof response.message !== 'undefined') {
                     if (response.message === "success") {
-
-                        /* suppression de l'article dans le dom */
-
-
+                        $btn.text(response.newText);
                         /* message de notification */
                         if ($("#ajaxSuccessNotification").length) {
-                            $("#ajaxSuccessNotification").html("<span class='txt-b'>Ok</span> : Publication modifiée !");
+                            $("#ajaxSuccessNotification").html("<span class='txt-b'>Ok</span> :  Statut de publication modifiée !");
                         } else {
                             $("#contentNotification").prepend(
                                 "<span id='ajaxSuccessNotification' class='msg-success'>" +
-                                "<span class='txt-b'>Ok</span> : Publication modifiée </span>"
+                                "<span class='txt-b'>Ok</span> : Statut de publication modifiée </span>"
                             );
                         }
                     }
