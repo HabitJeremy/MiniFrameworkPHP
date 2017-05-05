@@ -33,7 +33,7 @@
                         {% if (isGranted(["ROLE_EDITOR"]) and isAuthor(article.author)) or isGranted(["ROLE_ADMIN"]) %}
                             <a class="color-orange marg-15-right" href="index.php?a=update&id={{ article.id }}"
                                title="Modifier cet article">Modifier</a>
-                            {% if article.publicationStatus == "brouillon" or isGranted(["ROLE_ADMIN"])%}
+                            {% if article.publicationStatus == "brouillon" or isGranted(["ROLE_ADMIN"]) %}
                                 <a class="color-error marg-15-right" href="index.php?a=delete&id={{ article.id }}"
                                    title="Supprimer cet article">Supprimer</a>
                             {% endif %}
@@ -56,7 +56,7 @@
                     <p class="msg-info">
                         <span class="dis-block"># Par {{ article.author }}</span>
                         <span class="dis-block"># Créé le {{ article.creationDate }}</span>
-                        <span> {{ article.publicationDate ? "# Publié le " ~ article.publicationDate : "" }}</span>
+                        <span id="spanPublicationDate"> {{ article.publicationDate ? "# Publié le " ~ article.publicationDate : "" }}</span>
                     </p>
                 </div>
             </div>
@@ -73,14 +73,14 @@
             {% if article.lstImages|length > 0 %}
                 <div class="row-col-s flex-vertical-center">
                     {% for image in article.lstImages %}
-                        <a class="cell-4 c6-m color-yang padd-15 box-shad-2px align-center hvr-underline-from-center"
+                        <a class="cell-4 c6-m padd-15 box-shad-2px align-center hvr-underline-from-center"
                            href="index.php?o=image&a=describe&id={{ image.id }}">
                             <figure>
                                 <img class="responsive-img"
                                      src="{{ constant('DIR_IMAGE') ~ constant('DS') ~ image.path }}"
                                      alt="{{ image.attrAlt }}"/>
+                                <figcaption class="padd-15 padd-0-bottom">{{ image.attrAlt }}</figcaption>
                             </figure>
-
                         </a>
                     {% endfor %}
                 </div>

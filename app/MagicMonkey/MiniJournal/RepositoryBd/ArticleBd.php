@@ -77,9 +77,13 @@ class ArticleBd extends AbstractBd
 
     public function updatePublicationStatus($article)
     {
-        $sql = 'UPDATE ' . self::TABLE_NAME . ' SET publication_status = :status WHERE id= :id';
+        $sql = 'UPDATE ' . self::TABLE_NAME . ' SET publication_status = :status, publication_date = :date WHERE id= :id';
         $stmt = $this->dbh->prepare($sql);
-        $stmt->execute(array(":status" => $article->getPublicationStatus(), ":id" => $article->getId()));
+        $stmt->execute(array(
+            ":status" => $article->getPublicationStatus(),
+            ":date" => $article->getPublicationDate(),
+            ":id" => $article->getId()
+        ));
         return true;
     }
 

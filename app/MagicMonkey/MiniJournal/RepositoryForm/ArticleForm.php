@@ -42,8 +42,6 @@ class ArticleForm extends AbstractForm
         $this->validatorManager
             ->add('title', new NotBlank())
             ->add('title', new MaxLength(255))
-           /* ->add('author', new NotBlank())
-            ->add('author', new MaxLength(255))*/
             ->add('content', new NotBlank())
             ->add('chapo', new NotBlank())
             ->add('publication_status', new NotBlank())
@@ -58,9 +56,6 @@ class ArticleForm extends AbstractForm
     public function cleaningOptions()
     {
         $this->cleanerManager
-            /*->add('author', new StripTags())
-            ->add('author', new Trim())
-            ->add('author', new Nl2br())*/
             ->add('title', new StripTags())
             ->add('title', new Trim())
             ->add('title', new Nl2br())

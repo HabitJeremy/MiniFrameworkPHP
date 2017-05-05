@@ -11,20 +11,34 @@
             </h1>
         </div>
     </div>
-    <div class="row">
-        <div class="cell-12 align-center">
-            <a class="color-orange marg-15-right" href="index.php?o=image&a=update&id={{ image.id }}"
-               title="Modifier cet image">Modifier</a>
-            <a class="color-error" href="index.php?o=image&a=delete&id={{ image.id }}"
-               title="Supprimer cet image">Supprimer</a>
+    {% if isLoggedUser() %}
+        <div class="row">
+            <div class="cell-12 align-center">
+                {% if (isGranted(["ROLE_EDITOR"]) and isAuthor(image.author)) or isGranted(["ROLE_ADMIN"]) %}
+                    <a class="color-orange marg-15-right" href="index.php?o=image&a=update&id={{ image.id }}"
+                       title="Modifier cet image">Modifier</a>
+                    {% if image.publicationStatus == "brouillon" or isGranted(["ROLE_ADMIN"]) %}
+                        <a class="color-error" href="index.php?o=image&a=delete&id={{ image.id }}"
+                           title="Supprimer cet image">Supprimer</a>
+                    {% endif %}
+                {% endif %}
+            </div>
         </div>
-    </div>
+    {% endif %}
     <div class="row">
         <div class="cell-12">
-            <p class="msg-info marg-0">{{ image.attrAlt }}</p>
+            <p class="msg-info marg-0">
+                <span class="dis-block"># Par {{ image.author }}</span>
+                <span class="dis-block"># Créé le {{ image.creationDate }}</span>
+                <span> {{ image.publicationDate ? "# Publié le " ~ image.publicationDate : "" }}</span>
+            </p>
         </div>
         <div class="cell-12 align-center">
-            <img class="responsive-img" src="{{ constant("DIR_IMAGE") ~ constant("DS") ~ image.path}}" alt="{{ image.alt }}"/>
+            <figure>
+                <img class="responsive-img" src="{{ constant("DIR_IMAGE") ~ constant("DS") ~ image.path }}"
+                     alt="{{ image.alt }}"/>
+                <figcaption>{{ image.attrAlt }}</figcaption>
+            </figure>
         </div>
     </div>
 {% endblock %}

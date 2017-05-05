@@ -5,6 +5,7 @@ $(document).ready(function () {
     $body.on('click', '.changePublicationArticle', function (e) {
         e.preventDefault();
         var $btn = $(this);
+        var $spanPublicationDate = $("#spanPublicationDate");
         url = "index.php?o=article&a=changePublicationAjax&id=" + $(this).attr("data-id");
         $parent = $(this).parent();
         $.ajax({
@@ -15,6 +16,7 @@ $(document).ready(function () {
                 if (typeof response.message !== 'undefined') {
                     if (response.message === "success") {
                         $btn.text(response.newText);
+                        $spanPublicationDate.text(response.spanNewText);
                         /* message de notification */
                         if ($("#ajaxSuccessNotification").length) {
                             $("#ajaxSuccessNotification").html("<span class='txt-b'>Ok</span> :  Statut de publication modifiée !");

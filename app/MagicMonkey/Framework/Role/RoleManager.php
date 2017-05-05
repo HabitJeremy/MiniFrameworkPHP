@@ -69,12 +69,12 @@ class RoleManager
 
     /* Propre au mini-journal malheureusement ... */
 
-    /* Retourne true ou false si l'utilisateur connecté est l'auteur de l'article passé en paramètre */
-    public function isAuthor($article)
+    /* Retourne true ou false si l'utilisateur connecté est l'auteur de l'article ou de l'image passé en paramètre */
+    public function isAuthor($document)
     {
         $authManager = AuthManager::getInstance();
         if ($authManager->isLogged()) {
-            if (($authManager->getUserData("login") == $article->getAuthor()) || $this->isAuth()) {
+            if (($authManager->getUserData("login") == $document->getAuthor()) || $this->isAuth()) {
                 return true;
             }
         }
@@ -82,9 +82,9 @@ class RoleManager
     }
 
     /* Retourne true ou false + set une view twig author denied */
-    public function renderAuthorDenied($ctrl, $article)
+    public function renderAuthorDenied($ctrl, $document)
     {
-        if (!$this->isAuthor($article)) {
+        if (!$this->isAuthor($document)) {
             // render acces denied view
             if (method_exists($ctrl, "render")) {
                 $ctrl->render("article/vAuthorDenied.html.twig");

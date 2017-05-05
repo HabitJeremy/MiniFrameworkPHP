@@ -8,6 +8,7 @@ use MagicMonkey\Framework\Cleaner\CleanerList\Trim;
 use MagicMonkey\Framework\Inheritance\AbstractForm;
 use MagicMonkey\Framework\Validator\ValidatorList\MaxLength;
 use MagicMonkey\Framework\Validator\ValidatorList\NotBlank;
+use MagicMonkey\Framework\Validator\ValidatorList\ValidValue;
 use MagicMonkey\MiniJournal\Entity\Image;
 use MagicMonkey\Framework\Validator\ValidatorList\ImageFile;
 
@@ -42,6 +43,8 @@ class ImageForm extends AbstractForm
             ->add('name', new MaxLength(255))
             ->add('attr_alt', new NotBlank())
             ->add('attr_alt', new MaxLength(255))
+            ->add('publication_status', new NotBlank())
+            ->add('publication_status', new ValidValue(array("brouillon", "publie")))
             ->add('file', new ImageFile());
     }
 
@@ -54,6 +57,9 @@ class ImageForm extends AbstractForm
         $this->cleanerManager
             ->add('name', new StripTags())
             ->add('name', new Trim())
+            ->add('publication_status', new StripTags())
+            ->add('publication_status', new Trim())
+            ->add('publication_status', new Nl2br())
             ->add('name', new Nl2br())
             ->add('path', new StripTags())
             ->add('path', new Trim())

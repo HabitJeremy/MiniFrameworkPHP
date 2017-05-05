@@ -38,6 +38,20 @@
                            value="{{ image.attrAlt }}"/>
                 </div>
 
+                <!--  publication_status -->
+                <div class="groupform-large">
+                    <label class="required" for="publication_status">Statut de publication</label>
+                    {{ imageForm.showMsg('publication_status')|raw }}
+                    <select class="padd-15" name="publication_status" id="publication_status">
+                        <option value="brouillon" {{ image.publicationStatus == "brouillon" ?  "selected" : "" }}>
+                            Brouillon
+                        </option>
+                        <option value="publie" {{ image.publicationStatus == "publie" ?  "selected" : "" }}>
+                            Publié
+                        </option>
+                    </select>
+                </div>
+
                 <!-- image -->
                 <div class="groupform-large">
                     <label for="image">Image</label>

@@ -8,7 +8,7 @@ use MagicMonkey\Framework\Inheritance\Entity\Type\AbstractDocumentEntity;
  * Class Article
  * @package MagicMonkey\MiniJournal\Entity
  */
-class Article extends AbstractDocumentEntity implements \JsonSerializable
+class Article extends AbstractDocumentEntity
 {
     /**
      * @var null
@@ -63,16 +63,6 @@ class Article extends AbstractDocumentEntity implements \JsonSerializable
         } else {
             $this->lstImages = $lstImages;
         }
-    }
-
-    public function jsonSerialize()
-    {
-        $objectToArray = array();
-        foreach (get_object_vars($this) as $key => $value) {
-            $newKey = strtolower(preg_replace('/\B([A-Z])/', '_$1', $key));
-            $objectToArray[$newKey] = $value;
-        }
-        return $objectToArray;
     }
 
     /**

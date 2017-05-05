@@ -19,16 +19,19 @@ class Image extends AbstractFileEntity
      */
     private $attrAlt;
 
-    /**
-     * Image constructor.
-     * @param $id
-     * @param $name
-     * @param $path
-     * @param $attrAlt
-     */
-    public function __construct($id = null, $name = null, $path = null, $attrAlt = null)
+
+    public function __construct(
+        $id = null,
+        $name = null,
+        $path = null,
+        $attrAlt = null,
+        $author = null,
+        $publicationStatus = null,
+        $creationDate = null,
+        $publicationDate = null
+    )
     {
-        parent::__construct($id, $path);
+        parent::__construct($id, $path, $author, $creationDate, $publicationDate, $publicationStatus);
         $this->name = $name;
         $this->attrAlt = $attrAlt;
     }

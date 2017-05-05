@@ -4,6 +4,7 @@ namespace MagicMonkey\MiniJournal\RepositoryBd;
 
 use MagicMonkey\Framework\Inheritance\AbstractBd;
 use \Exception;
+use MagicMonkey\Framework\Tool\Auth\AuthManager;
 use MagicMonkey\MiniJournal\Entity\Image;
 
 /**
@@ -36,7 +37,11 @@ class ImageBd extends AbstractBd
             empty($arrayData['id']) ? null : $arrayData['id'],
             $arrayData['name'],
             empty($arrayData['path']) ? null : $arrayData['path'],
-            $arrayData['attr_alt']
+            $arrayData['attr_alt'],
+            empty($arrayData['author']) ? null : $arrayData['author'],
+            $arrayData['publication_status'],
+            empty($arrayData['creation_date']) ? null : $arrayData['creation_date'],
+            empty($arrayData['publication_date']) ? null : $arrayData['publication_date']
         );
     }
 
@@ -50,6 +55,7 @@ class ImageBd extends AbstractBd
     {
         try {
             $postedData['id'] = $id;
+            $this->prepareSpecifics($postedData);
             return $this->saveOne($postedData);
         } catch (Exception $ex) {
             return false;
@@ -64,9 +70,23 @@ class ImageBd extends AbstractBd
     public function add($postedData)
     {
         try {
+            $this->prepareSpecifics($postedData);
             return $this->saveOne($postedData);
         } catch (Exception $ex) {
             return false;
         }
+    }
+
+
+    private function prepareSpecifics(&$postedData)
+    {
+        $postedData['author'] = AuthManager::getInstance()->getUserData("login");
+        $postedData['creation_date'] = date("Y-m-d");
+        if ($postedData['publication_status'] == "publie") {
+            $postedData['publication_date'] = date("Y-m-d");
+        } else {
+            $postedData['publication_date'] = null;
+        }
+        return true;
     }
 }

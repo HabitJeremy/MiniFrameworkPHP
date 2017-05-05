@@ -20,12 +20,12 @@
                 <div class="cell-4 c6-m box-shad-2px">
                     <a class="align-center box-shad-2px padd-15 dis-block"
                        href="index.php?o=article&a=describe&id={{ article.id }}">{{ article.title }}</a>
-                    {% if article.publicationStatus == "brouillon" or isGranted(["ROLE_ADMIN"]) %}
-                        <a class="color-error pos-abs-right-center marg-15-right deleteArticle" href="#"
-                           data-id="{{ article.id }}"
-                           title="Supprimer cet article">
-                            <img src="ui/media/icon_logo/x-mark-5-24.png" alt="Icône de suppression"/>
-                        </a>
+                    {% if (article.publicationStatus == "brouillon" and isGranted(["ROLE_EDITOR"]) and isAuthor(article.author)) or isGranted(["ROLE_ADMIN"]) %}
+                            <a class="color-error pos-abs-right-center marg-15-right deleteArticle" href="#"
+                               data-id="{{ article.id }}"
+                               title="Supprimer cet article">
+                                <img src="ui/media/icon_logo/x-mark-5-24.png" alt="Icône de suppression"/>
+                            </a>
                     {% endif %}
                 </div>
             {% endfor %}

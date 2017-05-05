@@ -48,7 +48,8 @@ class ArticleController extends AbstractController
     public function changePublicationAjax()
     {
         $message = "error";
-        $newText = "Mettre en etat de publication";
+        $newText = "Mettre en etat de brouillon";
+        $spanNewText = "# Publié le ";
         if ($this->roleManager->isAuth()) {
             if ($this->request->isXhrRequest()) {
                 $id = $this->request->getGetParam("id");
@@ -56,9 +57,13 @@ class ArticleController extends AbstractController
                 if ($article != null) {
                     if ($article->getPublicationStatus() == "publie") {
                         $article->setPublicationStatus("brouillon");
+                        $article->setPublicationDate(null);
                         $newText = "Publier";
+                        $spanNewText = "";
                     } else {
                         $article->setPublicationStatus("publie");
+                        $article->setPublicationDate(date("Y-m-d"));
+                        $spanNewText .= $article->getPublicationDate();
                     }
                     (new ArticleBd())->updatePublicationStatus($article);
                     $message = "success";
@@ -68,7 +73,8 @@ class ArticleController extends AbstractController
         header("Content-Type: application/json", true);
         echo json_encode(array(
             "message" => $message,
-            "newText" => $newText
+            "newText" => $newText,
+            "spanNewText" => $spanNewText
         ));
         return false;
     }
@@ -234,7 +240,7 @@ class ArticleController extends AbstractController
                         }
                     }
                 } else {
-                    $this->render("article/vNotPublished.html.twig");
+                    $this->render("article/vCantDeletePublished.html.twig");
                 }
             } else { // affichage du formulaire pour choisir un article
                 $this->render("article/vFormSelect.html.twig", array(

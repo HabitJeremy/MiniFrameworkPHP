@@ -38,9 +38,16 @@
                     </li>
                 {% endif %}
                 <li>
-                    <a href="index.php?a=listAll&o=image" title="Lien vers la liste des images">Liste des images</a>
+                    <a href="index.php?a=publiees&o=image" title="Lien vers la liste des images publiées">
+                        Images publiées
+                    </a>
                 </li>
                 {% if isLoggedUser() %}
+                    <li>
+                        <a href="index.php?a=nonPubliees&o=image" title="Lien vers la liste des images non publiées">
+                            Images non publiées
+                        </a>
+                    </li>
                     <li>
                         <a href="index.php?a=insert&o=article" title="Lien vers le formulaire pour ajouter un article">
                             Ajouter un article</a>
