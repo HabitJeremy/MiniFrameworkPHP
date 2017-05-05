@@ -1,8 +1,8 @@
 <header>
     <div class="row-col-s jumbo align-center-s">
-        <div class="cell-9 hide-s">
-            <a href="index.php" class="color-yang fontBilly" title="Vers l'accueil">
-                <span class="txt-sizeXXL">Mini Journal version 2</span><br class="hide-s">
+        <div class="cell-9">
+            <a href="index.php" class="color-yang fontBilly bg-opac-3 dis-inblock padd-10" title="Vers l'accueil">
+                <span class="txt-sizeXXL">Mini Journal v<span class="hide-s">ersion</span>2</span><br class="hide-s">
                 <span class="hide-s fontCaviar">{ Projet pour réaliser un mini framework php }</span>
             </a>
         </div>
@@ -16,8 +16,9 @@
                     {{ isLoggedUser()['name'] }}
                     {{ isLoggedUser()['first_name'] }}
                 </span>
-                <div>
-                    <a href="index.php?o=auth&a=logout" class="color-error" title="Se déconnecter">Déconnexion</a>
+                <div class="marg-10-top">
+                    <a href="index.php?o=auth&a=logout" class="color-yang bg-alizarin boder padd-5 dis-inblock"
+                       title="Se déconnecter">Déconnexion</a>
                 </div>
             </div>
         {% else %}
@@ -27,7 +28,10 @@
     </div>
     <div class="row box-shad-2px">
         <div class="cell-12">
-            <ul class="list-unstyled list-inline containerLinkMidnight">
+            <button id="btnMenu" class="padd-15">
+                <span>Menu</span>
+            </button>
+            <ul id="ulMenu" class="list-unstyled list-inline containerLinkMidnight">
                 <li>
                     <a href="index.php" title="Lien vers la liste des articles publiés">Articles publiés</a>
                 </li>

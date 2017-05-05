@@ -2,25 +2,51 @@
 
 {% block title %}Toutes les images{% endblock %}
 
+{% block js %}
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+{% endblock %}
+
 {% block content %}
     <div class="row">
         <div class="cell-12">
             <h1 class="align-center">Liste des images {{ endH1 }}</h1>
         </div>
     </div>
-    <div class="row-col-s flex-vertical-center">
+    <div class="grid">
         {% if images|length > 0 %}
             {% for image in images %}
-                <a class="cell-3 c4-l c6-m padd-15 box-shad-2px align-center hvr-underline-from-center"
-                   href="index.php?o=image&a=describe&id={{ image.id }}">
-                    <figure>
-                        <img class="responsive-img" src="{{ constant('DIR_IMAGE') ~ constant('DS') ~ image.path }}" alt="{{ image.attrAlt }}"/>
-                        <figcaption class="padd-15 padd-0-bottom">{{ image.attrAlt }}</figcaption>
-                    </figure>
-                </a>
+                <div class="grid-item">   <a class="padd-15 box-shad-2px align-center hvr-underline-from-center"
+                                             href="index.php?o=image&a=describe&id={{ image.id }}">
+                        <figure>
+                            <img class="responsive-img" src="{{ constant('DIR_IMAGE') ~ constant('DS') ~ image.path }}"
+                                 alt="{{ image.attrAlt }}"/>
+                            <figcaption class="padd-15 padd-0-bottom">{{ image.attrAlt }}</figcaption>
+                        </figure>
+                    </a></div>
+
+
             {% endfor %}
         {% else %}
             <div class='cell-12'><p class='msg-warning'>Aucune image trouvée !</p></div>
         {% endif %}
     </div>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            var $grid = $('.grid').masonry({
+                itemSelector : '.grid-item',
+                columnWidth : '.grid-item',
+                gutter:8,
+                isFitWidth:true,
+                isAnimated: true,
+                animationOptions: {
+                    duration: 1,
+                    easing: 'ease',
+                    queue: false
+                }
+            });
+            $grid.imagesLoaded().progress( function() {
+                $grid.masonry('layout');
+            });
+        });
+    </script>
 {% endblock %}
