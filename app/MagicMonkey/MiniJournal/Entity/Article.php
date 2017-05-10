@@ -46,8 +46,7 @@ class Article extends AbstractDocumentEntity
         $creationDate = null,
         $publicationDate = null,
         $lstImages = null
-    )
-    {
+    ) {
         parent::__construct(
             $id,
             $title,

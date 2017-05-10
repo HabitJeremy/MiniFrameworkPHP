@@ -56,8 +56,17 @@ class User extends AbstractEntity
      * @param $gender
      * @param $roles
      */
-    public function __construct($id = null, $login = null, $password = null, $mail = null, $name = null, $firstName = null, $birthdayDate = null, $gender = null, $roles = null)
-    {
+    public function __construct(
+        $id = null,
+        $login = null,
+        $password = null,
+        $mail = null,
+        $name = null,
+        $firstName = null,
+        $birthdayDate = null,
+        $gender = null,
+        $roles = null
+    ) {
         parent::__construct($id);
         $this->login = $login;
         $this->password = $password;

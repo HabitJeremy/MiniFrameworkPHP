@@ -131,7 +131,4 @@ abstract class AbstractFileEntity extends AbstractEntity
     {
         $this->publicationStatus = $publicationStatus;
     }
-
-    /* ### GETTERS & SETTERS ### */
-
 }

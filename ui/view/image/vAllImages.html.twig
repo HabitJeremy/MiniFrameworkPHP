@@ -15,37 +15,35 @@
     <div class="grid">
         {% if images|length > 0 %}
             {% for image in images %}
-                <div class="grid-item">   <a class="padd-15 box-shad-2px align-center hvr-underline-from-center"
-                                             href="index.php?o=image&a=describe&id={{ image.id }}">
+                <div class="grid-item">
+                    <a class="padd-15 box-shad-2px align-center hvr-underline-from-center"
+                       href="index.php?o=image&a=describe&id={{ image.id }}">
                         <figure>
-                            <img class="responsive-img" src="{{ constant('DIR_IMAGE') ~ constant('DS') ~ image.path }}"
+                            <img itemprop="image" class="responsive-img"
+                                 src="{{ constant('DIR_IMAGE') ~ constant('DS') ~ image.path }}"
                                  alt="{{ image.attrAlt }}"/>
-                            <figcaption class="padd-15 padd-0-bottom">{{ image.attrAlt }}</figcaption>
+                            <figcaption itemprop="description"
+                                        class="padd-15 padd-0-bottom">{{ image.attrAlt }}</figcaption>
                         </figure>
                     </a></div>
-
-
             {% endfor %}
         {% else %}
             <div class='cell-12'><p class='msg-warning'>Aucune image trouvée !</p></div>
         {% endif %}
     </div>
     <script type="text/javascript">
-        $( document ).ready(function() {
+        $(document).ready(function () {
             var $grid = $('.grid').masonry({
-                itemSelector : '.grid-item',
-                columnWidth : '.grid-item',
-                gutter:8,
-                isFitWidth:true,
+                itemSelector: '.grid-item',
+                columnWidth: '.grid-item',
+                gutter: 8,
+                isFitWidth: true,
                 isAnimated: true,
                 animationOptions: {
                     duration: 1,
                     easing: 'ease',
                     queue: false
                 }
-            });
-            $grid.imagesLoaded().progress( function() {
-                $grid.masonry('layout');
             });
         });
     </script>

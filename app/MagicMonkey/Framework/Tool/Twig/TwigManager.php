@@ -84,7 +84,7 @@ class TwigManager
         $this->twig->addFunction($isGranted);
 
 
-        /*  Propoe au mini-journal malheureusement ... */
+        /*  Propre au mini-journal malheureusement ... */
 
         $isAuthor = new Twig_SimpleFunction('isAuthor', function ($articleAuthor) {
             $authmanager = AuthManager::getInstance();
@@ -97,6 +97,11 @@ class TwigManager
         });
         $this->twig->addFunction($isAuthor);
 
+
+        $displayDirImage = new \Twig_SimpleFunction('displayDirImage', function () {
+            echo DIR_IMAGE;
+        });
+        $this->twig->addFunction($displayDirImage);
     }
 
     /* ###  GETTERS & SETTERS ### */

@@ -3,42 +3,44 @@
 {% block title %}Détails d'une image{% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="cell-12">
-            <h1 class="marg-0-bottom align-center">
-                <a href="index.php?o=image&a=describe&id={{ image.id }}"
-                   title="{{ image.name }}">{{ image.name }}</a>
-            </h1>
-        </div>
-    </div>
-    {% if isLoggedUser() %}
+    <div itemtype="http://schema.org/ImageObject" itemscope>
         <div class="row">
-            <div class="cell-12 align-center">
-                {% if (isGranted(["ROLE_EDITOR"]) and isAuthor(image.author)) or isGranted(["ROLE_ADMIN"]) %}
-                    <a class="color-orange marg-15-right" href="index.php?o=image&a=update&id={{ image.id }}"
-                       title="Modifier cet image">Modifier</a>
-                    {% if image.publicationStatus == "brouillon" or isGranted(["ROLE_ADMIN"]) %}
-                        <a class="color-error" href="index.php?o=image&a=delete&id={{ image.id }}"
-                           title="Supprimer cet image">Supprimer</a>
-                    {% endif %}
-                {% endif %}
+            <div class="cell-12">
+                <h1 itemprop="name" class="marg-0-bottom align-center">
+                    <a href="index.php?o=image&a=describe&id={{ image.id }}"
+                       title="{{ image.name }}">{{ image.name }}</a>
+                </h1>
             </div>
         </div>
-    {% endif %}
-    <div class="row">
-        <div class="cell-12">
-            <p class="msg-info marg-0">
-                <span class="dis-block"># Par {{ image.author }}</span>
-                <span class="dis-block"># Créé le {{ image.creationDate }}</span>
-                <span> {{ image.publicationDate ? "# Publié le " ~ image.publicationDate : "" }}</span>
-            </p>
-        </div>
-        <div class="cell-12 align-center">
-            <figure>
-                <img class="responsive-img" src="{{ constant("DIR_IMAGE") ~ constant("DS") ~ image.path }}"
-                     alt="{{ image.alt }}"/>
-                <figcaption>{{ image.attrAlt }}</figcaption>
-            </figure>
+        {% if isLoggedUser() %}
+            <div class="row">
+                <div class="cell-12 align-center">
+                    {% if (isGranted(["ROLE_EDITOR"]) and isAuthor(image.author)) or isGranted(["ROLE_ADMIN"]) %}
+                        <a class="color-orange marg-15-right" href="index.php?o=image&a=update&id={{ image.id }}"
+                           title="Modifier cet image">Modifier</a>
+                        {% if image.publicationStatus == "brouillon" or isGranted(["ROLE_ADMIN"]) %}
+                            <a class="color-error" href="index.php?o=image&a=delete&id={{ image.id }}"
+                               title="Supprimer cet image">Supprimer</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="cell-12">
+                <p class="msg-info marg-0">
+                    <span class="dis-block"># Par {{ image.author }}</span>
+                    <span class="dis-block"># Créé le {{ image.creationDate }}</span>
+                    <span> {{ image.publicationDate ? "# Publié le " ~ image.publicationDate : "" }}</span>
+                </p>
+            </div>
+            <div class="cell-12 align-center">
+                <figure>
+                    <img itemprop="url" class="responsive-img" src="{{ constant("DIR_IMAGE") ~ constant("DS") ~ image.path }}"
+                         alt="{{ image.alt }}"/>
+                    <figcaption>{{ image.attrAlt }}</figcaption>
+                </figure>
+            </div>
         </div>
     </div>
 {% endblock %}

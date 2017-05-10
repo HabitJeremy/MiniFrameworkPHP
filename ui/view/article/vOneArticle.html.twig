@@ -4,10 +4,23 @@
     <meta property="og:type" content="article">
     <meta property="og:title" content={{ article.title }}>
     <meta property="og:site_name" content="Mini-journal">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
-    <meta property="article:published_time" content="{{ article.publicationDate }}">
-    <meta property="article:author" content="{{ article.content }}">
+    {% if article.lstImages is defined %}
+        {% for image in article.lstImages %}
+            <meta property="og:image" content="{{ displayDirImage() }}{{ image.path }}">
+        {% endfor %}
+    {% endif %}
+    <meta property="article:published_time" content="{{ article.creationDate }}">
+    <meta property="article:author" content="{{ article.author }}">
+{% endblock %}
+
+{% block metaTwitter %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ article.title }}">
+    <meta name="twitter:description" content="{{ article.chapo }}">
+    {% if article.lstImages is defined %}
+        <meta name="twitter:image" content="{{ displayDirImage() }}{{ article.lstImages[0].path }}">
+    {% endif %}
+    <meta name="twitter:image:alt" content="{{ article.lstImages[0].alt }}">
 {% endblock %}
 
 {% block js %}
@@ -17,10 +30,10 @@
     {% block title %}Détails d'un article{% endblock %}
 
     {% block content %}
-        <article>
+        <article itemtype="http://schema.org/Article" itemscope>
             <div class="row">
                 <div id="contentNotification" class="cell-12">
-                    <h1 class="marg-0-bottom align-center">
+                    <h1 itemprop="name" class="marg-0-bottom align-center">
                         <a href="index.php?o=article&a=describe&id={{ article.id }}"
                            title="{{ article.title }}">{{ article.title }}</a>
                     </h1>
@@ -53,15 +66,23 @@
             <div class="row">
                 <div class="cell-12">
                     <p class="msg-info">
-                        <span class="dis-block"># Par {{ article.author }}</span>
+                        <span class="dis-block"># Par <span itemprop="author">{{ article.author }}</span></span>
+                        <span class="hide" itemprop="publisher" itemscope itemtype="http://schema.org/Person">
+                            <span itemprop="name">{{ article.author }}</span>
+                        </span>
                         <span class="dis-block"># Créé le {{ article.creationDate }}</span>
-                        <span id="spanPublicationDate"> {{ article.publicationDate ? "# Publié le " ~ article.publicationDate : "" }}</span>
+                        <span id="spanPublicationDate">
+                            {% if article.publicationDate %}
+                                <span># Publié le </span>
+                                <span itemprop="datePublished">{{ article.publicationDate }}</span>
+                            {% endif %}
+                        </span>
                     </p>
                 </div>
             </div>
             <div class="row">
                 <div class="cell-12">
-                    <p class="align-center">{{ article.chapo }}</p>
+                    <p class="align-center" itemprop="headline">{{ article.chapo }}</p>
                 </div>
             </div>
             <div class="row">
@@ -72,14 +93,17 @@
             {% if article.lstImages|length > 0 %}
                 <div class="row-col-s flex-vertical-center">
                     {% for image in article.lstImages %}
-                        <a class="cell-4 c6-m padd-15 box-shad-2px align-center hvr-underline-from-center"
+                        <a itemprop="image" itemscope itemtype="http://schema.org/ImageObject"
+                           class="cell-4 c6-m padd-15 box-shad-2px align-center hvr-underline-from-center"
                            href="index.php?o=image&a=describe&id={{ image.id }}">
                             <figure>
-                                <img class="responsive-img"
+                                <img itemprop="url" class="responsive-img"
                                      src="{{ constant('DIR_IMAGE') ~ constant('DS') ~ image.path }}"
                                      alt="{{ image.attrAlt }}"/>
                                 <figcaption class="padd-15 padd-0-bottom">{{ image.attrAlt }}</figcaption>
                             </figure>
+                            <meta itemprop="width" content="auto">
+                            <meta itemprop="height" content="auto">
                         </a>
                     {% endfor %}
                 </div>

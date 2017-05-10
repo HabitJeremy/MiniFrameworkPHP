@@ -37,7 +37,8 @@ class Router extends AbstractRouter
                     "UserController";
                 break;
             case "auth":
-                $this->controllerClassName = APP_OWNER . DS_ROUTER . FRAMEWORK_DIR . DS_ROUTER . "Controller" . DS_ROUTER .
+                $this->controllerClassName = APP_OWNER . DS_ROUTER . FRAMEWORK_DIR . DS_ROUTER
+                    . "Controller" . DS_ROUTER .
                     "AuthController";
                 break;
         }

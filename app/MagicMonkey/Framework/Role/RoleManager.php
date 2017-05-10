@@ -2,7 +2,6 @@
 
 namespace MagicMonkey\Framework\Role;
 
-
 use MagicMonkey\Framework\Tool\Auth\AuthManager;
 
 /**
@@ -70,6 +69,10 @@ class RoleManager
     /* Propre au mini-journal malheureusement ... */
 
     /* Retourne true ou false si l'utilisateur connecté est l'auteur de l'article ou de l'image passé en paramètre */
+    /**
+     * @param $document
+     * @return bool
+     */
     public function isAuthor($document)
     {
         $authManager = AuthManager::getInstance();
@@ -82,6 +85,11 @@ class RoleManager
     }
 
     /* Retourne true ou false + set une view twig author denied */
+    /**
+     * @param $ctrl
+     * @param $document
+     * @return bool
+     */
     public function renderAuthorDenied($ctrl, $document)
     {
         if (!$this->isAuthor($document)) {
@@ -93,5 +101,4 @@ class RoleManager
         }
         return true;
     }
-
 }

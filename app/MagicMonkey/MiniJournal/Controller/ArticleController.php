@@ -41,7 +41,9 @@ class ArticleController extends AbstractController
     {
         if ($this->roleManager->renderAccessDenied($this, array("ROLE_ADMIN", "ROLE_EDITOR"))) {
             $lstObjsArticles = (new ArticleBd())->selectAllBy(array('publication_status =' => 'brouillon'));
-            $this->render("article/vAllArticles.html.twig", array("endH1" => "non publiés", "articles" => $lstObjsArticles));
+            $this->render(
+                "article/vAllArticles.html.twig",
+                array("endH1" => "non publiés", "articles" => $lstObjsArticles));
         }
     }
 
@@ -103,8 +105,6 @@ class ArticleController extends AbstractController
             "message" => $message
         ));
         return false;
-
-
     }
 
     /**
@@ -125,7 +125,7 @@ class ArticleController extends AbstractController
                 $articleForm->setArticle($articleBd->eagerSelectOne((int)$this->request->getGet()['id']));
                 if ($this->roleManager->renderAuthorDenied($this, $articleForm->getArticle())) {
                     if (count($this->request->getPost()) == 0) { // s'il n'y a pas de données postées
-                        if ($articleForm->getArticle()) { // si l'article existe => affichage formulaire d'édition article
+                        if ($articleForm->getArticle()) { // si l'article existe: affichage formulaire d'édition article
                             $this->render("article/vFormNewUpdate.html.twig", array(
                                 "title" => "Modification d'un article",
                                 "article" => $articleForm->getArticle(),
@@ -145,7 +145,8 @@ class ArticleController extends AbstractController
                             /* modification de l'article dans la bdd */
                             $articleBd->update($postedData, $articleForm->getArticle()->getId());
                             $_SESSION['success'] = "Modification effectuée";
-                            header('Location: index.php?o=article&a=describe&id=' . $articleForm->getArticle()->getId());
+                            header('Location: index.php?o=article&a=describe&id='
+                                . $articleForm->getArticle()->getId());
                             exit();
                         } else { // s'il y a au moins une erreur => retour au formulaire avec notifications d'erreurs
                             //pour aider l'utilisateur
@@ -161,7 +162,6 @@ class ArticleController extends AbstractController
                         }
                     }
                 }
-
             }
         }
     }
@@ -222,8 +222,11 @@ class ArticleController extends AbstractController
                     if ($this->roleManager->renderAuthorDenied($this, $article)) {
                         $res = $articleBd->deleteOne($id);
                         if (!$res && $isNotEmptyPostArticle) { //suppression par formulaire
-                            $articleForm->setErrors(array("errorArticle" => "L'article doit être indiqué et doit existé"));
-                            $this->render("article/vFormSelect.html.twig", array( // redirection vers le formulaire de selection
+                            $articleForm->setErrors(array(
+                                "errorArticle" => "L'article doit être indiqué et doit existé"
+                            ));
+                            $this->render("article/vFormSelect.html.twig", array(
+                                // redirection vers le formulaire de selection
                                 "articles" => $articleBd->selectAll(),
                                 "articleForm" => $articleForm,
                                 "action" => "delete"
@@ -265,7 +268,8 @@ class ArticleController extends AbstractController
                 header('Location: index.php');
                 exit();
             } else { /* article existe  => affichage de l'article */
-                if (($article->getPublicationStatus() == "publie") || $this->roleManager->renderAccessDenied($this, array('ROLE_ADMIN', 'ROLE_EDITOR'))) {
+                if (($article->getPublicationStatus() == "publie") ||
+                    $this->roleManager->renderAccessDenied($this, array('ROLE_ADMIN', 'ROLE_EDITOR'))) {
                     $this->render("article/vOneArticle.html.twig", array("article" => $article));
                 }
             }
@@ -274,6 +278,5 @@ class ArticleController extends AbstractController
             header('Location: index.php');
             exit();
         }
-
     }
 }
